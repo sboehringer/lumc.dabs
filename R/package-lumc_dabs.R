@@ -15,7 +15,7 @@ packageDefinition = list(
 		description = 'R package for the course "Design and Analysis of Biomedical Studies" at the LUMC, The Netherlands',
 		suggests = c(),
 		license = 'LGPL',
-		news = "2025/26-alpha	Development of year 2025/26\n"
+		news = "2025.26-alpha	Development of year 2025/26\n"
 	),
 	git = list(
 		readme = '# R package for the course "Design and Analysis of Biomedical Studies" at the LUMC, The Netherlands
