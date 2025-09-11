@@ -8,7 +8,7 @@ packageDefinition = list(
 		#qw('Rmeta.R Rdata.R Rsystem.R Rfunctions.R'),
 		#qw('freezeThaw.R')
 	),
-	data = list('data'),
+	data = list('data/'),
 	description = list(
 		title = 'DABS Course Package',
 		author = 'Stefan Böhringer <r-packages@s-boehringer.org>',
