@@ -5,7 +5,8 @@
 packageDefinition = list(
 	name = 'lumc.dabs',
 	files = c(
-		qw('dabs_data.R')
+		c('dabs_data.R')
+		#qw('dabs_data.R')
 		#qw('Rmeta.R Rdata.R Rsystem.R Rfunctions.R'),
 		#qw('freezeThaw.R')
 	),
