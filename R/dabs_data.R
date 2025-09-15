@@ -16,5 +16,4 @@
 #'   \item{Species}{Species of the iris flower}
 #' }
 #' @source The NEO study.
-#' @export
 "cd19"
