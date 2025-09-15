@@ -2,7 +2,7 @@ Package: lumc.dabs
 Type: Package
 Title: DABS Course Package
 Version: 2025.26.0
-Date: 2025-09-11
+Date: 2025-09-15
 Author: Stefan Böhringer <r-packages@s-boehringer.org>
 Maintainer: Stefan Böhringer <r-packages@s-boehringer.org>
 Description: R package for the course "Design and Analysis of Biomedical Studies" at the LUMC, The Netherlands
@@ -10,6 +10,7 @@ License: LGPL
 Encoding: UTF-8
 Depends: 
 Collate: 
+    dabs_data.R
     package-lumc_dabs.R
 Suggests: 
 Enhances: 
