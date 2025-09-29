@@ -36,5 +36,4 @@
 #' @source The NECOSAD study. https://pubmed.ncbi.nlm.nih.gov/16105051/
 #' @docType data
 #' @name cd19
-
 "necosad"
