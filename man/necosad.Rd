@@ -10,8 +10,9 @@ A data frame with 1201 rows and 6 columns:
   \item{patnr}{Patient number}
   \item{sf_phys0}{Physical activity score on a scale from 0 to 100 measured at baseline}
   \item{sf_phys6}{Physical activity score on a scale from 0 to 100 measured at 6 month}
-  \item{gender}{Sex as reported in the electronic health record}
+  \item{gender}{Sex as reported in the electronic health record. Levels: femaale, male}
   \item{age}{Age measured in years}
+  \item{therapy}{The treatment given to the patient. Levels: peritoneal, hemodialysis}
 }
 }
 \source{

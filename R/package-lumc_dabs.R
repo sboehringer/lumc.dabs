@@ -11,6 +11,7 @@ packageDefinition = list(
 		#qw('freezeThaw.R')
 	),
 	data = c('~/Documents/Lehre/BW/Material/CPs\ DABS\ R/data/.*[.](rds|sav)'),
+	instFiles = list(exercises = '~/Documents/Lehre/BW/Material/CPs DABS R/Linear Regression/Linear Regression.Rmd'),
 	description = list(
 		title = 'DABS Course Package',
 		author = 'Stefan Böhringer <r-packages@s-boehringer.org>',
