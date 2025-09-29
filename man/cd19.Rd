@@ -3,6 +3,7 @@
 \docType{data}
 \name{cd19}
 \alias{cd19}
+\alias{necosad}
 \title{CD19 Dataset}
 \format{
 A data frame with 150 rows and 5 columns:
@@ -13,14 +14,29 @@ A data frame with 150 rows and 5 columns:
   \item{Petal.Width}{Width of the petal in centimeters}
   \item{Species}{Species of the iris flower}
 }
+
+A data frame with 1201 rows and 6 columns:
+\describe{
+  \item{patnr}{Patient number}
+  \item{sf_phys0}{Physical activity score on a scale from 0 to 100 measured at baseline}
+  \item{sf_phys6}{Physical activity score on a scale from 0 to 100 measured at 6 month}
+  \item{gender}{Sex as reported in the electronic health record}
+  \item{age}{Age measured in years}
+}
 }
 \source{
 The NEO study.
+
+The NECOSAD study. https://pubmed.ncbi.nlm.nih.gov/16105051/
 }
 \usage{
 cd19
+
+necosad
 }
 \description{
 Data set with T-cell measurements readarding surface protein CD19.
+
+Data from The Netherlands Cooperative Study on the Adequacy of Dialysis (NECOSAD) trial measuring physical activity of dialysis patients.
 }
 \keyword{datasets}
