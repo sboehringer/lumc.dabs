@@ -12,6 +12,11 @@ Depends:
 Collate: 
     dabs_data.R
     io.R
+    Rmeta.R
+    Rdata.R
+    Rsystem.R
+    Rfunctions.R
+    RsystemExt.R
     package-lumc_dabs.R
 Suggests: 
 Enhances: 
