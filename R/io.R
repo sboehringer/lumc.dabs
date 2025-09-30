@@ -28,7 +28,8 @@ writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrit
 listExercises = function() {
 	exercises = list.files(system.file('exercises', package = 'lumc.dabs'), pattern = '[.]Rmd$');
 	cat('Available Exercises\n');
-	sapply(sort(exercises), cat(Sprintf(' • %{base}q\n', splitPath(exercises))));
+	excs = sapply(sort(exercises), (cat(Sprintf(' • %{.}q\n'))) %.% (splitPath(.)$base));
+	invisible(excs)
 }
 
 #' Write exercise template to disk
