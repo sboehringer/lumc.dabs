@@ -23,7 +23,7 @@
 
 #' NECOSAD Dataset
 #'
-#' Data from The Netherlands Cooperative Study on the Adequacy of Dialysis (NECOSAD) trial measuring physical activity of dialysis patients.
+#' Data from The Netherlands Cooperative Study on the Adequacy of Dialysis (NECOSAD) trial measuring physical activity of dialysis patients. \strong{This data set cannot be used to reproduce findings from the study as this is data set is a subset of the total study data that has been tailored for use in teaching}.
 #'
 #' @format A data frame with 1201 rows and 6 columns:
 #' \describe{
