@@ -9,14 +9,18 @@ packageDefinition = list(
 		qw('Rmeta.R Rdata.R Rsystem.R Rfunctions.R RsystemExt.R')
 	),
 	data = c('~/Documents/Lehre/BW/Material/CPs\ DABS\ R/data/.*[.](rds|sav)'),
-	instFiles = list(exercises =
-		'~/Documents/Lehre/BW/Material/CPs DABS R/Linear Regression/Linear Regression.Rmd'
+	instFiles = list(
+	exercises =
+		'~/Documents/Lehre/BW/Material/CPs DABS R/Year/2025/templates/.*[.](Rmd|html)',
+	solutions =
+		'~/Documents/Lehre/BW/Material/CPs DABS R/Year/2025/solutions-encrypted/.*[.](Rmd|html)'
 	),
 	description = list(
 		title = 'DABS Course Package',
 		author = 'Stefan Böhringer <r-packages@s-boehringer.org>',
 		description = 'R package for the course "Design and Analysis of Biomedical Studies" at the LUMC, The Netherlands',
 		suggests = c(),
+		depends = c('openssl'),
 		license = 'LGPL',
 		news = "2025.26.0	Development of year 2025/26\n"
 	),

@@ -1531,6 +1531,7 @@ Capture = function(expr, tee = TRUE, envir = parent.frame()) {
 	return(rCap);
 }
 
+
 #
 #	<p> low-level
 #
@@ -1539,3 +1540,31 @@ renice = function(pid = Sys.getpid(), nicity = 20, logLevel = 4) {
 	SystemS('renice %{nicity}d %{pid}d', logLevel);
 }
 
+#
+#	<p> encryption
+#
+
+# convert string to fixed length int vector
+secret2key = function(secret, len = 32) {
+	keyC = as.integer(charToRaw(join(c(secret, sha256(secret)))));
+	L = length(keyC);
+	Nblocks = (L + len - 1) %/% len;
+	key = integer(length = len);
+	for (i in Nblocks) { for (j in 1:len) {
+		I = (i - 1) * len + j;
+		key[j] = bitwXor(key[j], if (I > L) 0 else keyC[I]);
+	} }
+	return(as.raw(key))
+}
+
+# plain tb of class raw
+encryptRaw = function(plain, secret)aes_cbc_encrypt(plain, secret2key(secret))
+# returns vector of class raw
+decryptRaw = function(message, secret)aes_cbc_decrypt(message, secret2key(secret))
+
+encryptString = function(plain, secret)encryptRaw(charToRaw(plain), secret)
+decryptString = function(message, secret)rawToChar(decryptRaw(message, secret))
+encryptFile = function(pathIn, pathOut, secret, reader = readChar, writer = writeChar)
+	writeFile(pathOut, encryptString(readFile(pathIn, reader = reader), secret = secret), writer = writer)
+decryptFile = function(pathIn, pathOut, secret, reader = readChar, writer = writeChar)
+	writeFile(pathOut, decryptString(readFile(pathIn, reader = reader), secret = secret), writer = writer)

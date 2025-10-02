@@ -52,3 +52,4 @@ listExercises = function() {
 writeExercise = function(name, folder = getwd(), overwrite = FALSE) {
 	writePackageFile(Sprintf('exercises/%{name}s'), folder, overwrite = overwrite);
 }
+

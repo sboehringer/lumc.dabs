@@ -116,12 +116,15 @@ pathUnindent = function(p, unindent = 1) {
 		p$file)
 	)
 }
-pathReplace = function(path, newExt = NULL, newDir = NULL, baseExtend = '') {
+# ws: substitute whitespace by provided string
+pathReplace = function(path, newExt = NULL, newDir = NULL, baseExtend = '', ws = NULL) {
 	sp = splitPath(path);
-	PJoin(
+	path = PJoin(
 		firstDef(newDir, sp$dir),
 		Sprintf('%{base}s%{baseExtend}s.%{myExt}s', sp, myExt = firstDef(newExt, sp$ext))
 	)
+	if (notE(ws)) path = gsub('\\s', ws, path);
+	return(path);
 }
 # Map length 0 objects
 L0 = function(v, f, default = NULL)if (length(v) == 0) default else f(v)
@@ -130,7 +133,7 @@ Path.normalize = function(p, expand = TRUE) {
 	p0 = p;
 	if (expand) p = path.expand(p);
 	s = splitString('/', p);
-	# <!> multiple slashes/dots need to be removed first, to make .. removal valid
+	# <A> multiple slashes/dots need to be removed first, to make .. removal valid
 	trailingSlash = last(s) == '';
 	doubleSlashRm = setdiff(which(s == ''), 1L);	# retain absolute pathes
 	s = MinIdcs(s, doubleSlashRm)
@@ -140,10 +143,12 @@ Path.normalize = function(p, expand = TRUE) {
 	# iteratively remove '..' from s
 	while (TRUE) {
 		up = which(s == '..');
+		# <A> do not remove sequential occurences of '..'
 		upRm = setdiff(Filter(\(.). > 0, which(s == '..') - 1), up);
 		if (length(upRm) == 0) break;	# nothing to remove
 		upRmA = c(upRm, upRm + 1);		# all indeces to remove
 		s = s[-upRmA];
+		# <A> correct IlastDot index
 		IlastDot = L0(IlastDot, \(.). - sum(upRmA < IlastDot));
 	}
 	untilDot = L0(IlastDot, \(.)if (. > length(s)) NA else pJoin1(s[1:.]));
@@ -760,20 +765,21 @@ file.locate = function(path, prefixes = NULL, normalize = TRUE, as.dirs = TRUE, 
 
 # docuemented
 # prefixes only supported locally <!>
-readFile = function(path, prefixes = NULL, normalize = TRUE, ssh = FALSE) {
+readFile = function(path, prefixes = NULL, normalize = TRUE, ssh = FALSE, reader = readChar) {
 	s = splitPath(path, ssh = ssh);
 	r = if (s$is.remote) {
 		tf = tempfile();
 		File.copy(path, tf);
-		readChar(tf, nchars = as.list(file.info(tf)[1,])$size);
+		reader(tf, nchars = as.list(file.info(tf)[1,])$size);
 	} else {
 		if (!is.null(prefixes)) path = file.locate(path, prefixes, normalize);
-		readChar(path, nchars = as.list(file.info(path)[1,])$size);
+		reader(path, nchars = as.list(file.info(path)[1,])$size);
 	}
 	r
 }
 
-writeFile = function(path, str, mkpath = FALSE, ssh = FALSE) {
+# <!> writer tb implemented
+writeFile = function(path, str, mkpath = FALSE, ssh = FALSE, writer = writeChar) {
 	s = splitPath(path, ssh = ssh);
 	if (s$is.remote) {
 		Dir.create(sprintf('%s:%s', s$userhost, s$dir), recursive = mkpath);
