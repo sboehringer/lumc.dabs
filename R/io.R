@@ -5,10 +5,12 @@
 # Functions for writing templates to a working folder
 
 
-writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrite = FALSE) {
-	path = firstSystemFile(name, exts, package = 'lumc.dabs');
+writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrite = FALSE, key = NULL, all = FALSE) {
+	path = firstSystemFile(name, exts, package = 'lumc.dabs', all = all);
 	if (is.null(path)) stop(Sprintf('[writePackageFile] Error not found: name=%{names}s'));
-	file.copy(path, folder, overwrite = overwrite)
+	if (notE(key)) {
+		sapply(path, \(path)decryptFile(path, pathOut, secret, reader = readChar, writer = writeChar));
+	} else sapply(path, \(path)file.copy(path, folder, overwrite = overwrite))
 }
 
 
@@ -34,7 +36,7 @@ listExercises = function() {
 
 #' Write exercise template to disk
 #'
-#' This function write an exercise by a given name into a folder on disk.
+#' This function writes an exercise by a given name into a folder on disk.
 #'
 #' @param name name of the exercise (see see-also)
 #' @param folder folder to which the file is to be written. Deafults to the current working directory.
@@ -51,5 +53,26 @@ listExercises = function() {
 #' @export writeExercise
 writeExercise = function(name, folder = getwd(), overwrite = FALSE) {
 	writePackageFile(Sprintf('exercises/%{name}s'), folder, overwrite = overwrite);
+}
+
+#' Write exercise solutions to disk
+#'
+#' This function writes files with exercise soutions of a  given name into a folder on disk.
+#'
+#' @param name name of the exercise (see see-also)
+#' @param folder folder to which the file is to be written. Deafults to the current working directory.
+#' @param overwrite Should the file be overwritten if already existing?
+#'
+#' @details This function creates a new file in the specified folder.
+#' @author Stefan Böhringer, \email{r-packages@@s-boehringer.org}
+#' @seealso listExercises
+#' @keywords write exercise template
+#' @examples
+#'
+#' print(tempdir())
+#' writeSolution('Linear Regression', tempdir())
+#' @export writeSolution
+writeSolution = function(name, key = NULL, folder = getwd(), overwrite = FALSE) {
+	writePackageFile(Sprintf('solutions/%{name}s'), folder, exts = c('html', 'Rmd'), overwrite = overwrite, key = key, all = TRUE);
 }
 

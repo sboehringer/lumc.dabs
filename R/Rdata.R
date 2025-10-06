@@ -1580,6 +1580,7 @@ list.grep = sublist = filterList = function(o, f, ...) {
 	return(r);
 }
 filterListNotNull = function(l)filterList(l, (!.) %.% is.null);
+filterListNonEmpty = function(l)filterList(l, (!.) %.% (is.null(.) || . == ''));
 
 # <i> copy MARGIN handling from apply (aperm)
 lapplyDir = function(m, MARGIN, f_, ..., drop = FALSE) {

@@ -14,7 +14,7 @@ writeExercise(name, folder = getwd(), overwrite = FALSE)
 \item{overwrite}{Should the file be overwritten if already existing?}
 }
 \description{
-This function write an exercise by a given name into a folder on disk.
+This function writes an exercise by a given name into a folder on disk.
 }
 \details{
 This function creates a new file in the specified folder.

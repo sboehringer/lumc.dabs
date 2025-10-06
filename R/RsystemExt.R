@@ -249,9 +249,9 @@ Source = function(file, ...,
 	sapply(file, SourceSingle, ..., locations = locations, envir = envir, sourceCollect = sourceCollect)
 }
 
-firstSystemFile = function(prefix, exts, package) {
+firstSystemFile = function(prefix, exts, package, all = FALSE) {
 	files = sapply(exts, system.file(package = package) %.% (Sprintf('%{prefix}s.%{.}s')));
-	return(firstNonEmpty(files));
+	return(if (all) filterListNonEmpty(files) else firstNonEmpty(files));
 }
 
 #
