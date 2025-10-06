@@ -9,6 +9,7 @@ writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrit
 	path = firstSystemFile(name, exts, package = 'lumc.dabs', all = all);
 	if (is.null(path)) stop(Sprintf('[writePackageFile] Error not found: name=%{names}s'));
 	if (notE(key)) {
+		browser();
 		sapply(path, \(path)decryptFile(path, pathOut, secret, reader = readChar, writer = writeChar));
 	} else sapply(path, \(path)file.copy(path, folder, overwrite = overwrite))
 }
