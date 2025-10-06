@@ -4,7 +4,7 @@
 \alias{writeSolution}
 \title{Write exercise solutions to disk}
 \usage{
-writeSolution(name, key = NULL, folder = getwd(), overwrite = FALSE)
+writeSolution(name, folder = getwd(), key = NULL, overwrite = FALSE)
 }
 \arguments{
 \item{name}{name of the exercise (see see-also)}

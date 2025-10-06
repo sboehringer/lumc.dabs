@@ -9,8 +9,7 @@ writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrit
 	path = firstSystemFile(name, exts, package = 'lumc.dabs', all = all);
 	if (is.null(path)) stop(Sprintf('[writePackageFile] Error not found: name=%{names}s'));
 	if (notE(key)) {
-		browser();
-		sapply(path, \(path)decryptFile(path, pathOut, secret, reader = readChar, writer = writeChar));
+		sapply(path, \(.)decryptFile(., PJoin(folder, splitPath(.)$file), key, reader = readChar, writer = writeChar));
 	} else sapply(path, \(path)file.copy(path, folder, overwrite = overwrite))
 }
 
@@ -73,7 +72,7 @@ writeExercise = function(name, folder = getwd(), overwrite = FALSE) {
 #' print(tempdir())
 #' writeSolution('Linear Regression', tempdir())
 #' @export writeSolution
-writeSolution = function(name, key = NULL, folder = getwd(), overwrite = FALSE) {
+writeSolution = function(name, folder = getwd(), key = NULL, overwrite = FALSE) {
 	writePackageFile(Sprintf('solutions/%{name}s'), folder, exts = c('html', 'Rmd'), overwrite = overwrite, key = key, all = TRUE);
 }
 

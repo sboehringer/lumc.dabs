@@ -763,40 +763,50 @@ file.locate = function(path, prefixes = NULL, normalize = TRUE, as.dirs = TRUE, 
 	NULL
 }
 
+ReadChr = function(path, n) { readChar(path, nchar = n) }
+ReadBin = function(path, n)readBin(path, 'raw', n = n)
+
 # docuemented
 # prefixes only supported locally <!>
-readFile = function(path, prefixes = NULL, normalize = TRUE, ssh = FALSE, reader = readChar) {
+readFile = function(path, prefixes = NULL, normalize = TRUE, ssh = FALSE, reader = ReadChr) {
 	s = splitPath(path, ssh = ssh);
 	r = if (s$is.remote) {
 		tf = tempfile();
 		File.copy(path, tf);
-		reader(tf, nchars = as.list(file.info(tf)[1,])$size);
+		reader(tf, n = as.list(file.info(tf)[1,])$size);
 	} else {
 		if (!is.null(prefixes)) path = file.locate(path, prefixes, normalize);
-		reader(path, nchars = as.list(file.info(path)[1,])$size);
+		reader(path, n = as.list(file.info(path)[1,])$size);
 	}
-	r
+	return(r);
 }
 
+WriteChr = function(path, s) {
+	out = file(description = path, open = "w", encoding='UTF-8');
+		cat(s, file = out, sep = "");
+	close(con = out);
+}
+toChar = function(r)(if (any(class(r) == 'raw')) rawToChar(r) else r)
+WriteBin = function(path, s) {
+	out = file(description = path, open = 'wb');
+		writeBin(toChar(s), out);
+	close(con = out);
+}
 # <!> writer tb implemented
-writeFile = function(path, str, mkpath = FALSE, ssh = FALSE, writer = writeChar) {
+writeFile = function(path, str, mkpath = FALSE, ssh = FALSE, writer = WriteChr) {
 	s = splitPath(path, ssh = ssh);
 	if (s$is.remote) {
 		Dir.create(sprintf('%s:%s', s$userhost, s$dir), recursive = mkpath);
 		tf = tempfile();
-		out = file(description = tf, open = 'w', encoding='UTF-8');
-			cat(str, file = out, sep = "");
-		close(con = out);
+		writer(tf, str);
 		File.copy(tf, path);
 	} else {
 		if (mkpath) {
 			if (!file.exists(s$dir)) dir.create(s$dir, recursive = TRUE);
 		}
-		out = file(description = path, open = 'w', encoding='UTF-8');
-			cat(str, file = out, sep = "");
-		close(con = out);
+		writer(path, str);
 	}
-	path
+	return(path);
 }
 
 isURL = function(path)(length(grep("^(ftp|http|https|file)://", path)) > 0L)

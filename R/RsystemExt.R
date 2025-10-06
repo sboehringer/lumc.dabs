@@ -1544,9 +1544,10 @@ renice = function(pid = Sys.getpid(), nicity = 20, logLevel = 4) {
 #	<p> encryption
 #
 
+toRaw = function(s)(if (any(class(s) == 'character')) charToRaw(s) else s)
 # convert string to fixed length int vector
 secret2key = function(secret, len = 32) {
-	keyC = as.integer(charToRaw(join(c(secret, sha256(secret)))));
+	keyC = as.integer(toRaw(join(c(secret, sha256(secret)))));
 	L = length(keyC);
 	Nblocks = (L + len - 1) %/% len;
 	key = integer(length = len);
@@ -1562,9 +1563,17 @@ encryptRaw = function(plain, secret)aes_cbc_encrypt(plain, secret2key(secret))
 # returns vector of class raw
 decryptRaw = function(message, secret)aes_cbc_decrypt(message, secret2key(secret))
 
-encryptString = function(plain, secret)encryptRaw(charToRaw(plain), secret)
+encryptString = function(plain, secret) {
+	encryptRaw(toRaw(plain), secret)
+}
 decryptString = function(message, secret)rawToChar(decryptRaw(message, secret))
-encryptFile = function(pathIn, pathOut, secret, reader = readChar, writer = writeChar)
-	writeFile(pathOut, encryptString(readFile(pathIn, reader = reader), secret = secret), writer = writer)
-decryptFile = function(pathIn, pathOut, secret, reader = readChar, writer = writeChar)
-	writeFile(pathOut, decryptString(readFile(pathIn, reader = reader), secret = secret), writer = writer)
+encryptFile = function(pathIn, pathOut, secret, reader = ReadChr, writer = WriteChr) {
+	enc = encryptString(readFile(pathIn, reader = reader), secret = secret);
+	#writeFile(pathOut,  writer = writer)
+	saveRDS(enc, pathOut);
+}
+decryptFile = function(pathIn, pathOut, secret, reader = ReadChr, writer = WriteChr) {
+	enc = readRDS(pathIn);
+	writeFile(pathOut, decryptString(enc, secret = secret), writer = writer);
+	#writeFile(pathOut, decryptString(toRaw(readFile(pathIn, reader = reader)), secret = secret), writer = writer)
+}
