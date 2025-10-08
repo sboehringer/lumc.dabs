@@ -2,7 +2,7 @@
 #	io.R
 #Tue Sep 30 11:46:15 AM CEST 2025
 
-# Functions for writing templates to a working folder
+# Functions for writing templates/solutions to a working folder
 
 
 writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrite = FALSE, key = NULL, all = FALSE) {
