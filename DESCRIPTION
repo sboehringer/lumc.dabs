@@ -9,7 +9,10 @@ Description: R package for the course "Design and Analysis of Biomedical Studies
 License: LGPL
 Encoding: UTF-8
 Depends: 
-    openssl
+    openssl,
+    crosstable,
+    ggplot2,
+    lme4
 Collate: 
     dabs_data.R
     io.R
