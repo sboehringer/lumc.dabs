@@ -2,7 +2,7 @@
 % Please edit documentation in R/dabsFunctions.R
 \name{varSummariesBy}
 \alias{varSummariesBy}
-\title{Compute stratified summary statistics}
+\title{Compute stratified summary statistics continuous variables}
 \usage{
 varSummariesBy(data, strat, cols = names(data))
 }
@@ -17,7 +17,7 @@ varSummariesBy(data, strat, cols = names(data))
 Returns list with elements \code{mean} and \code{sd}
 }
 \description{
-Compute stratified summary statistics mean and standard deviation for columns in a data frame.
+Compute stratified summary statistics mean and standard deviation for columns containing continuous variables in a data frame.
 }
 \details{
 Compute stratified summary statistics mean and standard deviation for columns in a data frame. If no columns are specified all columns are analyzed. The stratification variable is given by name and used to create subsets of the data for each factor level. Summaries are computed for the resulting data subsets.
@@ -29,7 +29,7 @@ varSummariesBy(iris, 'Species')
 varSummariesBy(iris, 'Species', 'Sepal.Length')
 }
 \seealso{
-varSummary
+varSummary varFrequenciesBy
 }
 \author{
 Stefan Böhringer, \email{r-packages@s-boehringer.org}
