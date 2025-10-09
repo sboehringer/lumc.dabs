@@ -47,9 +47,9 @@
 #' @format The 'pea' data frame has 24 rows and 5 columns:
 #' \describe{
 #'   \item{block}{which block (label 1 to 6).}
-#'   \item{N}indicator (0/1) for the application of nitrogen.}
+#'   \item{N}{indicator (0/1) for the application of nitrogen.}
 #'   \item{P}{indicator (0/1) for the application of phosphate.}
-#'   \item{K{indicator (0/1) for the application of potassium.}
+#'   \item{K}{indicator (0/1) for the application of potassium.}
 #'   \item{yield}{Yield of peas, in pounds/plot (the plots were (1/70) acre)}
 #'	 \item{combination}{Factor representing the combination of columns N, P, K for this row.}
 #' }
