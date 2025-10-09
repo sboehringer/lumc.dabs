@@ -12,7 +12,9 @@ Depends:
     openssl,
     crosstable,
     ggplot2,
-    lme4
+    lme4,
+    car,
+    knitr
 Collate: 
     dabs_data.R
     io.R

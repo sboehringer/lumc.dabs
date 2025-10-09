@@ -20,7 +20,7 @@ packageDefinition = list(
 		author = 'Stefan Böhringer <r-packages@s-boehringer.org>',
 		description = 'R package for the course "Design and Analysis of Biomedical Studies" at the LUMC, The Netherlands',
 		suggests = c(),
-		depends = c('openssl', 'crosstable', 'ggplot2', 'lme4'),
+		depends = c('openssl', 'crosstable', 'ggplot2', 'lme4', 'car', 'knitr'),
 		license = 'LGPL',
 		news = "2025.26.0	Development of year 2025/26\n"
 	),

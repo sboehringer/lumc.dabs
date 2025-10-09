@@ -5,22 +5,18 @@
 \alias{cd19}
 \title{CD19 Dataset}
 \format{
-A data frame with 150 rows and 5 columns:
+A data frame with 60 rows and 3 columns:
 \describe{
-  \item{Sepal.Length}{Length of the sepal in centimeters}
-  \item{Sepal.Width}{Width of the sepal in centimeters}
-  \item{Petal.Length}{Length of the petal in centimeters}
-  \item{Petal.Width}{Width of the petal in centimeters}
-  \item{Species}{Species of the iris flower}
+  \item{cd19}{Continuous variable with cd19+ concentration measurements (unit cells/μL)}
+  \item{dose}{Factor with levels "0.10", "0.5", "1.0", "2.0" corresonding to the concentration of CD34+ cells (unit cells/μL)}
+  \item{source}{Factor with levels UCB (umbilical cord blood), BM (bone marrow), mPB (mobilized peripheral blood), corresponding to the origin of the sample.}
 }
-}
-\source{
-The NEO study.
 }
 \usage{
 cd19
 }
 \description{
-Data set with T-cell measurements readarding surface protein CD19.
+Hematopoietic stem cell transplantation is an effective treatment in a variety of diagnoses, and is investigated intensively in the LUMC. One research line concerns injection of CD34+-cells from a donor in patients with, for instance, leukaemia. CD34 is a surface marker for  hematopoietic progenitor cells which can differentiate into a variety of lymphoid and myeloid hematopoietic cells. The efficacy of such an injection can be evaluated by measuring CD19+ cells in bone marrow which represent newly differentiated B-cells. CD19 is a cell-surface protein present on normal and neoplastic B-cells.
+In a biomedical experiment the goal is to evaluate (1) the dose-effect relationship between injection of CD34+ cells and the engraftment, as measured by the percentage of CD19+ cells, and (2) the difference in dose-effect between injecting CD34+ cells from umbilical cord blood (UCB), bone marrow (BM) or mobilized peripheral blood (mPB). A number of mice were injected with varying doses of CD34+ cells from UCB, BM or mPB, and in each animal the engraftment was evaluated by measuring the percentage CD19+ cells in bone marrow of these animals.
 }
 \keyword{datasets}
