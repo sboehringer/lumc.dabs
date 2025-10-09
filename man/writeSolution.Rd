@@ -2,7 +2,7 @@
 % Please edit documentation in R/io.R
 \name{writeSolution}
 \alias{writeSolution}
-\title{Write exercise solutions to disk}
+\title{Write exercise solution to disk}
 \usage{
 writeSolution(name, folder = getwd(), key = NULL, overwrite = FALSE)
 }

@@ -801,9 +801,7 @@ writeFile = function(path, str, mkpath = FALSE, ssh = FALSE, writer = WriteChr) 
 		writer(tf, str);
 		File.copy(tf, path);
 	} else {
-		if (mkpath) {
-			if (!file.exists(s$dir)) dir.create(s$dir, recursive = TRUE);
-		}
+		if (mkpath && !file.exists(s$dir)) dir.create(s$dir, recursive = TRUE);
 		writer(path, str);
 	}
 	return(path);

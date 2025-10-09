@@ -9,7 +9,7 @@ writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrit
 	path = firstSystemFile(name, exts, package = 'lumc.dabs', all = all);
 	if (is.null(path)) stop(Sprintf('[writePackageFile] Error not found: name=%{names}s'));
 	if (notE(key)) {
-		sapply(path, \(.)decryptFile(., PJoin(folder, splitPath(.)$file), key, reader = readChar, writer = writeChar));
+		sapply(path, \(.)decryptFile(., PJoin(folder, splitPath(.)$file), key, reader = ReadChr, writer = WriteChr));
 	} else sapply(path, \(path)file.copy(path, folder, overwrite = overwrite))
 }
 
@@ -55,7 +55,7 @@ writeExercise = function(name, folder = getwd(), overwrite = FALSE) {
 	writePackageFile(Sprintf('exercises/%{name}s'), folder, overwrite = overwrite);
 }
 
-#' Write exercise solutions to disk
+#' Write exercise solution to disk
 #'
 #' This function writes files with exercise soutions of a  given name into a folder on disk.
 #'
