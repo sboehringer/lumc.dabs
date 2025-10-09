@@ -43,7 +43,7 @@ varSummary <- function(x) {
 #'
 #' data(iris)
 #' varSummariesBy(iris, 'Species')
-#' varSummariesBy(iris, 'Species', 'Sepal.Length')
+#' varSummariesBy(iris, 'Species', c('Sepal.Length', 'Sepal.Width'))
 #' @export varSummariesBy
 varSummariesBy <- function(data, strat, cols = names(data)) {
 	cols = setdiff(cols, strat)

@@ -26,7 +26,7 @@ Compute stratified summary statistics mean and standard deviation for columns in
 
 data(iris)
 varSummariesBy(iris, 'Species')
-varSummariesBy(iris, 'Species', 'Sepal.Length')
+varSummariesBy(iris, 'Species', c('Sepal.Length', 'Sepal.Width'))
 }
 \seealso{
 varSummary varFrequenciesBy
