@@ -51,7 +51,7 @@
 #'   \item{P}{indicator (0/1) for the application of phosphate.}
 #'   \item{K}{indicator (0/1) for the application of potassium.}
 #'   \item{yield}{Yield of peas, in pounds/plot (the plots were (1/70) acre)}
-#'	 \item{combination}{Factor representing the combination of columns N, P, K for this row.}
+#'	 \item{combination}{Factor representing the combination of columns N, P, K for each row as a factor level.}
 #' }
 #' @source Derived from the R dataset npk
 #' @seealso npk
