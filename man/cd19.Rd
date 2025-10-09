@@ -16,7 +16,8 @@ A data frame with 60 rows and 3 columns:
 cd19
 }
 \description{
-Hematopoietic stem cell transplantation is an effective treatment in a variety of diagnoses, and is investigated intensively in the LUMC. One research line concerns injection of CD34+-cells from a donor in patients with, for instance, leukaemia. CD34 is a surface marker for  hematopoietic progenitor cells which can differentiate into a variety of lymphoid and myeloid hematopoietic cells. The efficacy of such an injection can be evaluated by measuring CD19+ cells in bone marrow which represent newly differentiated B-cells. CD19 is a cell-surface protein present on normal and neoplastic B-cells.\n
+Hematopoietic stem cell transplantation is an effective treatment in a variety of diagnoses, and is investigated intensively in the LUMC. One research line concerns injection of CD34+-cells from a donor in patients with, for instance, leukaemia. CD34 is a surface marker for  hematopoietic progenitor cells which can differentiate into a variety of lymphoid and myeloid hematopoietic cells. The efficacy of such an injection can be evaluated by measuring CD19+ cells in bone marrow which represent newly differentiated B-cells. CD19 is a cell-surface protein present on normal and neoplastic B-cells.
+
 In a biomedical experiment the goal is to evaluate (1) the dose-effect relationship between injection of CD34+ cells and the engraftment, as measured by the percentage of CD19+ cells, and (2) the difference in dose-effect between injecting CD34+ cells from umbilical cord blood (UCB), bone marrow (BM) or mobilized peripheral blood (mPB). A number of mice were injected with varying doses of CD34+ cells from UCB, BM or mPB, and in each animal the engraftment was evaluated by measuring the percentage CD19+ cells in bone marrow of these animals.
 }
 \keyword{datasets}
