@@ -21,8 +21,9 @@
 "cd19"
 
 
-#' NECOSAD Dataset
+#' @title NECOSAD Dataset
 #'
+#' @description
 #' Data from The Netherlands Cooperative Study on the Adequacy of Dialysis (NECOSAD) trial measuring physical activity of dialysis patients. \strong{This data set cannot be used to reproduce findings from the study as this is data set is a subset of the total study data that has been tailored for use in teaching}.
 #'
 #' @format A data frame with 1201 rows and 6 columns:
@@ -40,8 +41,9 @@
 "necosad"
 
 
-#' Pea data set from a factorial experiment
+#' @title Pea data set from a factorial experiment
 #'
+#' @description
 #' The second problem is that more and more apps are now checking to see if your phone is rooted, and then refuse to run. I don't know if LineageOS can lie to the apps but the stock Android can't, so if I root my phone I can lose access to my banking apps (which are becoming pretty much mandatory for life nowadays).
 #'
 #' @format The 'pea' data frame has 24 rows and 5 columns:
@@ -58,3 +60,23 @@
 #' @docType data
 #' @name pea
 "pea"
+
+#' @title LxW tumor size data
+#'
+#' @description
+#' These data contain tumor size (LxW; length times width) measurements in mice at several time points.
+#' Two different mouse strains were measured.
+#'
+#' @format The 'lxw' data frame has 10 rows and 6 columns:
+#' \describe{
+#'   \item{mousenr}{Mouse identification number.}
+#'   \item{group}{Factor indicating mouse strain (levels 0, 1).}
+#'   \item{lxw0}{Tumor size measurement after tumor induction (baseline). Unit: mm².}
+#'   \item{lxw2}{Tumor size measurement at week 2. Unit: mm².}
+#'   \item{lxw4}{Tumor size measurement at week 2. Unit: mm².}
+#'   \item{lxw6}{Tumor size measurement at week 2. Unit: mm².}
+#' }
+#' @source BDS department at the LUMC, The Netherlands
+#' @docType data
+#' @name lxw
+"lxw"
