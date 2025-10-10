@@ -103,7 +103,7 @@ Pnorm <- function(q, mean, se)mapply(pnorm, q, mean, se)
 #' @seealso confint
 #' @keywords exercise p-value P-value mixed models
 #' @examples
-#'
+#' ci2P(matrix(c(0, 2*1.96), nrow = 1))
 #' @export ci2P
 ci2P = function(ci, alpha = .05) {
     q <- abs(ci[, 2] + ci[, 1])/2      # half the length of the CI
