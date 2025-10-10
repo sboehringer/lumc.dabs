@@ -64,7 +64,7 @@
 #' @title LxW tumor size data
 #'
 #' @description
-#' These data contain tumor size (LxW; length times width) measurements in mice at several time points.
+#' These data contain tumor size (LxW; length times width) measurements in mice taken at several time points.
 #' Two different mouse strains were measured.
 #'
 #' @format The 'lxw' data frame has 10 rows and 6 columns:
@@ -73,8 +73,8 @@
 #'   \item{group}{Factor indicating mouse strain (levels 0, 1).}
 #'   \item{lxw0}{Tumor size measurement after tumor induction (baseline). Unit: mm².}
 #'   \item{lxw2}{Tumor size measurement at week 2. Unit: mm².}
-#'   \item{lxw4}{Tumor size measurement at week 2. Unit: mm².}
-#'   \item{lxw6}{Tumor size measurement at week 2. Unit: mm².}
+#'   \item{lxw4}{Tumor size measurement at week 4. Unit: mm².}
+#'   \item{lxw6}{Tumor size measurement at week 6. Unit: mm².}
 #' }
 #' @source BDS department at the LUMC, The Netherlands
 #' @docType data

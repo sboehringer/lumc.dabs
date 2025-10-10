@@ -83,3 +83,32 @@ varFrequenciesBy <- function(data, strat, cols = names(data), simplify = TRUE) {
 	if (simplify && length(cols) == 1) return(freqs[[1]]);
 	return(freqs);
 }
+
+
+
+ci2se <- function(ci, alpha = .05) {
+    widthStdNormal <- qnorm(1 - alpha/2);              # 1.96 for alpha = 0.05
+    return((ci[, 2] - ci[, 1])/(2 * widthStdNormal))   # length of CI divided by CI-length for SE of 1
+}
+Pnorm <- function(q, mean, se)mapply(pnorm, q, mean, se)
+
+#' @title Compute P-values for confidence intervals
+#'
+#' @description
+#' Given a table of confidence intervals (CIs), P-values for 0 being contained in the CI are computed under a normality assumption.
+#'
+#' @param ci matrix or data frame which contains lower and upper bounds of the CIs in ther first two columns
+#' @param alpha alpha level at which the CIs were computed (1 - CI%). Defaults to .05 correpsonding to 95% CIs
+#' @details Mean and standard deviation of the underlying normal distribution of the standard error are inferred from the tail probability of 0 is computed using the distribution function of the normal distribution.
+#' @returns Vector of P-values for each CI
+#' @author Stefan Böhringer, \email{r-packages@@s-boehringer.org}
+#' @seealso confint
+#' @keywords exercise p-value P-value "mixed models"
+#' @examples
+#'
+#' @export ci2P
+ci2P = function(ci, alpha = .05) {
+    q <- abs(ci[, 2] + ci[, 1])/2      # half the length of the CI
+    se <- ci2se(ci, alpha)             # SE derived from CI
+    return((1 - Pnorm(q, 0, se))*2)    # probability mass that is outside of q
+}
