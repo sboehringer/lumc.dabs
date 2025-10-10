@@ -84,17 +84,14 @@ varFrequenciesBy <- function(data, strat, cols = names(data), simplify = TRUE) {
 	return(freqs);
 }
 
-
-
 ci2se <- function(ci, alpha = .05) {
     widthStdNormal <- qnorm(1 - alpha/2);              # 1.96 for alpha = 0.05
     return((ci[, 2] - ci[, 1])/(2 * widthStdNormal))   # length of CI divided by CI-length for SE of 1
 }
 Pnorm <- function(q, mean, se)mapply(pnorm, q, mean, se)
 
-#' @title Compute P-values for confidence intervals
+#' Compute P-values for confidence intervals
 #'
-#' @description
 #' Given a table of confidence intervals (CIs), P-values for 0 being contained in the CI are computed under a normality assumption.
 #'
 #' @param ci matrix or data frame which contains lower and upper bounds of the CIs in ther first two columns
