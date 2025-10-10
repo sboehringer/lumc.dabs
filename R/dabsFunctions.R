@@ -90,8 +90,9 @@ ci2se <- function(ci, alpha = .05) {
 }
 Pnorm <- function(q, mean, se)mapply(pnorm, q, mean, se)
 
-#' Compute P-values for confidence intervals
+#' @title Compute P-values for confidence intervals
 #'
+#' @description
 #' Given a table of confidence intervals (CIs), P-values for 0 being contained in the CI are computed under a normality assumption.
 #'
 #' @param ci matrix or data frame which contains lower and upper bounds of the CIs in ther first two columns
@@ -100,7 +101,7 @@ Pnorm <- function(q, mean, se)mapply(pnorm, q, mean, se)
 #' @returns Vector of P-values for each CI
 #' @author Stefan Böhringer, \email{r-packages@@s-boehringer.org}
 #' @seealso confint
-#' @keywords exercise p-value P-value "mixed models"
+#' @keywords exercise p-value P-value mixed models
 #' @examples
 #'
 #' @export ci2P

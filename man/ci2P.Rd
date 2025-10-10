@@ -26,8 +26,8 @@ confint
 \author{
 Stefan Böhringer, \email{r-packages@s-boehringer.org}
 }
-\keyword{"mixed}
 \keyword{P-value}
 \keyword{exercise}
-\keyword{models"}
+\keyword{mixed}
+\keyword{models}
 \keyword{p-value}
