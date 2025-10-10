@@ -5,7 +5,7 @@ Version: 2025.26.0
 Date: 2025-10-10
 Author: Stefan Böhringer <r-packages@s-boehringer.org>
 Maintainer: Stefan Böhringer <r-packages@s-boehringer.org>
-Description: R package for the course "Design and Analysis of Biomedical Studies" at the LUMC, The Netherlands
+Description: R package "Design and Analysis of Biomedical Studies"
 License: LGPL
 Encoding: UTF-8
 Depends: 
