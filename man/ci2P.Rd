@@ -9,7 +9,7 @@ ci2P(ci, alpha = 0.05)
 \arguments{
 \item{ci}{matrix or data frame which contains lower and upper bounds of the CIs in ther first two columns}
 
-\item{alpha}{alpha level at which the CIs were computed (1 - CI%). Defaults to .05 correpsonding to 95% CIs}
+\item{alpha}{alpha level at which the CIs were computed (1 - CI\%). Defaults to .05 correpsonding to 95\% CIs}
 }
 \value{
 Vector of P-values for each CI

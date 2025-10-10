@@ -96,7 +96,7 @@ Pnorm <- function(q, mean, se)mapply(pnorm, q, mean, se)
 #' Given a table of confidence intervals (CIs), P-values for 0 being contained in the CI are computed under a normality assumption.
 #'
 #' @param ci matrix or data frame which contains lower and upper bounds of the CIs in ther first two columns
-#' @param alpha alpha level at which the CIs were computed (1 - CI%). Defaults to .05 correpsonding to 95% CIs
+#' @param alpha alpha level at which the CIs were computed (1 - CI\%). Defaults to .05 correpsonding to 95\% CIs
 #' @details Mean and standard deviation of the underlying normal distribution of the standard error are inferred from the tail probability of 0 is computed using the distribution function of the normal distribution.
 #' @returns Vector of P-values for each CI
 #' @author Stefan Böhringer, \email{r-packages@@s-boehringer.org}
