@@ -80,3 +80,30 @@
 #' @docType data
 #' @name lxw
 "lxw"
+
+#' @title Cortisol measurements
+#'
+#' @description
+#' Data contain measurement of independent human individuals on several standard lab measurements taken in a hospital setting for the purpose of judging reliability. Cortisol measurements were repeated.
+#'
+#' @format The 'cortisol' data frame has 20 rows and 14 columns:
+#' \describe{
+#'   \item{PATHNR}{Patient identification number.}
+#'   \item{LEEFTIJD}{Age measured in years of life.}
+#'   \item{SEX}{Self-reported sex.}
+#'   \item{P}{Phosphate concentration in the blood. Unit: mmol/L.}
+#'   \item{E}{Electrolyte concentration in the blood (compound measurement). Unit: mmol/L.}
+#'   \item{N}{Urea (nitrogen) concentration in the blood. Unit: mmol/L.}
+#'   \item{NA.}{Sodium (natrium) concentration in the blood. Unit: mmol/L.}
+#'   \item{K}{Potassium (kalium) concentration in the blood. Unit: mmol/L.}
+#'   \item{SW}{Coagulation value (Stollingswaarde) of the blood. Unit: seconds.}
+#'   \item{CREAT}{Creatinine concentration in the blood. Unit: mmol/L.}
+#'   \item{CORT1A}{Cortisol concentration in saliva, 1st day. Unit: mmol/L.}
+#'   \item{CORT1B}{Cortisol concentration in blood, 1st day. Unit: mmol/L.}
+#'   \item{CORT2A}{Cortisol concentration in saliva, 2nd day. Unit: mmol/L.}
+#'   \item{CORT2B}{Cortisol concentration in blood, 2nd day. Unit: mmol/L.}
+#' }
+#' @source BDS department at the LUMC, The Netherlands
+#' @docType data
+#' @name cortisol
+"cortisol"

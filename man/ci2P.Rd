@@ -21,7 +21,8 @@ Given a table of confidence intervals (CIs), P-values for 0 being contained in t
 Mean and standard deviation of the underlying normal distribution of the standard error are inferred from the tail probability of 0 is computed using the distribution function of the normal distribution.
 }
 \examples{
-ci2P(matrix(c(0, 2*1.96), nrow = 1))
+cis <- matrix(c(0, 2*1.96), nrow = 1)
+ci2P(cis)
 }
 \seealso{
 confint
