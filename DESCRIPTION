@@ -15,7 +15,8 @@ Depends:
     lme4,
     car,
     knitr,
-    reshape2
+    reshape2,
+    tibble
 Collate: 
     dabs_data.R
     io.R
