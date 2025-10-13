@@ -16,7 +16,8 @@ Depends:
     car,
     knitr,
     reshape2,
-    tibble
+    tibble,
+    survival
 Collate: 
     dabs_data.R
     io.R
