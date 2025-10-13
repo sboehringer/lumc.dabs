@@ -12,11 +12,17 @@ output:
 Fill in parts labeled as **fillin** with your own R-code and your interpretation of code/results. After finishing, created an html version of your CP using `knitr` and submit it to brightspace.
 
  - Fill in your names
- - Complete the CP. During the alotted time frame, you can get assistance while working on the questions. Solutions become available during the practical which should only be used when becoming stuck. First try to solve the questions yourself.
- - Upload your CP to brightspace. **Students working together each have to submit the identical report under their own name**. Include the R-markdown and a rendered version (pdf or html).
- - Deadline for submission is the day before the Exam
+ - After completion, upload your CP to brightspace. There are two submission lists for each assignment: early and late. For example: "Linear Regression early" and "Linear Regression late". The early list is for getting points for the CP. This list closes 30 min after the end of the CP. You always have to submit to the late list before the exam.
+- Students working together submit a **single** report per pair to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission. Make sure that both students are mentioned in the report.
+ - Deadline for early submission is 30 min after the end of the end of the CP. Only the question "Graded question" will be graded for this submission.
+ - Students working together have to **each** submit the identical report under their own name to the late list in **addition** to nay submission to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission.
+ - Deadline for submission to the late list is the day before the Exam
+ - If there is a "Learning R" section in the exercises, it is voluntary. It is meant for students following the bioinformatics track to improve R skills.
+- Make sure to choose a new working directory to work in for each CP (tutorial: https://www.youtube.com/watch?v=FT3THVQj45Q).
+- You are encouraged to use large language models during the practical to develop R-code. You have to understand the presented code. Follow up any presented code by a prompt "Please explain ..." in case you do not understand the code fully or ask for assistance.
+- During the allotted time frame, you can get assistance while working on the questions. Make sure to use this possibility.
 
-You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the tidyverse). You can also use your own functions which then have to be included into the R-markdown/submission.
+You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the *tidyverse*). You can also use your own functions which then have to be included into the R-markdown/submission.
 
 # Authors
  
@@ -37,63 +43,16 @@ Learning Objectives (understand/be able to)
 
 # Part 1: Analysis of ovarian cancer data
 
-The file `ova.rds` contains data of 358 patients with advanced ovarian cancer, all of which are treated with a similar type of chemotherapy. All patients have been followed for at least 4 years since the start of treatment. The outcome variable (surv) indicates whether the patient has died (surv=0) or is still alive (surv=1) after 4 years of follow-up. 
+Data `ova` contain information on 358 patients with advanced ovarian cancer, all of which are treated with a similar type of chemotherapy. All patients have been followed for at least 4 years since the start of treatment. The outcome variable (surv) indicates whether the patient has died (surv=0) or is still alive (surv=1) after 4 years of follow-up. 
 
-## Data dictionary of `ova.rds`
-
-```{r}
-	myPath <- 'data/ova.rds'	# needs to be changed
-	data <- readRDS(myPath)
-```
-
-### `time`
-
-Follow-up time measured in days.
-
-### `karn`
-Karnovsky-index (a measure for the mobility of the patient, higher is better) at the start of treatment, coded as
-
-| Code  |        Index  |
-|------:|--------------:|
-|     6 |         <= 60 |
-|     7 |  > 60 & <= 70 |
-|     8 |  > 70 & <= 80 |
-|     9 |  > 80 & <= 90 |
-|    10 | > 90 & <= 100 |
-
-
-### `diam`
-The diameter of residual tumor after surgery as determined by microscopy, coded as
-
-| Code  |      Diameter |
-|------:|--------------:|
-|     0 |         < 1cm |
-|     1 |         1-2cm |
-|     2 |         2-5cm |
-|     3 |         > 5cm |
-
-### `figo`
-
-FIGO status for the invasion of the tumor, either III (`figo` = 0) or IV( `figo` = 1).
-
-### `ascites`
-
-Presence of ascites: 0 "unknown", 1 "absent", 2 "present".
-
-## Learning R
-
-The `ifelse` function can be used to make decisions on whole vectors. `ifelse(a, x, y)` takes three vectors of the same length. The first vector `a` is logical, meaning it contains only values `TRUE` or `FALSE`. `ifelse` iterates the vector `a`. If the values is `TRUE`, `ifelse` returns the value of `x` at the same position, otherwise the value of `y` at that position. As an example, we determine, whether the Karnovsky-index is larger or equal to 8. In the data, the Karnovsky-index is entered as a categorical variable. To convert to an integer, the functions `as.character` and `as.integer` are used.
+## Data dictionary of data `ova`
 
 ```{r}
-	data$karnI = as.integer(as.character(data$karn))
-	karn8 <- ifelse(data$karnI >= 8, 'Larger or equal to 8', 'Smaller than 8')
+	data(ova)
+	data <- ova
 ```
 
-Here is equivalent code that uses `sapply` as introduced in the ANOVA CP.
-
-```{r}
-	karn8.1 <- sapply(data$karnI, function(k) if (k >= 8) 'Larger or equal to 8' else 'Smaller than 8')
-```
+Inspect the data dictionary with `?ova` to understand the columns of the data set. Look at an excerpt of the data using `tibble(data)` to get an overall impression.
 
 ## Q1: Descriptive analysis
 
@@ -119,7 +78,7 @@ Create a new variable `y` that records whether patients had en event or not acco
 	data$y <- ifelse(data$time/365 >= 4 | data$death == 1, data$death, NA)
 ```
 
-How many patients got an `NA`? Use the table function with argument `useNA = 'ifany'`.
+How many patients got an `NA`? Use the table function with argument `useNA = 'ifany'`. The `ifelse` function is explained in the section *Learning R*.
 
 **fillin**:  
 
@@ -131,11 +90,11 @@ Remove `NA` values for `y` from the data set.
 	data <- data[!is.na(data$y), ]
 ```
 
-Calculate a Chisquare test for the variables `y` and `figo`. Both `chisq.test` and `fisher.test` can be used. As `fisher.test` also calculates the OR together wiht a confidence interval, `fisher.test` is preferred in this CP.
+Calculate a Chisquare test for the variables `y` and `figo`. Both `chisq.test` and `fisher.test` can be used. As `fisher.test` also calculates the OR together with a confidence interval, `fisher.test` is preferred in this CP.
 
 **fillin**:  
 
-Use a logistic regression for the same analysis. function `glm(outcome ~ covariate, data, family = binomial()` has to be used (replacint `outcome`, `covariate`). Use the `summary` function to get a regression table.
+Use a logistic regression for the same analysis. function `glm(outcome ~ covariate, data, family = binomial()` has to be used (replace `outcome`, `covariate` with the correct terms). Use the `summary` function to get a regression table.
 
 ```{r}
 	logRegFigo <- glm(y ~ figo, data, family = binomial())
@@ -151,12 +110,6 @@ Is the interpretation of a 4-fold risk-increase justified?
 **fillin**:  
 
 ## Q4: Analyze the influence of `karn` on patient survival
-
-The `karn` variable is categorical in the data set. For this analysis, we want to treat is as a numeric variable. Use `as.numeric` to change the data type of `karn`.
-
-```{r}
-	data$karn <- as.numeric(data$karn)
-```
 
 Create a histogram, comparing survivors and non-survivors.
 
@@ -241,3 +194,43 @@ If variables are correlated any effect seen in a regression could be an indirect
 Which differences do you see? What is your interpretation?
 
 **fillin**:  
+
+# Graded question
+
+Use again the model from your last analysis in the previous question. Save the result of `glm`.
+
+```{r}
+  model <- glm(y ~ karn + figo + broders + diam, data, family = binomial())
+```
+
+What is the probability to die after 4 years for a patient with a `karn` score of 6, `figo` status of `III`, Broder's status of `poor` and a diameter score of `2`? Write down the full calculation (the linear prediction as `intercept + coefficient1 * value1 + ...`, the resulting sum and the probability). Round the probability to 3 digits after the decimal point.
+
+**fillin**:  
+
+
+Use predict to confirm your answer. Use `datanew <- data.frame(karn=, figo=, broders=, diam=)` (fill in the appropriate  numbers). `predict(model, datanew, type = 'response')` computes the prediction automatically (compare with the linear regression CP).
+
+**fillin**:  
+
+What is the OR of a patient with a diameter score of 4 and a figo stage of IV compared to a patient with a diameters score of 2 and a figo stage of III, when all other variables are equal?
+
+**fillin**:  
+
+
+
+
+## Learning R
+
+The `ifelse` function can be used to make decisions on whole vectors. `ifelse(a, x, y)` takes three vectors of the same length. The first vector `a` is logical, meaning it contains only values `TRUE` or `FALSE`. `ifelse` iterates the vector `a`. If the values is `TRUE`, `ifelse` returns the value of `x` at the same position, otherwise the value of `y` at that position. As an example, we determine, whether the Karnovsky-index is larger or equal to 8. In the data, the Karnovsky-index is entered as a categorical variable. To convert to an integer, the functions `as.character` and `as.integer` are used.
+
+```{r}
+	data$karnI <- as.integer(as.character(data$karn))
+	data$karn8 <- ifelse(data$karnI >= 8, 'Larger or equal to 8', 'Smaller than 8')
+```
+
+Here is equivalent code that uses `sapply` as introduced in the ANOVA CP.
+
+```{r}
+	karn8.1 <- sapply(data$karnI, function(k) if (k >= 8) 'Larger or equal to 8' else 'Smaller than 8')
+```
+

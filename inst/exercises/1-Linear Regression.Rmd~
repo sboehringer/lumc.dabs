@@ -55,31 +55,21 @@ Learning Objectives (understand/be able to)
 
 # Part 1: Analysis of the NECOSAD data
 
+In this computer practical, you will use linear regression analysis to test whether the physical activity at six months after start of dialysis is different between patients undergoing peritoneal as compared to haemodialysis.
+
+NECOSAD is an observational prospective follow-up study in incidental dialysis patients starting either peritoneal or haemodialysis. At start of the study and at 6 months thereafter, various data were collected, including the patients’ physical activity score derived from a questionnaire.
+
+Load the data and inspect the data dictionary.
 
 ```{r}
     data(necosad)
     # inspect the data description (data dictionary)
     # ?necosad
-    data <- necosad
-    # the parameter na.rm = TRUE removes missing values from the data
-    mean_phy0 <- mean(data$sf_phys0, na.rm = TRUE)
-    sd_phy0 <- sd(data$sf_phys0, na.rm = TRUE)
-    summ_phy0 <- c(mean_phy0, sd_phy0)
-
-    mean_age <- mean(data$age, na.rm = TRUE)
-    sd_age <- sd(data$age, na.rm = TRUE)
-    summ_age <- c(mean_age, sd_age)
-
-    print(rbind(summ_phy0, summ_age))
+    # the data is now available in the variable necosad
 ```
 
-NECOSAD is an observational prospective follow-up study in incidental dialysis patients starting either peritoneal or haemodialysis. At start of the study and at 6 months thereafter, various data were collected, including the patients’ physical activity score derived from a questionnaire.
-
-In this computer practical, you will use linear regression analysis to test whether the physical activity at six months after start of dialysis is different between patients undergoing peritoneal as compared to haemodialysis.
 
 ## Q1: Describe the data
-
-Use the dataset from the NECOSAD study loaded above (variable `data`).
 
 How many patients are in the dataset, and how many and which percentage started with peritoneal or haemodialysis?
 
@@ -93,6 +83,26 @@ Proportions of type of therapy
 
 Create histograms for physical activity at baseline and after 6 month (function `hist`).
 **fillin**:  
+
+
+Create a table with baseline characteristics for the whole group.
+
+```
+    data <- necosad
+    # the parameter na.rm = TRUE removes missing values from the data
+    mean_phy0 = mean(data$sf_phys0, na.rm = TRUE)
+    sd_phy0 <- sd(data$sf_phys0, na.rm = TRUE)
+    summ_phy0 <- c(mean_phy0, sd_phy0)
+
+    mean_age <- mean(data$age, na.rm = TRUE)
+    sd_age <- sd(data$age, na.rm = TRUE)
+    summ_age <- c(mean_age, sd_age)
+
+    print(rbind(summ_phy0, summ_age))
+```
+
+Read the documentation for function `?varSummary` and create the same output.
+
 
 Create a table with baseline characteristics per therapy group.
 
@@ -344,7 +354,8 @@ Here, we use the NECOSAD data as later used in this CP and compute mean/sd for v
 The same three lines are essentially repeated twice. A function is a shorthand for a number of expressions, which can be reused. We create a function by replacing the names that are different between blocks of code with a new name `x` (or another name, which can be chosen freely) and putting the new lines into the definition `functioname <- function(x) { lines_of_code }`. The same result as before can then be gotten by writing: `functioname(variable)`, where `variable` is the original value used such as `data$sf_phys0`.
 
 ```{r}
-    varSummary <- function(x) {
+    # the function varSummary already exists, choose a different name
+    varSummary.1 <- function(x) {
         Mean <- mean(x, na.rm = TRUE)
         Sd <- sd(x, na.rm = TRUE)
         summ <- c(mean = Mean, sd = Sd)

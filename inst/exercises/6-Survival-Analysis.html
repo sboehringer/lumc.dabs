@@ -11,7 +11,7 @@
 
 <meta name="author" content="SB, LvdB" />
 
-<meta name="date" content="2025-10-07" />
+<meta name="date" content="2025-10-13" />
 
 <title>Computer Practical - Survival Analysis</title>
 
@@ -1481,7 +1481,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Computer Practical - Survival Analysis</h1>
 <h4 class="author">SB, LvdB</h4>
-<h4 class="date">2025-10-07</h4>
+<h4 class="date">2025-10-13</h4>
 
 </div>
 
@@ -1494,19 +1494,42 @@ html version of your CP using <code>knitr</code> and submit it to
 brightspace.</p>
 <ul>
 <li>Fill in your names</li>
-<li>Complete the CP. During the alotted time frame, you can get
-assistance while working on the questions. Solutions become available
-during the practical which should only be used when becoming stuck.
-First try to solve the questions yourself.</li>
-<li>Upload your CP to brightspace. <strong>Students working together
-each have to submit the identical report under their own name</strong>.
-Include the R-markdown and a rendered version (pdf or html).</li>
-<li>Deadline for submission is the day before the Exam</li>
+<li>After completion, upload your CP to brightspace. There are two
+submission lists for each assignment: early and late. For example:
+“Linear Regression early” and “Linear Regression late”. The early list
+is for getting points for the CP. This list closes 30 min after the end
+of the CP. You always have to submit to the late list before the
+exam.</li>
+<li>Students working together submit a <strong>single</strong> report
+per pair to the early list. Include the R-markdown and a rendered
+version (pdf or html) in your submission. Make sure that both students
+are mentioned in the report.</li>
+<li>Deadline for early submission is 30 min after the end of the end of
+the CP. Only the question “Graded question” will be graded for this
+submission.</li>
+<li>Students working together have to <strong>each</strong> submit the
+identical report under their own name to the late list in
+<strong>addition</strong> to nay submission to the early list. Include
+the R-markdown and a rendered version (pdf or html) in your
+submission.</li>
+<li>Deadline for submission to the late list is the day before the
+Exam</li>
+<li>If there is a “Learning R” section in the exercises, it is
+voluntary. It is meant for students following the bioinformatics track
+to improve R skills.</li>
+<li>Make sure to choose a new working directory to work in for each CP
+(tutorial: <a href="https://www.youtube.com/watch?v=FT3THVQj45Q" class="uri">https://www.youtube.com/watch?v=FT3THVQj45Q</a>).</li>
+<li>You are encouraged to use large language models during the practical
+to develop R-code. You have to understand the presented code. Follow up
+any presented code by a prompt “Please explain …” in case you do not
+understand the code fully or ask for assistance.</li>
+<li>During the allotted time frame, you can get assistance while working
+on the questions. Make sure to use this possibility.</li>
 </ul>
 <p>You can freely use other than the suggested functions if you are
 already familiar with other functions/frameworks (such as the
-tidyverse). You can also use your own functions which then have to be
-included into the R-markdown/submission.</p>
+<em>tidyverse</em>). You can also use your own functions which then have
+to be included into the R-markdown/submission.</p>
 </div>
 <div id="authors" class="section level1">
 <h1>Authors</h1>
@@ -1633,7 +1656,8 @@ happens after you calculate the hazard.</p>
 </table>
 <p>Check your computations with R. Use the following code.</p>
 <pre class="r"><code>  library(&#39;survival&#39;)
-  data &lt;- readRDS(&#39;data/mice.rds&#39;)
+  data(mice)
+  data &lt;- mice
   data$Event &lt;- data$Death == &#39;death&#39;
   km &lt;- survfit(Surv(Time, Event) ~ 1, data)
   summary(km)</code></pre>
@@ -1670,8 +1694,8 @@ physician with complains on shortness of breath were included. The
 patients were randomized in two groups, one group received Respisonide
 two times a day for a period of 2 months, the other group received a
 placebo.</p>
-<pre class="r"><code>  myPath &lt;- &#39;data/breath.rds&#39;   # &lt;-- change to match your file location
-  data &lt;- readRDS(myPath)</code></pre>
+<pre class="r"><code>  data(breath)
+  data &lt;- breath</code></pre>
 <div id="q2.1-descriptive-analysis" class="section level2">
 <h2>Q2.1: Descriptive analysis</h2>
 <p>Calculate how many patients were in the Respisonide group and how
@@ -1734,7 +1758,28 @@ month (you may assume that the FEV is approximately normal
 distributed)?</p>
 <p><strong>fillin</strong>:</p>
 <p>Apply your proposed analysis.</p>
-<p><strong>fillin</strong>:</p>
+<strong>fillin</strong>:
+<div class="answer">
+<pre class="r"><code>  summary(lm(FEV_4 ~ group, data))</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = FEV_4 ~ group, data = data)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.77603 -0.49376 -0.01061  0.53289  1.86162 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       3.19136    0.07261  43.951  &lt; 2e-16 ***
+## grouprespisonide  0.26536    0.08915   2.976  0.00316 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.7297 on 298 degrees of freedom
+## Multiple R-squared:  0.02887,    Adjusted R-squared:  0.02561 
+## F-statistic: 8.859 on 1 and 298 DF,  p-value: 0.003156</code></pre>
+</div>
 <p>Create a histogram for the baseline measurement of FEV (variable
 <code>FEV_0</code>).</p>
 <p><strong>fillin</strong>:</p>
@@ -1766,6 +1811,37 @@ the treatment groups. Choose and conduct an analysis.</p>
 Respisonide. Make a recommendation based on efficacy and safety.</p>
 <p><strong>fillin</strong>:</p>
 </div>
+</div>
+<div id="graded-question" class="section level1">
+<h1>Graded Question</h1>
+<p>Use the following model:</p>
+<pre class="r"><code>  model &lt;- coxph(Surv(efi, event) ~ group + FEV_0 + FEV_4, data = data)
+  print(summary(model))</code></pre>
+<pre><code>## Call:
+## coxph(formula = Surv(efi, event) ~ group + FEV_0 + FEV_4, data = data)
+## 
+##   n= 300, number of events= 92 
+## 
+##                     coef exp(coef) se(coef)      z Pr(&gt;|z|)
+## grouprespisonide -0.5972    0.5504   0.4865 -1.227    0.220
+## FEV_0             0.9808    2.6666   4.7894  0.205    0.838
+## FEV_4            -0.7960    0.4511   4.3529 -0.183    0.855
+## 
+##                  exp(coef) exp(-coef) lower .95 upper .95
+## grouprespisonide    0.5504      1.817 2.121e-01     1.428
+## FEV_0               2.6666      0.375 2.234e-04 31823.332
+## FEV_4               0.4511      2.217 8.895e-05  2288.254
+## 
+## Concordance= 0.571  (se = 0.032 )
+## Likelihood ratio test= 10.27  on 3 df,   p=0.02
+## Wald test            = 10.67  on 3 df,   p=0.01
+## Score (logrank) test = 11.05  on 3 df,   p=0.01</code></pre>
+<p>What is the HR of a patient in the respisonide group and an FEV_4 of
+1.7 compared to a patient in the placebo group and an FEV_4 of 3.5, if
+the the value for the FEV_0 is the same. Write down the computation and
+the final answer. Round your answer to 2 decimals after the decimal
+point.</p>
+<p><strong>fillin</strong>:</p>
 </div>
 
 

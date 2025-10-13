@@ -11,7 +11,7 @@
 
 <meta name="author" content="SB, LvdB, LdW" />
 
-<meta name="date" content="2025-10-07" />
+<meta name="date" content="2025-10-13" />
 
 <title>Computer Practical - Linear Regression</title>
 
@@ -1481,7 +1481,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Computer Practical - Linear Regression</h1>
 <h4 class="author">SB, LvdB, LdW</h4>
-<h4 class="date">2025-10-07</h4>
+<h4 class="date">2025-10-13</h4>
 
 </div>
 
@@ -1494,19 +1494,42 @@ html version of your CP using <code>knitr</code> and submit it to
 brightspace.</p>
 <ul>
 <li>Fill in your names</li>
-<li>Complete the CP. During the alotted time frame, you can get
-assistance while working on the questions. Solutions become available
-during the practical which should only be used when becoming stuck.
-First try to solve the questions yourself.</li>
-<li>Upload your CP to brightspace. <strong>Students working together
-each have to submit the identical report under their own name</strong>.
-Include the R-markdown and a rendered version (pdf or html).</li>
-<li>Deadline for submission is the day before the Exam</li>
+<li>After completion, upload your CP to brightspace. There are two
+submission lists for each assignment: early and late. For example:
+“Linear Regression early” and “Linear Regression late”. The early list
+is for getting points for the CP. This list closes 30 min after the end
+of the CP. You always have to submit to the late list before the
+exam.</li>
+<li>Students working together submit a <strong>single</strong> report
+per pair to the early list. Include the R-markdown and a rendered
+version (pdf or html) in your submission. Make sure that both students
+are mentioned in the report.</li>
+<li>Deadline for early submission is 30 min after the end of the end of
+the CP. Only the question “Graded question” will be graded for this
+submission.</li>
+<li>Students working together have to <strong>each</strong> submit the
+identical report under their own name to the late list in
+<strong>addition</strong> to nay submission to the early list. Include
+the R-markdown and a rendered version (pdf or html) in your
+submission.</li>
+<li>Deadline for submission to the late list is the day before the
+Exam</li>
+<li>If there is a “Learning R” section in the exercises, it is
+voluntary. It is meant for students following the bioinformatics track
+to improve R skills.</li>
+<li>Make sure to choose a new working directory to work in for each CP
+(tutorial: <a href="https://www.youtube.com/watch?v=FT3THVQj45Q" class="uri">https://www.youtube.com/watch?v=FT3THVQj45Q</a>).</li>
+<li>You are encouraged to use large language models during the practical
+to develop R-code. You have to understand the presented code. Follow up
+any presented code by a prompt “Please explain …” in case you do not
+understand the code fully or ask for assistance.</li>
+<li>During the allotted time frame, you can get assistance while working
+on the questions. Make sure to use this possibility.</li>
 </ul>
 <p>You can freely use other than the suggested functions if you are
 already familiar with other functions/frameworks (such as the
-tidyverse). You can also use your own functions which then have to be
-included into the R-markdown/submission.</p>
+<em>tidyverse</em>). You can also use your own functions which then have
+to be included into the R-markdown/submission.</p>
 </div>
 <div id="authors" class="section level1">
 <h1>Authors</h1>
@@ -1536,24 +1559,47 @@ included into the R-markdown/submission.</p>
 <li>Connection between dummy variables and regression table</li>
 <li>Role of the reference group</li>
 </ul>
+<div id="terminology" class="section level3">
+<h3>Terminology</h3>
+<p><em>Column</em>, <em>variable</em>, <em>covariate</em> are used
+synonymously in the exercise. <em>Variable</em> might denote an
+R-variable or the column of a data set, depending on context.</p>
 </div>
 </div>
-<div id="learning-r" class="section level1">
-<h1>Learning R</h1>
-<p>In this section, one potentially new concept in R is introduced:
-writing own functions. It is later used to make the solutions more
-efficient. If we compute a number of values using expressions several
-times, programs can be made easier to read and modify by defining a new
-function. For example, we might want to compute the mean and standard
-deviation of several variables.</p>
-<p>Here, we use the NECOSAD data as later used in this CP and compute
-mean/sd for variables <code>sf_phys0</code> and <code>age</code>. Note,
-that you have to replace the <code>myPath</code> given to
-<code>readRDS</code> with the location of the file on your computer
-(tutorial: <a href="https://www.youtube.com/watch?v=D1CpiGsXIS4" class="uri">https://www.youtube.com/watch?v=D1CpiGsXIS4</a>)</p>
-<pre class="r"><code>    myPath &lt;- &#39;data/necosad.rds&#39;    # &lt;&lt;- replace this
-    data &lt;- readRDS(myPath)
-    # the parameter na.rm = TRUE removes missing values from the data
+</div>
+<div id="part-1-analysis-of-the-necosad-data" class="section level1">
+<h1>Part 1: Analysis of the NECOSAD data</h1>
+<p>In this computer practical, you will use linear regression analysis
+to test whether the physical activity at six months after start of
+dialysis is different between patients undergoing peritoneal as compared
+to haemodialysis.</p>
+<p>NECOSAD is an observational prospective follow-up study in incidental
+dialysis patients starting either peritoneal or haemodialysis. At start
+of the study and at 6 months thereafter, various data were collected,
+including the patients’ physical activity score derived from a
+questionnaire.</p>
+<p>Load the data and inspect the data dictionary.</p>
+<pre class="r"><code>    data(necosad)
+    # inspect the data description (data dictionary)
+    # ?necosad
+    # the data is now available in the variable necosad
+    data &lt;- necosad</code></pre>
+<div id="q1-describe-the-data" class="section level2">
+<h2>Q1: Describe the data</h2>
+<p>How many patients are in the dataset, and how many and which
+percentage started with peritoneal or haemodialysis?</p>
+<p>Hint: Use functions <code>dim</code> or <code>nrow</code>, function
+<code>table</code> to get counts, which can be converted to
+frequencies.</p>
+<p>Number of patients:<br />
+<strong>fillin</strong>:</p>
+<p>Proportions of type of therapy:<br />
+<strong>fillin</strong>:</p>
+<p>Create histograms for physical activity at baseline and after 6 month
+(function <code>hist</code>).</p>
+<p><strong>fillin</strong>:</p>
+<p>Create a table with baseline characteristics for the whole group.</p>
+<pre class="r"><code>    # the parameter na.rm = TRUE removes missing values from the data
     mean_phy0 = mean(data$sf_phys0, na.rm = TRUE)
     sd_phy0 &lt;- sd(data$sf_phys0, na.rm = TRUE)
     summ_phy0 &lt;- c(mean_phy0, sd_phy0)
@@ -1566,82 +1612,13 @@ that you have to replace the <code>myPath</code> given to
 <pre><code>##               [,1]     [,2]
 ## summ_phy0 51.31797 28.10178
 ## summ_age  58.82731 15.08639</code></pre>
-<p>The same three lines are essentially repeated twice. A function is a
-shorthand for a number of expressions, which can be reused. We create a
-function by replacing the names that are different between blocks of
-code with a new name <code>x</code> (or another name, which can be
-chosen freely) and putting the new lines into the definition
-<code>functioname &lt;- function(x) { lines_of_code }</code>. The same
-result as before can then be gotten by writing:
-<code>functioname(variable)</code>, where <code>variable</code> is the
-original value used such as <code>data$sf_phys0</code>.</p>
-<pre class="r"><code>    varSummary &lt;- function(x) {
-        Mean &lt;- mean(x, na.rm = TRUE)
-        Sd &lt;- sd(x, na.rm = TRUE)
-        summ &lt;- c(mean = Mean, sd = Sd)
-    }</code></pre>
-<p><code>varSummary</code> is a new function that can be used like the
-built-in R functions. The same result as above can now be achieved with
-the code:</p>
-<pre class="r"><code>    print(rbind(phy0 = varSummary(data$sf_phys0), age = varSummary(data$age)))</code></pre>
-<pre><code>##          mean       sd
-## phy0 51.31797 28.10178
-## age  58.82731 15.08639</code></pre>
-</div>
-<div id="part-1-analysis-of-the-necosad-data" class="section level1">
-<h1>Part 1: Analysis of the NECOSAD data</h1>
-<p>NECOSAD is an observational prospective follow-up study in incidental
-dialysis patients starting either peritoneal or haemodialysis. At start
-of the study and at 6 months thereafter, various data were collected,
-including the patients’ physical activity score derived from a
-questionnaire.</p>
-<p>In this computer practical, you will use linear regression analysis
-to test whether the physical activity at six months after start of
-dialysis is different between patients undergoing peritoneal as compared
-to haemodialysis.</p>
-<div id="q1-describe-the-data" class="section level2">
-<h2>Q1: Describe the data</h2>
-<p>Use the dataset from the NECOSAD study loaded above (variable
-<code>data</code>).</p>
-<p>How many patients are in the dataset, and how many and which
-percentage started with peritoneal or haemodialysis?</p>
-<p>Hint: Use functions <code>dim</code> or <code>nrow</code>, function
-<code>table</code> to get counts, which can be converted to
-frequencies.</p>
-<p>Number of patients: <strong>fillin</strong>:</p>
-<p>Proportions of type of therapy <strong>fillin</strong>:</p>
-<p>Create histograms for physical activity at baseline and after 6 month
-(function <code>hist</code>). <strong>fillin</strong>:</p>
-<p>Create a table with baseline characteristics per therapy group.</p>
-<p>Hint: use function <code>summary</code> for continuous and function
-<code>table</code> for categorical variables.</p>
-<p>Function <code>by</code> can split an analysis by sub-groups. First
-develop R-code to show baseline charactersistics for the whole data set.
-Then the R-code
-<code>by(data, data$therapy, function(data) { your-code }</code>
-produces the desired result.</p>
-<p>Use functions <code>mean</code>, <code>sd</code> to compute mean and
-standard deviation.</p>
-<p>The code is given for continuous variables. Adapt the code to compute
-frequencies for categorical variables.</p>
-<p>Baseline characteristics continuous variables:</p>
-<pre class="r"><code>    by(data, data$therapy, function(data) {
-        rbind(phy0 = varSummary(data$sf_phys0), age = varSummary(data$age))
-    })</code></pre>
-<pre><code>## data$therapy: hemodialysis
-##          mean       sd
-## phy0 47.64264 28.78856
-## age  61.38905 14.63350
-## ------------------------------------------------------------ 
-## data$therapy: Peridoneal
-##          mean       sd
-## phy0 58.99459 24.95963
-## age  53.07378 14.50930</code></pre>
-<p>Baseline characteristics categorical variable (there is only
-<code>gender</code>). You can use the following function
-<code>tableFreq &lt;- function(x) { table(x)/sum(table(x)) }</code> to
-compute frequencies (it uses the <code>table</code> function to count
-levels and divides by the total).</p>
+<p>Read the documentation for function <code>varSummary</code> by typing
+<code>?varSummary</code> and create the same output.</p>
+<p><strong>fillin</strong>:</p>
+<p>Create a table with baseline characteristics per therapy group. Read
+the help on <code>?varSummariesBy</code> (continuous covariates) and
+<code>?varFrequenciesBy</code> to create the tables for continous and
+categorical covariates.</p>
 <p><strong>fillin</strong>:</p>
 </div>
 <div id="q2-testing-baseline-variables" class="section level2">
@@ -1651,9 +1628,12 @@ and <code>gender</code> for differences between the therapy groups.</p>
 <p>Use the appropriate test. You can assume continuous variables to be
 normally distributed. Choose from functions (<code>t.test</code>,
 <code>chisq.test</code>).</p>
-<p><code>sf_phys0</code> <strong>fillin</strong>:</p>
-<p><code>age</code> <strong>fillin</strong>:</p>
-<p><code>gender</code> <strong>fillin</strong>:</p>
+<p><code>sf_phys0</code><br />
+<strong>fillin</strong>:</p>
+<p><code>age</code><br />
+<strong>fillin</strong>:</p>
+<p><code>gender</code><br />
+<strong>fillin</strong>:</p>
 <p>Draw conclusions from your results.</p>
 <p><strong>fillin</strong>:</p>
 </div>
@@ -1709,9 +1689,10 @@ interest).</p>
 <p>Start by only including <code>therapy</code>. Interpret the
 regression coefficient for therapy.</p>
 <p><strong>fillin</strong>:</p>
-<p>Also include <code>gender</code> in the analysis.</p>
-<p><strong>fillin</strong>:</p>
-<p><code>age</code> <strong>fillin</strong>:</p>
+<p>Also include <code>gender</code> in the analysis.<br />
+<strong>fillin</strong>:</p>
+<p><code>age</code><br />
+<strong>fillin</strong>:</p>
 <p>Interpret your result.</p>
 <p><strong>fillin</strong>:</p>
 <p>Use <code>gender</code> and <code>age</code> together in the
@@ -1735,9 +1716,9 @@ age, gender and baseline activity.</p>
 </div>
 <div id="part-2-analysis-of-pea-data" class="section level1">
 <h1>Part 2: Analysis of pea data</h1>
-<p>Load the data set with</p>
-<pre class="r"><code>    myPathNpk &lt;- &#39;data/npk.rds&#39;     # &lt;&lt;- needs to be changed
-    data &lt;- readRDS(myPathNpk)</code></pre>
+<p>Load the data pea data set.</p>
+<pre class="r"><code>    data(pea)
+    data &lt;- pea</code></pre>
 <p>The data set is about an agricultural experiment where the yield of
 pea plants is studied when plants are exposed to nitrogen, phosphate or
 potassium. The columns N, P, K are binary variables (yes/no variables)
@@ -1878,6 +1859,106 @@ values.</p>
 <p>Compare the result from the model <code>lm(yield ~ ., data3)</code>
 (above) with the model <code>lm(yield ~ combination, data)</code> (Q1).
 Interpret.</p>
+<p><strong>fillin</strong>:</p>
+</div>
+</div>
+<div id="graded-question" class="section level1">
+<h1>Graded question</h1>
+<p>Use your result from above for the linear regression with outcome
+<em>physical activity after 6 month</em> and covariates <em>physical
+activity at basline</em>, <em>age</em>, <em>gender</em> using the
+<code>necosad</code> data.</p>
+<p>What are the reference groups in the model?</p>
+<p><strong>fillin</strong>:</p>
+<p>What is the expected physical activity at 6 month for a 30 year old
+female undergoing hemodialysis with a physical activity of 60 at
+baseline?</p>
+<p><strong>fillin</strong>:</p>
+<p>Confirm your calculation using the R-function <code>predict</code>.
+The first argument is the model, i.e. you should save the result of the
+<code>lm</code> function into a variable:
+<code>model &lt;- lm(my.formula, data)</code>. You can then create a new
+data frame containing the values to be predicted: for example,
+<code>datanew &lt;- data.frame(sf_phys0=50, gender=&#39;male&#39;, age=70, therapy=&#39;Peridoneal&#39;)</code>.
+<code>predict(model, datanew)</code> computes the prediction
+automatically.</p>
+<p><strong>fillin</strong>:</p>
+</div>
+<div id="learning-r" class="section level1">
+<h1>Learning R</h1>
+<div id="writing-functions" class="section level2">
+<h2>Writing functions</h2>
+<p>In this section, one potentially new concept in R is introduced:
+writing own functions. If we compute a number of values using
+expressions several times, programs can be made easier to read and
+modify by defining a new function.</p>
+<p>We go back to the beginning of the CP to illustrate the concepts.</p>
+<pre class="r"><code>    data &lt;- necosad
+    mean_phy0 = mean(data$sf_phys0, na.rm = TRUE)
+    sd_phy0 &lt;- sd(data$sf_phys0, na.rm = TRUE)
+    summ_phy0 &lt;- c(mean_phy0, sd_phy0)
+
+    mean_age &lt;- mean(data$age, na.rm = TRUE)
+    sd_age &lt;- sd(data$age, na.rm = TRUE)
+    summ_age &lt;- c(mean_age, sd_age)
+
+    print(rbind(summ_phy0, summ_age))</code></pre>
+<pre><code>##               [,1]     [,2]
+## summ_phy0 51.31797 28.10178
+## summ_age  58.82731 15.08639</code></pre>
+<p>The same three lines are essentially repeated twice. A function is a
+shorthand for a number of expressions, which can be reused. We create a
+function by replacing the names that are different between blocks of
+code with a new name <code>x</code> (or another name, which can be
+chosen freely) and putting the new lines into the definition
+<code>functioname &lt;- function(x) { lines_of_code }</code>. The same
+result as before can then be gotten by writing:
+<code>functioname(variable)</code>, where <code>variable</code> is the
+original value used such as <code>data$sf_phys0</code>.</p>
+<pre class="r"><code>    # the function varSummary already exists, choose a different name
+    varSummary.1 &lt;- function(x) {
+        Mean &lt;- mean(x, na.rm = TRUE)
+        Sd &lt;- sd(x, na.rm = TRUE)
+        summ &lt;- c(mean = Mean, sd = Sd)
+    }</code></pre>
+<p><code>varSummary_1</code> is a new function that can be used like the
+built-in R functions. This re-implements the function
+<code>varSummary</code> from the package. You can type
+<code>varSummary</code> in the console to compare to the actual
+definition of the function <code>varSummary</code>.</p>
+</div>
+<div id="stratifying-analyses" class="section level2">
+<h2>Stratifying analyses</h2>
+<p>Function <code>by</code> can split an analysis by sub-groups. To
+illustrate the <code>by</code> function, we again use the
+<code>necosad</code> data. If we first develop R-code to show, for
+example, baseline characteristics for the whole data set, the R-code
+<code>by(data, data$therapy, function(data) { your-code }</code>
+produces separate results for each of the <code>therapy</code> groups
+without have to modify the code in <code>your-code</code>. The function
+<code>varSummary</code> can produce summaries for the full data set and
+can therefore automatically be used on subgroups.</p>
+<pre class="r"><code>    by(data, data$therapy, function(data) {
+        rbind(phy0 = varSummary(data$sf_phys0), age = varSummary(data$age))
+    })</code></pre>
+<pre><code>## data$therapy: hemodialysis
+##          mean       sd
+## phy0 47.64264 28.78856
+## age  61.38905 14.63350
+## ------------------------------------------------------------ 
+## data$therapy: Peridoneal
+##          mean       sd
+## phy0 58.99459 24.95963
+## age  53.07378 14.50930</code></pre>
+<p>You can compare this code to the implementation of
+<code>varSummariesBy</code>.</p>
+<p>Baseline characteristics of categorical variable (there is only
+<code>gender</code>) are described by frequencies. You can use the
+following function
+<code>tableFreq &lt;- function(x) { table(x)/sum(table(x)) }</code> to
+compute frequencies (it uses the <code>table</code> function to count
+levels and divides by the total). Use the <code>by</code> function to
+automatically get frequencies per therapy group.</p>
 <p><strong>fillin</strong>:</p>
 </div>
 </div>

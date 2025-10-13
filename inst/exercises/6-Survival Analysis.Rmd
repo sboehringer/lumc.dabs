@@ -12,11 +12,17 @@ output:
 Fill in parts labeled as **fillin** with your own R-code and your interpretation of code/results. After finishing, created an html version of your CP using `knitr` and submit it to brightspace.
 
  - Fill in your names
- - Complete the CP. During the alotted time frame, you can get assistance while working on the questions. Solutions become available during the practical which should only be used when becoming stuck. First try to solve the questions yourself.
- - Upload your CP to brightspace. **Students working together each have to submit the identical report under their own name**. Include the R-markdown and a rendered version (pdf or html).
- - Deadline for submission is the day before the Exam
+ - After completion, upload your CP to brightspace. There are two submission lists for each assignment: early and late. For example: "Linear Regression early" and "Linear Regression late". The early list is for getting points for the CP. This list closes 30 min after the end of the CP. You always have to submit to the late list before the exam.
+- Students working together submit a **single** report per pair to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission. Make sure that both students are mentioned in the report.
+ - Deadline for early submission is 30 min after the end of the end of the CP. Only the question "Graded question" will be graded for this submission.
+ - Students working together have to **each** submit the identical report under their own name to the late list in **addition** to nay submission to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission.
+ - Deadline for submission to the late list is the day before the Exam
+ - If there is a "Learning R" section in the exercises, it is voluntary. It is meant for students following the bioinformatics track to improve R skills.
+- Make sure to choose a new working directory to work in for each CP (tutorial: https://www.youtube.com/watch?v=FT3THVQj45Q).
+- You are encouraged to use large language models during the practical to develop R-code. You have to understand the presented code. Follow up any presented code by a prompt "Please explain ..." in case you do not understand the code fully or ask for assistance.
+- During the allotted time frame, you can get assistance while working on the questions. Make sure to use this possibility.
 
-You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the tidyverse). You can also use your own functions which then have to be included into the R-markdown/submission.
+You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the *tidyverse*). You can also use your own functions which then have to be included into the R-markdown/submission.
 
 # Authors
  
@@ -72,7 +78,8 @@ Check your computations with R. Use the following code.
 
 ```{r}
   library('survival')
-  data <- readRDS('data/mice.rds')
+  data(mice)
+  data <- mice
   data$Event <- data$Death == 'death'
   km <- survfit(Surv(Time, Event) ~ 1, data)
   summary(km)
@@ -97,8 +104,8 @@ Read off median suvival.
 In a clinical trial on elderly patients who visited their general physician with complains on shortness of breath were included. The patients were randomized in two groups, one group received Respisonide two times a day for a period of 2 months, the other group received a placebo.
 
 ```{r}
-  myPath <- 'data/breath.rds'   # <-- change to match your file location
-  data <- readRDS(myPath)
+  data(breath)
+  data <- breath
 ```
 
 ## Q2.1: Descriptive analysis
@@ -117,68 +124,71 @@ The formula provided to `survfit` can take variable on the right-hand side that 
 
 Produce Kaplan-Meier curves for the groups.
 
-**fillin**:
+**fillin**:  
 
 After 500 days, is the hazard ratio of the Respisonide group larger, roughly equal to, or smaller than 1, compared to the placebo group?
 
-**fillin**:
+**fillin**:  
 
 ## Q2.3 Log-rank test
 
 Calculate a log-rank test using the `survdiff` function. It takes the same arguments as `surffit`. Do the groups differ significantly?
 
-**fillin**:
-
+**fillin**:  
 
 ## Q2.4 Report survival in the groups.
 
 Report survival after two years (`365*2` days) in the two groups, together with 95% confidence intervals. Use `summary(km)` to get this information (you can read off the values from that output).
 
-**fillin**:
+**fillin**:  
 
 
 ## Q2.4 Number needed to treat
 
 Calculate the number needed to treat to prevent one event in the first two years.
 
-**fillin**:
-
+**fillin**:  
 
 ## Q2.4 Harzard ratio
 
 Calculate the hazard ratio of treatment vs placebo group for event-free survival using a Cox regression. Use R-function `coxph` for the computation. The function takes the same arguments as `survfit`. 
 
-**fillin**:
+**fillin**:  
 
 
 Discuss the result with respect to the Kaplan-Meier curves produced above.
-**fillin**:
+**fillin**:  
 
 ## Q2.5 FEV
 
 A secondary outcome measure of the study is the FEV at one month (variable `FEV_4`) after the start of the study. Which statistical tests can be used to compare the mean FEV values after one month (you may assume that the FEV is approximately normal distributed)?
 
-**fillin**:
+**fillin**:  
 
 Apply your proposed analysis.
 
 **fillin**:
+<div class="answer">  
+```{r}
+  summary(lm(FEV_4 ~ group, data))
+```
+</div>
 
 Create a histogram for the baseline measurement of FEV (variable `FEV_0`).
 
-**fillin**:
+**fillin**:  
 
 Should this variable be included in the analysis of `FEV_4`? Why or why not? Is `FEV_0` a confounder?
 
-**fillin**:
+**fillin**:  
 
 Conduct a new analysis and interpret, if necessary.
 
-**fillin**:
+**fillin**:  
 
 Re-analyze the cox-model by including `FEV_0`. Interpret your findings.
 
-**fillin**:
+**fillin**:  
 
 ## Q2.6 Side effects
 
@@ -186,16 +196,28 @@ Occurence of side effects was recorded in variable `sideeffi`. The time at which
 
 Conduct an analysis which compares occurrence of side effects between the treatment groups. Choose and conduct an analysis.
 
-**fillin**:
+**fillin**:  
 
 
 Interpret your findings.
 
-**fillin**:
+**fillin**:  
 
 ## Q2.6 Overall conclusions
 
 From your analyses, what is your conclusion about treatment with Respisonide. Make a recommendation based on efficacy and safety.
 
-**fillin**:
+**fillin**:  
+
+# Graded Question
+
+Use the following model:
+```{r}
+  model <- coxph(Surv(efi, event) ~ group + FEV_0 + FEV_4, data = data)
+  print(summary(model))
+```
+
+What is the HR of a patient in the respisonide group and an FEV_4 of 1.7 compared to a patient in the placebo group and an FEV_4 of 3.5, if the the value for the FEV_0 is the same. Write down the computation and the final answer. Round your answer to 2 decimals after the decimal point.
+
+**fillin**:  
 

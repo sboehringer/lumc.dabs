@@ -11,7 +11,7 @@
 
 <meta name="author" content="SB, LdW, RdM" />
 
-<meta name="date" content="2025-10-07" />
+<meta name="date" content="2025-10-13" />
 
 <title>Computer Practical - Reliability</title>
 
@@ -1481,7 +1481,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Computer Practical - Reliability</h1>
 <h4 class="author">SB, LdW, RdM</h4>
-<h4 class="date">2025-10-07</h4>
+<h4 class="date">2025-10-13</h4>
 
 </div>
 
@@ -1494,19 +1494,42 @@ html version of your CP using <code>knitr</code> and submit it to
 brightspace.</p>
 <ul>
 <li>Fill in your names</li>
-<li>Complete the CP. During the alotted time frame, you can get
-assistance while working on the questions. Solutions become available
-during the practical which should only be used when becoming stuck.
-First try to solve the questions yourself.</li>
-<li>Upload your CP to brightspace. <strong>Students working together
-each have to submit the identical report under their own name</strong>.
-Include the R-markdown and a rendered version (pdf or html).</li>
-<li>Deadline for submission is the day before the Exam</li>
+<li>After completion, upload your CP to brightspace. There are two
+submission lists for each assignment: early and late. For example:
+“Linear Regression early” and “Linear Regression late”. The early list
+is for getting points for the CP. This list closes 30 min after the end
+of the CP. You always have to submit to the late list before the
+exam.</li>
+<li>Students working together submit a <strong>single</strong> report
+per pair to the early list. Include the R-markdown and a rendered
+version (pdf or html) in your submission. Make sure that both students
+are mentioned in the report.</li>
+<li>Deadline for early submission is 30 min after the end of the end of
+the CP. Only the question “Graded question” will be graded for this
+submission.</li>
+<li>Students working together have to <strong>each</strong> submit the
+identical report under their own name to the late list in
+<strong>addition</strong> to nay submission to the early list. Include
+the R-markdown and a rendered version (pdf or html) in your
+submission.</li>
+<li>Deadline for submission to the late list is the day before the
+Exam</li>
+<li>If there is a “Learning R” section in the exercises, it is
+voluntary. It is meant for students following the bioinformatics track
+to improve R skills.</li>
+<li>Make sure to choose a new working directory to work in for each CP
+(tutorial: <a href="https://www.youtube.com/watch?v=FT3THVQj45Q" class="uri">https://www.youtube.com/watch?v=FT3THVQj45Q</a>).</li>
+<li>You are encouraged to use large language models during the practical
+to develop R-code. You have to understand the presented code. Follow up
+any presented code by a prompt “Please explain …” in case you do not
+understand the code fully or ask for assistance.</li>
+<li>During the allotted time frame, you can get assistance while working
+on the questions. Make sure to use this possibility.</li>
 </ul>
 <p>You can freely use other than the suggested functions if you are
 already familiar with other functions/frameworks (such as the
-tidyverse). You can also use your own functions which then have to be
-included into the R-markdown/submission.</p>
+<em>tidyverse</em>). You can also use your own functions which then have
+to be included into the R-markdown/submission.</p>
 </div>
 <div id="authors" class="section level1">
 <h1>Authors</h1>
@@ -1527,27 +1550,25 @@ included into the R-markdown/submission.</p>
 </div>
 <div id="q1-describe-and-visalize-the-data" class="section level1">
 <h1>Q1: Describe and visalize the data</h1>
-<p>Read the file <code>cortisol.rds</code>. The data contains multiple
-laboratory measurements on a number of indidviduals. Among them are
-repeated measurements of cortisol levels. The role of adrenocortical and
-corticotroph hormones in patients suffering from depression is not fully
-understood. To evaluate their role a clinical trial is planned, but few
-data are available on the reliability of measurements of these hormones
-for use in clinical pharmacology. In addition, these hormones can be
-measured in saliva and in plasma, whereby saliva measurements are easier
-to obtain than plasma measurements. To evaluate the reliability of
-saliva and plasma measurements cortisol-levels were measured in 20
-healthy volunteers twice, on two consecutive days. The measurements were
-performed at the same time (14:00) on both occasions since cortisol
-levels are known to follow a 24-hour cycle. In the computer exercise,
-the short term stability of saliva cortisol levels is investigated.
-Saliva measurements are given in columns <code>CORT1A</code> and
-<code>CORT1B</code>. Blood levels are given in columns
-<code>CORT2A</code> and <code>CORT2B</code>.</p>
-<pre class="r"><code>  myPath &lt;- &#39;data/cortisol.rds&#39;   # &lt;-- replace with your own data location
-  data &lt;- readRDS(myPath)
-  # load ggplot2 package for plotting
-  library(&#39;ggplot2&#39;)</code></pre>
+<p>Data <code>cortisol</code> contain multiple laboratory measurements
+on a number of indidviduals. Among them are repeated measurements of
+cortisol levels. The role of adrenocortical and corticotroph hormones in
+patients suffering from depression is not fully understood. To evaluate
+their role a clinical trial is planned, but few data are available on
+the reliability of measurements of these hormones for use in clinical
+pharmacology. In addition, these hormones can be measured in saliva and
+in plasma, whereby saliva measurements are easier to obtain than plasma
+measurements. To evaluate the reliability of saliva and plasma
+measurements cortisol-levels were measured in 20 healthy volunteers
+twice, on two consecutive days. The measurements were performed at the
+same time (14:00) on both occasions since cortisol levels are known to
+follow a 24-hour cycle. In the computer exercise, the short term
+stability of saliva cortisol levels is investigated. Saliva measurements
+are given in columns <code>CORT1A</code> and <code>CORT1B</code>. Blood
+levels are given in columns <code>CORT2A</code> and
+<code>CORT2B</code>.</p>
+<pre class="r"><code>  data(cortisol)
+  data &lt;- cortisol</code></pre>
 <p>Use the <code>summary</code> function to describe the cortisol
 columns and interpret your findings.</p>
 <p><strong>fillin</strong>:</p>

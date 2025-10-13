@@ -13,11 +13,17 @@ output:
 Fill in parts labeled as **fillin** with your own R-code and your interpretation of code/results. After finishing, created an html version of your CP using `knitr` and submit it to brightspace.
 
  - Fill in your names
- - Complete the CP. During the alotted time frame, you can get assistance while working on the questions. Solutions become available during the practical which should only be used when becoming stuck. First try to solve the questions yourself.
- - Upload your CP to brightspace. **Students working together each have to submit the identical report under their own name**. Include the R-markdown and a rendered version (pdf or html).
- - Deadline for submission is the day before the Exam
+ - After completion, upload your CP to brightspace. There are two submission lists for each assignment: early and late. For example: "Linear Regression early" and "Linear Regression late". The early list is for getting points for the CP. This list closes 30 min after the end of the CP. You always have to submit to the late list before the exam.
+- Students working together submit a **single** report per pair to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission. Make sure that both students are mentioned in the report.
+ - Deadline for early submission is 30 min after the end of the end of the CP. Only the question "Graded question" will be graded for this submission.
+ - Students working together have to **each** submit the identical report under their own name to the late list in **addition** to nay submission to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission.
+ - Deadline for submission to the late list is the day before the Exam
+ - If there is a "Learning R" section in the exercises, it is voluntary. It is meant for students following the bioinformatics track to improve R skills.
+- Make sure to choose a new working directory to work in for each CP (tutorial: https://www.youtube.com/watch?v=FT3THVQj45Q).
+- You are encouraged to use large language models during the practical to develop R-code. You have to understand the presented code. Follow up any presented code by a prompt "Please explain ..." in case you do not understand the code fully or ask for assistance.
+- During the allotted time frame, you can get assistance while working on the questions. Make sure to use this possibility.
 
-You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the tidyverse). You can also use your own functions which then have to be included into the R-markdown/submission.
+You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the *tidyverse*). You can also use your own functions which then have to be included into the R-markdown/submission.
 
 # Authors
  
@@ -46,15 +52,47 @@ Learning Objectives (understand/be able to)
  * Connection between dummy variables and regression table
  * Role of the reference group
 
-# Learning R
+### Terminology
 
-In this section, one potentially new concept in R is introduced: writing own functions. It is later used to make the solutions more efficient. If we compute a number of values using expressions several times, programs can be made easier to read and modify by defining a new function. For example, we might want to compute the mean and standard deviation of several variables.
+*Column*, *variable*, *covariate* are used synonymously in the exercise. *Variable* might denote an R-variable or the column of a data set, depending on context.
 
-Here, we use the NECOSAD data as later used in this CP and compute mean/sd for variables `sf_phys0` and `age`. Note, that you have to replace the `myPath` given to `readRDS` with the location of the file on your computer (tutorial: https://www.youtube.com/watch?v=D1CpiGsXIS4)
+# Part 1: Analysis of the NECOSAD data
+
+In this computer practical, you will use linear regression analysis to test whether the physical activity at six months after start of dialysis is different between patients undergoing peritoneal as compared to haemodialysis.
+
+NECOSAD is an observational prospective follow-up study in incidental dialysis patients starting either peritoneal or haemodialysis. At start of the study and at 6 months thereafter, various data were collected, including the patients’ physical activity score derived from a questionnaire.
+
+Load the data and inspect the data dictionary.
 
 ```{r}
-    myPath <- 'data/necosad.rds'    # <<- replace this
-    data <- readRDS(myPath)
+    data(necosad)
+    # inspect the data description (data dictionary)
+    # ?necosad
+    # the data is now available in the variable necosad
+    data <- necosad
+```
+
+
+## Q1: Describe the data
+
+How many patients are in the dataset, and how many and which percentage started with peritoneal or haemodialysis?
+
+Hint: Use functions `dim` or `nrow`, function `table` to get counts, which can be converted to frequencies.
+
+Number of patients:  
+**fillin**:  
+
+Proportions of type of therapy:  
+**fillin**:  
+
+Create histograms for physical activity at baseline and after 6 month (function `hist`).
+
+**fillin**:  
+
+
+Create a table with baseline characteristics for the whole group.
+
+```{r}
     # the parameter na.rm = TRUE removes missing values from the data
     mean_phy0 = mean(data$sf_phys0, na.rm = TRUE)
     sd_phy0 <- sd(data$sf_phys0, na.rm = TRUE)
@@ -67,65 +105,15 @@ Here, we use the NECOSAD data as later used in this CP and compute mean/sd for v
     print(rbind(summ_phy0, summ_age))
 ```
 
-The same three lines are essentially repeated twice. A function is a shorthand for a number of expressions, which can be reused. We create a function by replacing the names that are different between blocks of code with a new name `x` (or another name, which can be chosen freely) and putting the new lines into the definition `functioname <- function(x) { lines_of_code }`. The same result as before can then be gotten by writing: `functioname(variable)`, where `variable` is the original value used such as `data$sf_phys0`.
-
-```{r}
-    varSummary <- function(x) {
-        Mean <- mean(x, na.rm = TRUE)
-        Sd <- sd(x, na.rm = TRUE)
-        summ <- c(mean = Mean, sd = Sd)
-    }
-```
-`varSummary` is a new function that can be used like the built-in R functions. The same result as above can now be achieved with the code:
-
-```{r}
-    print(rbind(phy0 = varSummary(data$sf_phys0), age = varSummary(data$age)))
-```
-
-# Part 1: Analysis of the NECOSAD data
-
-NECOSAD is an observational prospective follow-up study in incidental dialysis patients starting either peritoneal or haemodialysis. At start of the study and at 6 months thereafter, various data were collected, including the patients’ physical activity score derived from a questionnaire.
-
-In this computer practical, you will use linear regression analysis to test whether the physical activity at six months after start of dialysis is different between patients undergoing peritoneal as compared to haemodialysis.
-
-## Q1: Describe the data
-
-Use the dataset from the NECOSAD study loaded above (variable `data`).
-
-How many patients are in the dataset, and how many and which percentage started with peritoneal or haemodialysis?
-
-Hint: Use functions `dim` or `nrow`, function `table` to get counts, which can be converted to frequencies.
-
-Number of patients:
-**fillin**:  
-
-Proportions of type of therapy
-**fillin**:  
-
-Create histograms for physical activity at baseline and after 6 month (function `hist`).
-**fillin**:  
-
-Create a table with baseline characteristics per therapy group.
-
-Hint: use function `summary` for continuous and function `table` for categorical variables.
-
-Function `by` can split an analysis by sub-groups. First develop R-code to show baseline charactersistics for the whole data set. Then the R-code `by(data, data$therapy, function(data) { your-code }` produces the desired result.
-
-Use functions `mean`, `sd` to compute mean and standard deviation.
-
-The code is given for continuous variables. Adapt the code to compute frequencies for categorical variables.
-
-Baseline characteristics continuous variables:
-```{r}
-    by(data, data$therapy, function(data) {
-        rbind(phy0 = varSummary(data$sf_phys0), age = varSummary(data$age))
-    })
-```
-
-Baseline characteristics categorical variable (there is only `gender`).
-You can use the following function `tableFreq <- function(x) { table(x)/sum(table(x)) }` to compute frequencies (it uses the `table` function to count levels and divides by the total).
+Read the documentation for function `varSummary` by typing `?varSummary` and create the same output.
 
 **fillin**:  
+
+Create a table with baseline characteristics per therapy group. Read the help on `?varSummariesBy` (continuous covariates) and `?varFrequenciesBy` to create the tables for continous and categorical covariates.
+
+
+**fillin**:  
+
 
 ## Q2: Testing baseline variables
 
@@ -133,13 +121,13 @@ Test the baseline variables `sf_phys0`, `age` and `gender` for differences betwe
 
 Use the appropriate test. You can assume continuous variables to be normally distributed. Choose from functions (`t.test`, `chisq.test`).
 
-`sf_phys0`
+`sf_phys0`  
 **fillin**:  
 
-`age`
+`age`  
 **fillin**:  
 
-`gender`
+`gender`  
 **fillin**:  
 
 Draw conclusions from your results.
@@ -205,11 +193,10 @@ Start by only including `therapy`. Interpret the regression coefficient for ther
 
 **fillin**:  
 
-Also include `gender` in the analysis.
-
+Also include `gender` in the analysis.  
 **fillin**:  
 
-`age`
+`age`  
 **fillin**:  
 
 Interpret your result.
@@ -244,11 +231,11 @@ Give a conclusion from the analysis of the data.
 
 # Part 2: Analysis of pea data
 
-Load the data set with
+Load the data pea data set.
 
 ```{r}
-    myPathNpk <- 'data/npk.rds'     # <<- needs to be changed
-    data <- readRDS(myPathNpk)
+    data(pea)
+    data <- pea
 ```
 
 The data set is about an agricultural experiment where the yield of pea plants is studied when plants are exposed to nitrogen, phosphate or potassium. The columns N, P, K are binary variables (yes/no variables) indicating whether nitrogen, phosphate or potassium have been applied, respectively. Yield is the outcome measurement of pea fruits in grams. The variable block indicates on which plot (location) the plant grew.
@@ -329,3 +316,70 @@ Compare the result from the model `lm(yield ~ ., data3)` (above) with the model 
 
 **fillin**:  
 
+
+# Graded question
+
+Use your result from above for the linear regression with outcome *physical activity after 6 month* and covariates *physical activity at basline*, *age*, *gender* using the `necosad` data.
+
+What are the reference groups in the model?
+
+**fillin**:  
+
+What is the expected physical activity at 6 month for a 30 year old female undergoing hemodialysis with a physical activity of 60 at baseline?
+
+**fillin**:  
+
+Confirm your calculation using the R-function `predict`. The first argument is the model, i.e. you should save the result of the `lm` function into a variable: `model <- lm(my.formula, data)`. You can then create a new data frame containing the values to be predicted: for example, `datanew <- data.frame(sf_phys0=50, gender='male', age=70, therapy='Peridoneal')`. `predict(model, datanew)` computes the prediction automatically.
+
+**fillin**:  
+
+# Learning R
+
+## Writing functions
+
+In this section, one potentially new concept in R is introduced: writing own functions. If we compute a number of values using expressions several times, programs can be made easier to read and modify by defining a new function.
+
+We go back to the beginning of the CP to illustrate the concepts.
+
+```{r}
+    data <- necosad
+    mean_phy0 = mean(data$sf_phys0, na.rm = TRUE)
+    sd_phy0 <- sd(data$sf_phys0, na.rm = TRUE)
+    summ_phy0 <- c(mean_phy0, sd_phy0)
+
+    mean_age <- mean(data$age, na.rm = TRUE)
+    sd_age <- sd(data$age, na.rm = TRUE)
+    summ_age <- c(mean_age, sd_age)
+
+    print(rbind(summ_phy0, summ_age))
+```
+
+The same three lines are essentially repeated twice. A function is a shorthand for a number of expressions, which can be reused. We create a function by replacing the names that are different between blocks of code with a new name `x` (or another name, which can be chosen freely) and putting the new lines into the definition `functioname <- function(x) { lines_of_code }`. The same result as before can then be gotten by writing: `functioname(variable)`, where `variable` is the original value used such as `data$sf_phys0`.
+
+```{r}
+    # the function varSummary already exists, choose a different name
+    varSummary.1 <- function(x) {
+        Mean <- mean(x, na.rm = TRUE)
+        Sd <- sd(x, na.rm = TRUE)
+        summ <- c(mean = Mean, sd = Sd)
+    }
+```
+`varSummary_1` is a new function that can be used like the built-in R functions. This re-implements the function `varSummary` from the package. You can type `varSummary` in the console to compare to the actual definition of the function `varSummary`.
+
+
+## Stratifying analyses
+
+Function `by` can split an analysis by sub-groups. To illustrate the `by` function, we again use the `necosad` data. If we first develop R-code to show, for example, baseline characteristics for the whole data set, the R-code `by(data, data$therapy, function(data) { your-code }` produces separate results for each of the `therapy` groups without have to modify the code in `your-code`. The function `varSummary` can produce summaries for the full data set and can therefore automatically be used on subgroups.
+
+```{r}
+    by(data, data$therapy, function(data) {
+        rbind(phy0 = varSummary(data$sf_phys0), age = varSummary(data$age))
+    })
+```
+
+You can compare this code to the implementation of `varSummariesBy`.
+
+Baseline characteristics of categorical variable (there is only `gender`) are described by frequencies.
+You can use the following function `tableFreq <- function(x) { table(x)/sum(table(x)) }` to compute frequencies (it uses the `table` function to count levels and divides by the total). Use the `by` function to automatically get frequencies per therapy group.
+
+**fillin**:  

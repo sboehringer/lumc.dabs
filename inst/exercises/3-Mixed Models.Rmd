@@ -12,11 +12,17 @@ output:
 Fill in parts labeled as **fillin** with your own R-code and your interpretation of code/results. After finishing, created an html version of your CP using `knitr` and submit it to brightspace.
 
  - Fill in your names
- - Complete the CP. During the alotted time frame, you can get assistance while working on the questions. Solutions become available during the practical which should only be used when becoming stuck. First try to solve the questions yourself.
- - Upload your CP to brightspace. **Students working together each have to submit the identical report under their own name**. Include the R-markdown and a rendered version (pdf or html).
- - Deadline for submission is the day before the Exam
+ - After completion, upload your CP to brightspace. There are two submission lists for each assignment: early and late. For example: "Linear Regression early" and "Linear Regression late". The early list is for getting points for the CP. This list closes 30 min after the end of the CP. You always have to submit to the late list before the exam.
+- Students working together submit a **single** report per pair to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission. Make sure that both students are mentioned in the report.
+ - Deadline for early submission is 30 min after the end of the end of the CP. Only the question "Graded question" will be graded for this submission.
+ - Students working together have to **each** submit the identical report under their own name to the late list in **addition** to nay submission to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission.
+ - Deadline for submission to the late list is the day before the Exam
+ - If there is a "Learning R" section in the exercises, it is voluntary. It is meant for students following the bioinformatics track to improve R skills.
+- Make sure to choose a new working directory to work in for each CP (tutorial: https://www.youtube.com/watch?v=FT3THVQj45Q).
+- You are encouraged to use large language models during the practical to develop R-code. You have to understand the presented code. Follow up any presented code by a prompt "Please explain ..." in case you do not understand the code fully or ask for assistance.
+- During the allotted time frame, you can get assistance while working on the questions. Make sure to use this possibility.
 
-You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the tidyverse). You can also use your own functions which then have to be included into the R-markdown/submission.
+You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the *tidyverse*). You can also use your own functions which then have to be included into the R-markdown/submission.
 
 # Authors
  
@@ -31,6 +37,7 @@ You can freely use other than the suggested functions if you are already familia
 
 Learning Objectives (understand/be able to)
 
+ * Long and wide format (defintion, conversion)
  * Visualize longitudinal data (data observed over time)
  * Analyze a mixed model
  * Interpret the output (regression table, random effects table)
@@ -38,21 +45,9 @@ Learning Objectives (understand/be able to)
 
 # Introducion
 
-This CP requires to install three R packages. In R-Studio this can be done through the menu or in the console with:
+The data used in this CP is the `lxw` data containing tumor size measurements in mice. Familiarize youself with the data by loading the data with `data(lxw)` and inspecting the data dictionary `?lxw`.
 
-```{r}
-    #install.packages(c('lme4', 'reshape2', 'ggplot2'))
-```
-
-The data is contained in file `lxw.rds` and contains tumor size measurements (surface area) for several mice (`mousenr`) coming from two strains (`group`). Size measurements can be found in columns `lxw*`.
-
-# Learning R
-
-Load the data set `lxw.rds` and show the data by typing `d` in the console.
-
-```{r}
-    d <- readRDS('data/lxw.rds')
-```
+# Long and wide format
 
 This data set contains all measurements for each mouse in a single row (wide format). To analyze the data, these measurements have to be put into separate rows (long format). Package `reshape2` contains functions to change a data set between long and wide format.
 
@@ -60,9 +55,11 @@ The function `melt` changes from wide into long format.
 
 ```{r}
     library('reshape2')
+    d <- lxw
     dLong <- melt(d, c('mousenr', 'group'), c('lxw0', 'lxw2', 'lxw4', 'lxw6'), variable.name = 'time', value.name = 'tsize')
     dLong
 ```
+
 The first argument is the data set in wide format. The second argument are so-called `id.vars`, which identify the units (mice) in the data. Values of these variables are repeated for each measurement in the output data `dLong`. The third argument contains the repeated measurements on the unit (mouse). For each of these columns, a new row is created in the output data per unit. The final arguments determing column names in the output data.
 
 Check `dLong` and make sure you understand how it relates to the original data `d`.
@@ -224,32 +221,6 @@ The confidence interval does not contain 0. Therefore, the effect of `time` is s
 
 Calculate a P-value corresponding to the confidence interval. The following function reverses the steps to calculate a CI from a standard error. You can use it as a template (optional: try to understand the function).
 
-```{r}
-ci2se <- function(ci, alpha = .05) {
-	widthStdNormal <- qnorm(1 - alpha/2);              # 1.96 for alpha = 0.05
-	return((ci[, 2] - ci[, 1])/(2 * widthStdNormal))   # length of CI divided by CI-length for SE of 1
-}
-```
-
-**fillin**:  
-<div class="result">
-```{r}
-    print(ci2se(cis))
-```
-</div>
-
-The following function converts a CI into a P-value using the above function.
-
-```{r}
-# compute pnorm for vectors of q, mean, se in parallel
-Pnorm <- function(q, mean, se)mapply(pnorm, q, mean, se)
-ci2P = function(ci, alpha = .05) {
-    q <- abs(ci[, 2] + ci[, 1])/2      # half the length of the CI
-    se <- ci2se(ci, alpha)             # SE derived from CI
-	return((1 - Pnorm(q, 0, se))*2)    # probability mass that is outside of q
-}
-```
-
 Compute the P-values using the above functions and interpret the result.
 **fillin**:  
 <div class="result">
@@ -294,11 +265,11 @@ Run the model.
 </div>
 
 
-Calculate P-values and interpret your result. Also judge whether this model is to be preferred over the model from Q3 using the following criteria.
+Calculate P-values and interpret your result. Use function `ci2P` from the package to convert the confidence intervals to P-values (the result of `confint` can be used as input for `ci2P`, see `?ci2P`). Also judge whether this model is to be preferred over the model from Q3 using the following criteria.
 
 Models from Q3 and Q4 are nested, i.e. if we remove the interaction from model Q4, we get back to model Q3 (model Q4 is "larger" than Q3). In this scenario, if model Q4 explains the data better, i.e. there is a signficant reduction in the size of residuals, Q4 is the better model. In this course, we judge this by looking wether assoications have improved (P-values got smaller) or there are new associations (P-value < 0.05), when comparing the  larger model to the smaller one. There are statistical tests to compare models, i.e. compute a singel P-value, which go beyond the scope of this course.
 
-A note of caution is that models can become too large. In this case, models cannot be properly fitted (computed). Indications are warnings from the fitting functions (`lm`, `lmer`), unexpectd `NA`s in result tables, or unrealistic estimates (e.g. very large values of regression coefficients, standard errors or a residual variance close to zero). In such cases, the model is too large, i.e. overfiitting the data.
+A note of caution is that models can become too large (contain too many terms on the right-hand side of the model formula). In this case, models cannot be properly fitted (computed). Indications are warnings from the fitting functions (`lm`, `lmer`), unexpectd `NA`s in result tables, or unrealistic estimates (e.g. very large values of regression coefficients, standard errors or a residual variance close to zero). In such cases, the model is too large, i.e. overfiitting the data.
 
 **fillin**:  
 <div class="result">
@@ -409,6 +380,8 @@ Analyze the data to answer the research question from the previous question and 
   * Correlation between random effects is -0.87. This finding is compatible with a regression-to-the-mean effect
 </div>
 
+## Graded question (Q6b)
+
 Calculate P-values, report these values, and interpret your model.
 
 **fillin**:  
@@ -441,4 +414,35 @@ group2:time   2.119997 16.536243
   * The P-values for `group2`, `time` and `group2:time` are signficant at the 0.05 level.
   * This implies that groups differ at baseline (`group2`) and follow a different slope (`group2:time`).
   * The slope of group is different from zero (`time`).
+
+Grading: Correct result (5 points), correct interpretation (5 points)
 </div>
+
+# Learning R
+
+In this section, we understand how the function `ci2P` can be implemented. First, a helper function is implemented to infer the standard error of an estimate from the confidence interval (CI). For example, if the standard error is 1 and we want a `95%`-CI, we would get a CI with width (upper bound - lower bound) of `2*1.96`. We can therefore devide the with by `2*1.96` to get the standard error. The function `ci2se` performs this computation for any level of the CI.
+
+```{r}
+ci2se <- function(ci, alpha = .05) {
+	# 1.96 for alpha = 0.05
+	widthStdNormal <- qnorm(1 - alpha/2);
+	# length of CI divided by CI-length for SE of 1
+	return((ci[, 2] - ci[, 1])/(2 * widthStdNormal))
+}
+```
+The input of the function is a matrix or data frame with two columns. The computation of the width of the CI: `ci[, 2] - ci[, 1]` is automatically computed for each row of the columns resulting in a vector of the widths of the CIs. This is called vectorized computation in is applied by R whenever possible.
+
+The following function converts a CI into a P-value using the above function.
+
+```{r}
+# compute pnorm for vectors of q, mean, se in parallel
+Pnorm <- function(q, mean, se)mapply(pnorm, q, mean, se)
+ci2P = function(ci, alpha = .05) {
+    q <- abs(ci[, 2] + ci[, 1])/2      # half the length of the CI
+    se <- ci2se(ci, alpha)             # SE derived from CI
+	return((1 - Pnorm(q, 0, se))*2)    # probability mass that is outside of q
+}
+```
+
+`ci2P` fist computes the standard error and computes the probability of observing 0 or lower for the normal distribution corresponding to the estimation of the mean. The function `Pnorm` uses `mapply`. `mapply` is similar to `sapply` and `lapply`, only several lists/vectors can be iterated in parallel. Inspect the help of `?mapply` and run some examples.
+

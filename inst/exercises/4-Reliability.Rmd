@@ -12,11 +12,17 @@ output:
 Fill in parts labeled as **fillin** with your own R-code and your interpretation of code/results. After finishing, created an html version of your CP using `knitr` and submit it to brightspace.
 
  - Fill in your names
- - Complete the CP. During the alotted time frame, you can get assistance while working on the questions. Solutions become available during the practical which should only be used when becoming stuck. First try to solve the questions yourself.
- - Upload your CP to brightspace. **Students working together each have to submit the identical report under their own name**. Include the R-markdown and a rendered version (pdf or html).
- - Deadline for submission is the day before the Exam
+ - After completion, upload your CP to brightspace. There are two submission lists for each assignment: early and late. For example: "Linear Regression early" and "Linear Regression late". The early list is for getting points for the CP. This list closes 30 min after the end of the CP. You always have to submit to the late list before the exam.
+- Students working together submit a **single** report per pair to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission. Make sure that both students are mentioned in the report.
+ - Deadline for early submission is 30 min after the end of the end of the CP. Only the question "Graded question" will be graded for this submission.
+ - Students working together have to **each** submit the identical report under their own name to the late list in **addition** to nay submission to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission.
+ - Deadline for submission to the late list is the day before the Exam
+ - If there is a "Learning R" section in the exercises, it is voluntary. It is meant for students following the bioinformatics track to improve R skills.
+- Make sure to choose a new working directory to work in for each CP (tutorial: https://www.youtube.com/watch?v=FT3THVQj45Q).
+- You are encouraged to use large language models during the practical to develop R-code. You have to understand the presented code. Follow up any presented code by a prompt "Please explain ..." in case you do not understand the code fully or ask for assistance.
+- During the allotted time frame, you can get assistance while working on the questions. Make sure to use this possibility.
 
-You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the tidyverse). You can also use your own functions which then have to be included into the R-markdown/submission.
+You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the *tidyverse*). You can also use your own functions which then have to be included into the R-markdown/submission.
 
 # Authors
  
@@ -37,14 +43,12 @@ Learning Objectives (understand/be able to)
 
 # Q1: Describe and visalize the data
 
-Read the file `cortisol.rds`. The data contains multiple laboratory measurements on a number of indidviduals. Among them are repeated measurements of cortisol levels. The role of adrenocortical and corticotroph hormones in patients suffering from depression is not fully understood. To evaluate their role a clinical trial is planned, but few data are available on the reliability of measurements of these hormones for use in clinical pharmacology. In addition, these hormones can be measured in saliva and in plasma, whereby saliva measurements are easier to obtain than plasma measurements. To evaluate the reliability of saliva and plasma measurements cortisol-levels were measured in 20 healthy volunteers twice, on two consecutive days. The measurements were performed at the same time (14:00) on both occasions since cortisol levels are known to follow a 24-hour cycle. In the computer exercise, the short term stability
+Data `cortisol` contain multiple laboratory measurements on a number of indidviduals. Among them are repeated measurements of cortisol levels. The role of adrenocortical and corticotroph hormones in patients suffering from depression is not fully understood. To evaluate their role a clinical trial is planned, but few data are available on the reliability of measurements of these hormones for use in clinical pharmacology. In addition, these hormones can be measured in saliva and in plasma, whereby saliva measurements are easier to obtain than plasma measurements. To evaluate the reliability of saliva and plasma measurements cortisol-levels were measured in 20 healthy volunteers twice, on two consecutive days. The measurements were performed at the same time (14:00) on both occasions since cortisol levels are known to follow a 24-hour cycle. In the computer exercise, the short term stability
 of saliva cortisol levels is investigated. Saliva measurements are given in columns `CORT1A` and `CORT1B`. Blood levels are given in columns `CORT2A` and `CORT2B`.
 
 ```{r}
-  myPath <- 'data/cortisol.rds'   # <-- replace with your own data location
-  data <- readRDS(myPath)
-  # load ggplot2 package for plotting
-  library('ggplot2')
+  data(cortisol)
+  data <- cortisol
 ```
 
 Use the `summary` function to describe the cortisol columns and interpret your findings.

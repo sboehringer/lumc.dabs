@@ -11,7 +11,7 @@
 
 <meta name="author" content="SB, LvdB" />
 
-<meta name="date" content="2025-10-07" />
+<meta name="date" content="2025-10-13" />
 
 <title>Computer Practical - ANOVA</title>
 
@@ -1481,7 +1481,7 @@ border-radius: 0px;
 
 <h1 class="title toc-ignore">Computer Practical - ANOVA</h1>
 <h4 class="author">SB, LvdB</h4>
-<h4 class="date">2025-10-07</h4>
+<h4 class="date">2025-10-13</h4>
 
 </div>
 
@@ -1494,19 +1494,42 @@ html version of your CP using <code>knitr</code> and submit it to
 brightspace.</p>
 <ul>
 <li>Fill in your names</li>
-<li>Complete the CP. During the alotted time frame, you can get
-assistance while working on the questions. Solutions become available
-during the practical which should only be used when becoming stuck.
-First try to solve the questions yourself.</li>
-<li>Upload your CP to brightspace. <strong>Students working together
-each have to submit the identical report under their own name</strong>.
-Include the R-markdown and a rendered version (pdf or html).</li>
-<li>Deadline for submission is the day before the Exam</li>
+<li>After completion, upload your CP to brightspace. There are two
+submission lists for each assignment: early and late. For example:
+“Linear Regression early” and “Linear Regression late”. The early list
+is for getting points for the CP. This list closes 30 min after the end
+of the CP. You always have to submit to the late list before the
+exam.</li>
+<li>Students working together submit a <strong>single</strong> report
+per pair to the early list. Include the R-markdown and a rendered
+version (pdf or html) in your submission. Make sure that both students
+are mentioned in the report.</li>
+<li>Deadline for early submission is 30 min after the end of the end of
+the CP. Only the question “Graded question” will be graded for this
+submission.</li>
+<li>Students working together have to <strong>each</strong> submit the
+identical report under their own name to the late list in
+<strong>addition</strong> to nay submission to the early list. Include
+the R-markdown and a rendered version (pdf or html) in your
+submission.</li>
+<li>Deadline for submission to the late list is the day before the
+Exam</li>
+<li>If there is a “Learning R” section in the exercises, it is
+voluntary. It is meant for students following the bioinformatics track
+to improve R skills.</li>
+<li>Make sure to choose a new working directory to work in for each CP
+(tutorial: <a href="https://www.youtube.com/watch?v=FT3THVQj45Q" class="uri">https://www.youtube.com/watch?v=FT3THVQj45Q</a>).</li>
+<li>You are encouraged to use large language models during the practical
+to develop R-code. You have to understand the presented code. Follow up
+any presented code by a prompt “Please explain …” in case you do not
+understand the code fully or ask for assistance.</li>
+<li>During the allotted time frame, you can get assistance while working
+on the questions. Make sure to use this possibility.</li>
 </ul>
 <p>You can freely use other than the suggested functions if you are
 already familiar with other functions/frameworks (such as the
-tidyverse). You can also use your own functions which then have to be
-included into the R-markdown/submission.</p>
+<em>tidyverse</em>). You can also use your own functions which then have
+to be included into the R-markdown/submission.</p>
 </div>
 <div id="authors" class="section level1">
 <h1>Authors</h1>
@@ -1525,73 +1548,53 @@ included into the R-markdown/submission.</p>
 <li>Be able to perform Post-Hoc testing</li>
 </ul>
 </div>
-<div id="learning-r" class="section level1">
-<h1>Learning R</h1>
-<p>Load the data set.</p>
-<pre class="r"><code>  myPath &lt;- &#39;data/cd19.rds&#39;   # &lt;&lt;- needs to be changed
-  data &lt;- readRDS(myPath)</code></pre>
-<p>The R-function <code>sapply</code> can be used to apply a function to
-all elements of a list or vector one-by-one. The following code
-determines the types of the columns in the data set. Note, that a
-<code>data.frame</code> in R is a list of its columns, so that, for
-example, column 1 can be accessed as <code>data[[1]]</code>. Function
-<code>class</code> returns the type of an R vector.</p>
-<pre class="r"><code>  colTypes &lt;- c(class(data[[1]]), class(data[[2]]), class(data[[3]]))</code></pre>
-<p>The same can be achieved with the <code>sapply</code> function.</p>
-<pre class="r"><code>  colTypes &lt;- sapply(data, class)</code></pre>
-<p>This code will work for any data frame and is not limited to three
-columns. Note, that for <code>sapply</code> also the column names are
-retained. R can annotate each element of a vector with a name which does
-not play a role in data manipulation but increases readability.</p>
-</div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>Hematopoietic stem cell transplantation is an effective treatment in
 a variety of diagnoses, and is investigated intensively in the LUMC. One
 research line concerns injection of CD34+-cells from a donor in patients
-with, for instance, leukaemia. CD34 is a surface marker for
-hematopoietic progenitor cells which can differentiate into a variety of
-lymphoid and myeloid hematopoietic cells. The efficacy of such an
-injection can be evaluated by measuring CD19+ cells in bone marrow which
-represent newly differentiated B-cells. CD19 is a cell-surface protein
-present on normal and neoplastic B-cells.</p>
+with, for instance, leukemia. CD34 is a surface marker for hematopoietic
+progenitor cells which can differentiate into a variety of lymphoid and
+myeloid hematopoietic cells. The efficacy of such an injection can be
+evaluated by measuring CD19+ cells in bone marrow which represent newly
+differentiated B-cells. CD19 is a cell-surface protein present on normal
+and neoplastic B-cells.</p>
 <p>In a biomedical experiment the goal is to evaluate (1) the
 dose-effect relationship between injection of CD34+ cells and the
-engraftment, as measured by the percentage of CD19+ cells, and (2) the
-difference in dose-effect between injecting CD34+ cells from umbilical
-cord blood (UCB), bone marrow (BM) or mobilized peripheral blood (mPB).
-A number of mice were injected with varying doses of CD34+ cells from
-UCB, BM or mPB, and in each animal the engraftment was evaluated by
-measuring the percentage CD19+ cells in bone marrow of these animals.
-The data of this experiment were collected and are given in the file
-<code>cd19.rds</code>.</p>
+engraftment, as measured by the concentration of CD19+ cells, and (2)
+the difference in dose-effect between injecting CD34+ cells from
+umbilical cord blood (UCB), bone marrow (BM) or mobilized peripheral
+blood (mPB). A number of mice were injected with varying doses of CD34+
+cells from UCB, BM or mPB, and in each animal the engraftment was
+evaluated by measuring the concentration CD19+ cells in bone marrow of
+these animals.</p>
 <div id="q1-describe-the-data" class="section level2">
 <h2>Q1: Describe the data</h2>
-<p>Read the data with <code>data &lt;- readRDS(&#39;cd19.rds&#39;)</code>.
-Determine the data types of the columns of the data frame.</p>
+<pre class="r"><code>  data(cd19)
+  data &lt;- cd19</code></pre>
+<p>Determine the levels of the factors. Use the data dictionary to find
+out which variables are categorical variables (<code>?cd19</code>). Use
+function <code>levels</code> on factor columns.</p>
 <p><strong>fillin</strong>:</p>
-<p>Determine the levels of the factors. Use function <code>levels</code>
-on factor columns.</p>
-<p><strong>fillin</strong>:</p>
-<p>How many animals are available for each factor level? Use function
-<code>table</code> on each factor column.</p>
-<p>Number of animals per level: <strong>fillin</strong>:</p>
 <p>How many animals are available for each combination of factor levels?
 Use function <code>table</code> on the data frame with the two factor
 columns.</p>
-<p>Number of animals per level: <strong>fillin</strong>:</p>
+<p>Number of animals per level:</p>
+<p><strong>fillin</strong>:</p>
 </div>
-<div id="q2-distribution-of-percentage-cd19-cells" class="section level2">
-<h2>Q2: Distribution of percentage CD19+ cells</h2>
-<p>Plot a histogram of the percentage column.</p>
-<p>Histogram: <strong>fillin</strong>:</p>
+<div id="q2-distribution-concentration-cd19" class="section level2">
+<h2>Q2: Distribution concentration CD19+</h2>
+<p>Plot a histogram of the concentration column of CD19+ cells.</p>
+<p>Histogram:</p>
+<p><strong>fillin</strong>:</p>
 <p>Calculate mean, median and standard deviation.</p>
 <p><strong>fillin</strong>:</p>
-<p>Is the variable <code>cd19</code> approximately normally distributed?
-<strong>fillin</strong>:</p>
+<p>Is the variable <code>cd19</code> approximately normally
+distributed?</p>
+<p><strong>fillin</strong>:</p>
 </div>
-<div id="q3-transofrmations" class="section level2">
-<h2>Q3: Transofrmations</h2>
+<div id="q3-transformations" class="section level2">
+<h2>Q3: Transformations</h2>
 <p>Investigate transformations of cd19. Use the <code>log</code>
 function to transform the data and plot the histogram. Calculate mean,
 median and standard deviation.</p>
@@ -1642,12 +1645,11 @@ for <code>dose</code>.</p>
 </div>
 <div id="q5-two-way-anova-with-interaction" class="section level2">
 <h2>Q5: Two-way ANOVA with interaction</h2>
-<p>Conduct a two-way ANOVA for both factors. Include an interaction und
+<p>Conduct a two-way ANOVA for both factors. Include an interaction and
 interpret your results. In R, interactions are specified using a
 <code>*</code> instead of a <code>+</code>. The <code>*</code> implies
 that both factors are still included together with the interaction.
-Here, the forumula has to be
-<code>sqrt(cd19) ~ source * dose</code>.</p>
+Here, the formula has to be <code>sqrt(cd19) ~ source * dose</code>.</p>
 <p><strong>fillin</strong>:</p>
 <p>Interpretation <strong>fillin</strong>:</p>
 </div>
@@ -1704,8 +1706,8 @@ by repeating the line above (for the square root transformation).</p>
 Make sure, you understand why the correction is necessary.</p>
 <p><strong>fillin</strong>:</p>
 </div>
-<div id="q8-assumptions" class="section level2">
-<h2>Q8 Assumptions</h2>
+<div id="graded-question-assumptions" class="section level2">
+<h2>Graded Question: Assumptions</h2>
 <p>Summarize the assumptions that underlie the two-way ANOVA analysis,
 and check whether they are fullfilled in the current data analysis.</p>
 <p><strong>fillin</strong>:</p>
@@ -1718,6 +1720,44 @@ in Patrie and Sabin).</p>
 such as <code>aov(cd19t ~ source * dose, data)</code>. Draw a
 conclusion.</p>
 <p><strong>fillin</strong>:</p>
+</div>
+</div>
+<div id="learning-r" class="section level1">
+<h1>Learning R</h1>
+<p>At the beginning of the exercise, you had to find out which columns
+of the <code>cd19</code> data set were factors by consulting the data
+dictionary. Here, we introduce functions <code>sapply</code> and
+<code>lapply</code> that allow to determine these levels
+automatically.</p>
+<p>The R-function <code>sapply</code> can be used to apply a function to
+all elements of a list or vector one-by-one. The following code
+determines the types of the columns in the data set. Note, that a
+<code>data.frame</code> in R is a list of its columns, so that, for
+example, column 1 can be accessed as <code>data[[1]]</code>. Function
+<code>class</code> returns the type of an R object
+(list/vector/etc.).</p>
+<pre class="r"><code>  colTypes &lt;- c(class(data[[1]]), class(data[[2]]), class(data[[3]]))</code></pre>
+<p>The same can be achieved with the <code>sapply</code> function.</p>
+<pre class="r"><code>  colTypes &lt;- sapply(data, class)</code></pre>
+<p>This code will work for any data frame and is not limited to three
+columns. Note, that for <code>sapply</code> also the column names are
+retained. R can annotate each element of a vector with a name which does
+not play a role in data manipulation but increases readability.</p>
+<p><code>lapply</code> is very similar to <code>sapply</code>. It
+returns a <code>list</code> and can therefore construct more complex
+return values (for example the differnt levels per column).</p>
+<p>The function <code>which</code> converts a logical vector (a vector
+containing TRUE/FALSE values) into the positions where a TRUE value is
+found.</p>
+<p><code>lapply</code> and <code>which</code> are combined to list the
+factor levels of all factors in a data set. Use an LLM to get a detailed
+explanation of the code.</p>
+<pre class="r"><code>  lapply(which(sapply(data, class) == &#39;factor&#39;), function(i)levels(data[[i]]))</code></pre>
+<pre><code>## $dose
+## [1] &quot;0.10&quot; &quot;0.5&quot;  &quot;1.0&quot;  &quot;2.0&quot; 
+## 
+## $source
+## [1] &quot;UCB&quot; &quot;BM&quot;  &quot;mPB&quot;</code></pre>
 </div>
 </div>
 
