@@ -119,10 +119,10 @@
 #'   \item{time}{Time of follow-up (unit days).}
 #'   \item{death}{Survival status at the end of follow-up: death (death=1) or alive (death=0).}
 #'	 \item{karn}{Karnovsky-index (KI) at the start of treatment. KI is a measure of overall health of the patient, higher is better. The original scale is a dimensionless number between 0 and 100. This variable has been recoded by `min(6, ceiling(KI/10))`, i.e. to scale from 6 to 10, dividing by 10 and using a minimum of 6.}
-#'	  \item{diam}{Score for the diameter of the tumor, defined as follows: 0 ≡ < 1cm, 1 ≡ 1-2cm, 2 ≡ 2-5cm, 3 ≡ > 5cm.}
-#' 	  \item{figo}{FIGO status for the invasion of the tumor, either III (`figo` = 0) or IV( `figo` = 1).
-#'	  \item{ascites}{Ascites status: 0 ≡ "unknown", 1 ≡ "absent", 2 ≡ "present".}
-#'	  \item{broders}{Border's score to tumor differentiation: 0 ≡ 'unknonw', 1 ≡ Grade I (Well-Differentiated), 2 ≡ Grade II (Moderately Differentiated), 3 ≡ Grade III (Poorly Differentiated), 4 ≡ Grade IV (Undifferentiated).}
+#'	  \item{diam}{Score for the diameter of the tumor, defined as follows: 0 ≡ < 1cm, 1 ≡ 1-2cm, 2 ≡ 2-5cm, 3 ≡ > 5cm. This score is treated as a continuous variable.}
+#' 	  \item{figo}{FIGO status for invasiveness of the tumor. Levels: III, IV.}
+#'	  \item{ascites}{Ascites status, Levels: : unknown, absent, present.}
+#'	  \item{broders}{Border's score to tumor differentiation. Levels: unknown, well ≡ Grade I (Well-Differentiated), moderate ≡ Grade II (Moderately Differentiated), poor ≡ Grade III (Poorly Differentiated), undiff ≡ Grade IV (Undifferentiated).}
 #' }
 #' @source BDS department at the LUMC, The Netherlands
 #' @docType data
