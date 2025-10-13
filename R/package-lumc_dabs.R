@@ -22,7 +22,8 @@ packageDefinition = list(
 		suggests = c(),
 		depends = c('openssl', 'crosstable', 'ggplot2', 'lme4', 'car', 'knitr', 'reshape2', 'tibble', 'survival'),
 		license = 'LGPL',
-		news = "2025.26.0	Development of year 2025/26\n2025.26.1	1st github push\nn2025.26.2	complete CPs\n"
+		news = "2025.26.0	Development of year 2025/26\n2025.26.1	1st github push\n2025.26.2	complete CPs\n",
+		version = '2025.26.2'
 	),
 	git = list(
 		readme = '# Design and Analysis of Biomedical Studies
