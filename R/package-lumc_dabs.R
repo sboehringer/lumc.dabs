@@ -48,6 +48,6 @@ Please file issues on [github](https://github.com/sboehringer/lumc.dabs) if you 
 		push = F,
 		pushOnNewVersion = T,
 		#remote = 'https://github.com/sboehringer/plausibility.git'
-		remote = 'git@github.com:sboehringer/lumc_dabs.git'
+		remote = 'git@github.com:sboehringer/lumc.dabs.git'
 	)
 );
