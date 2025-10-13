@@ -107,3 +107,25 @@
 #' @docType data
 #' @name cortisol
 "cortisol"
+
+#' @title Ovarian cancer data set
+#'
+#' @description
+#' Data set with information about patients suffering from advanced ovarian cancer, all of which are treated with a similar type of chemotherapy. All patients have been followed for at least 4 years since the start of treatment.
+#'
+#' @format The 'ova' data frame has 359 rows and 8 columns:
+#' \describe{
+#'   \item{surv}{Survival status after precisely 4 years of follow-up: death (surv=0) or alive (surv=1).}
+#'   \item{time}{Time of follow-up (unit days).}
+#'   \item{death}{Survival status at the end of follow-up: death (death=1) or alive (death=0).}
+#'	 \item{karn}{Karnovsky-index (KI) at the start of treatment. KI is a measure of overall health of the patient, higher is better. The original scale is a dimensionless number between 0 and 100. This variable has been recoded by `min(6, ceiling(KI/10))`, i.e. to scale from 6 to 10, dividing by 10 and using a minimum of 6.}
+#'	  \item{diam}{Score for the diameter of the tumor, defined as follows: 0 ≡ < 1cm, 1 ≡ 1-2cm, 2 ≡ 2-5cm, 3 ≡ > 5cm.}
+#' 	  \item{figo}{FIGO status for the invasion of the tumor, either III (`figo` = 0) or IV( `figo` = 1).
+#'	  \item{ascites}{Ascites status: 0 ≡ "unknown", 1 ≡ "absent", 2 ≡ "present".}
+#'	  \item{broders}{Border's score to tumor differentiation: 0 ≡ 'unknonw', 1 ≡ Grade I (Well-Differentiated), 2 ≡ Grade II (Moderately Differentiated), 3 ≡ Grade III (Poorly Differentiated), 4 ≡ Grade IV (Undifferentiated).}
+#' }
+#' @source BDS department at the LUMC, The Netherlands
+#' @docType data
+#' @name ova
+"ova"
+

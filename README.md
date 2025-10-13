@@ -1,6 +1,6 @@
 # Design and Analysis of Biomedical Studies
 
-R package for the course "Design and Analysis of Biomedical Studies" at the LUMC, Leiden, The Netherlands
+R package for the course "Design and Analysis of Biomedical Studies" at the LUMC, Leiden, The Netherlands. Academic year 2025/26.
 
 # Install
 
