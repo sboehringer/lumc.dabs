@@ -119,7 +119,7 @@
 #'   \item{time}{Time of follow-up (unit days).}
 #'   \item{death}{Survival status at the end of follow-up: death (death=1) or alive (death=0).}
 #'	 \item{karn}{Karnovsky-index (KI) at the start of treatment. KI is a measure of overall health of the patient, higher is better. The original scale is a dimensionless number between 0 and 100. This variable has been recoded by `min(6, ceiling(KI/10))`, i.e. to scale from 6 to 10, dividing by 10 and using a minimum of 6.}
-#'	  \item{diam}{Score for the diameter of the tumor, defined as follows: 0 ≡ < 1cm, 1 ≡ 1-2cm, 2 ≡ 2-5cm, 3 ≡ > 5cm. This score is treated as a continuous variable.}
+#'	  \item{diam}{Score for the diameter of the tumor, defined as follows: 0 ≡ < 1cm, 1 ≡ 1-2cm, 2 ≡ 2-5cm, 3 ≡ 5-19cm, 4 ≡ >= 10 cm. This score is treated as a continuous variable. Upper limit is exclusie, i.e. the diameter is greater or equal to 1 and smaller than 2 for score 1.}
 #' 	  \item{figo}{FIGO status for invasiveness of the tumor. Levels: III, IV.}
 #'	  \item{ascites}{Ascites status, Levels: : unknown, absent, present.}
 #'	  \item{broders}{Border's score to tumor differentiation. Levels: unknown, well ≡ Grade I (Well-Differentiated), moderate ≡ Grade II (Moderately Differentiated), poor ≡ Grade III (Poorly Differentiated), undiff ≡ Grade IV (Undifferentiated).}
