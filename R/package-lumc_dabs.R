@@ -5,7 +5,7 @@
 packageDefinition = list(
 	name = 'lumc.dabs',
 	files = c(
-		qw('dabs_data.R io.R dabsFunctions.R'),
+		qw('dabs_data.R io.R dabsFunctions.R reexport.R'),
 		qw('Rmeta.R Rdata.R Rsystem.R Rfunctions.R RsystemExt.R')
 	),
 	data = c('~/Documents/Lehre/BW/Material/CPs\ DABS\ R/data/.*[.](rds|sav)'),
