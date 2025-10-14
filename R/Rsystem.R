@@ -963,7 +963,7 @@ Install_local_archive = function(path, ..., tarDir = tempdir(), buildVignettes =
 Install_local = function(path, ..., tarDir = tempdir(), buildVignettes = TRUE, useArchive = FALSE) {
 	if (useArchive)
 		Install_local_archive(path, ..., tarDir = tarDir, buildVignettes = buildVignettes) else
-		devtools::install(path, build_vignettes = buildVignettes);
+		devtools::install(path, build_vignettes = buildVignettes, upgrade = "never");
 }
 
 #
