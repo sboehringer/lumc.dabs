@@ -249,8 +249,15 @@ Source = function(file, ...,
 	sapply(file, SourceSingle, ..., locations = locations, envir = envir, sourceCollect = sourceCollect)
 }
 
-firstSystemFile = function(prefix, exts, package, all = FALSE) {
+firstSystemFile = function(prefix, exts, package, all = FALSE, ws = NULL) {
 	files = sapply(exts, system.file(package = package) %.% (Sprintf('%{prefix}s.%{.}s')));
+	# also look for white-space removed files
+	if (notE(ws)) {
+		files = c(files, sapply(exts,
+			system.file(package = package) %.% (Sprintf('%{prefix}s.%{.}s'))
+			%.% (pathReplace(ws = ws))
+		))
+	}
 	return(if (all) filterListNonEmpty(files) else firstNonEmpty(files));
 }
 

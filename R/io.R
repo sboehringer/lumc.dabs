@@ -6,7 +6,7 @@
 
 
 writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrite = FALSE, key = NULL, all = FALSE, createFolder = TRUE) {
-	path = firstSystemFile(name, exts, package = 'lumc.dabs', all = all);
+	path = firstSystemFile(name, exts, package = 'lumc.dabs', all = all, ws = '-');
 	if (is.null(path)) stop(Sprintf('[writePackageFile] Error not found: name=%{names}s'));
 	if (createFolder && !file.exists(folder)) dir.create(folder);
 	if (notE(key)) {
