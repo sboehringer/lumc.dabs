@@ -1,0 +1,170 @@
+---
+title: "SSA 4 Mixed models"
+author: SB, LdW, RdM
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The objective of this exercise is to clarify the relation between the paired samples t-test and mixed models.
+
+# Data
+The data set `tusi` contains measurements of tumor size of 20 cancer patients before and after chemotherapy. The objective of chemotherapy (CT) is to decrease the tumor size.
+
+```{r}
+  data(tusi)
+  data <- tusi
+```
+
+
+# Exercise 1: Descriptive analysis
+## a
+Calculate the means and standard deviations of the tumor sizes before and after CT. 
+
+**fillin**:  
+<div class="answer">
+```{r}
+  rbind(
+    meas0 = c(mean = mean(data$size0), sd = sd(data$size0)),
+    meas1 = c(mean = mean(data$size1), sd = sd(data$size1))
+  )
+```
+</div>
+
+## b
+Calculate for each individual the decrease in tumor size. Calculate the mean and standard deviation of this difference. Interpret your finding.
+
+**fillin**:  
+<div class="answer">
+```{r}
+  diff <- data$size1 - data$size0
+  rbind(diff = c(mean = mean(diff), sd = sd(diff)))
+```
+
+The standard deviation of the difference is smaller than the standard deviations of the individual measurements. This is expected as the difference cancels out ideally all patient specific charecteristics.
+</div>
+
+
+
+# Exercise 2: T-test
+
+We are going to use the paired samples t-test to test the hypothesis that the mean tumor size is unchanged by CT. Read the documentation of the R-function `t.test` to make sure you use the correct options for performing a paired test.
+
+Why are we using the paired samples t-test? Write down the null hypothesis and the alternative hypothesis of this test.
+
+**fillin**:  
+<div class="answer">
+The paired t-test has to be used as every patient is measured twice, i.e. the measurements that are compared are measured as pairs within each patient.
+
+If we call the expected value for the first measurement $\mu_0$ and the the expected value for the second measurement $\mu_1$, the null hypothesis is $\mu_0 = \mu_1$. The alternative hypothesis is $\mu_0 \neq \mu_1$.
+
+</div>
+
+
+# Exercise 3: T-test
+
+Perform the test. What is your conclusion?
+
+**fillin**:  
+<div class="answer">
+```{r}
+  t.test(data$size0, data$size1, paired = TRUE)
+```
+The P-value is ≈ $5 \times 10^{-5}$ which is statistically highly significant. The epexted tumor size is smaller at the second time point.
+</div>
+
+
+# Exercise 4: Mixed model
+
+Let us formulate a mixed model that tests the same null hypothesis as the paired t-test. Let $y_{ij}$  denote the tumor size of patient $i$ at time $j$ (0 or 1). The mean tumor size across all patients at first time point is $\mu$, the random intercept per patient is $i$, and $t_{ij}$ is a dummy variable that indicates whether for patient $i$, the second measurement is taken, i.e. for each patient once $t_{ij}$ is zero and once $1$.
+
+$$ y_{ij} = \mu + p_{i} + \beta t_{ij} + \epsilon_{ij} $$
+
+Explain the meaning of all the terms in the mixed model equation.
+
+**fillin**:  
+<div class="answer">
+
+The outcome (tumor size) measurements are denoted with $y_{ij}$ as described above. $\mu$ is the overall average tumor size as alreaady described. $p_{i}$ is the person intercept, i.e. is the difference of the average tumor size of patient - as revealed by mulitple measurement - with the overall average $\mu$. Taken together, the values $p_{i}$ are independent and follow a normal distributions with mean 0 and variance $\tau^{2}$. This variance is calculated as part of applying (fitting) the model. The parameter $\beta$ expresses the difference in average tumor size before and after treatment. Finally, the $\epsilon_{ij}$ terms represent residuals. They are independent and follow a normal distribution with mean 0 and variance $\sigma^{2}$. Again, this variance is estimated when the model is fitted.
+</div>
+
+
+# Exercise 5: Performing the Mixed Model
+## a
+The next step is to perform a mixed model analysis in order to compare with the paired t-test. In order to do this we need to restructure our data in long format. Use the function `melt` from the `reshape2` pacakge as you did in the mixed model CP.
+
+**fillin**:  
+<div class="answer">
+```{r}
+    library('reshape2')
+    dLong <- melt(data, c('patid'), c('size0', 'size1'), variable.name = 'time', value.name = 'tsize')
+```
+</div>
+
+## b
+Perform a mixed model analysis with time (before or after CT) as fixed effect and with random person effects (random intercept). Use the `lmer` function for pacakage `lme4` as in the CP mixed modles. Use the function `confint` to get the input for `ci2P`.
+
+**fillin**:  
+<div class="answer">
+```{r}
+  library(lme4)
+  lmr <- lmer(tsize ~ time + (1|patid), dLong)
+  summary(lmr)
+```
+</div>
+
+What is the variance of the random intercept?
+
+**fillin**:  
+<div class="answer">
+```{r}
+242.77
+```
+</div>
+
+# Exercise 6: Interpret the Mixed Model
+Look up the estimates of the variances $\sigma^{2}$ and $\tau^{2}$ of the error terms and the random patient effect. What is the ICC for the random effect patient? Is there large inter-patient variabliity?
+
+**fillin**:  
+<div class="answer">
+ICC
+```{r}
+242.77 / (242.77 + 52.05)
+```
+
+Variability: A high ICC indicates high inter-patient (cluster) variabiligy, i.e. patients (clusters) are different from each other. Values of the ICC above .7 ca be seen as large values.
+</div>
+
+Calculate the P-value for variable `time` using functions `confint` and `ci2P` as done in the CP.
+
+**fillin**:  
+<div class="answer">
+```{r}
+  cis <- confint(lmr, method = 'Wald')
+  ci2P(cis)
+```
+The P-value is $1.8 \times 10^{-7}$
+</div>
+
+
+# Exercise 7: Comparison
+
+Compare your results from the mixed model to the results from the paired t-test. Draw conclusions.
+
+**fillin**:  
+<div class="answer">
+The effect size estimated for the difference is identical for the two models (-11.9). The P-values differ ($1.8 \times 10^{-7}$ vs. $5 \times 10^{-5}$ but are both highly significant. A difference is expected as the assumptions made by the paired t-test are different from the mixed model.
+</div>
+
+The paired samples t-test and mixed models analysis give similar result. Discuss situations when you cannot use a paired t-test but have to use a mixed model.
+
+**fillin**:  
+<div class="answer">
+Most notably, the paired t-test cannot handle additional covariates. If additional correction for age or sex would be required in the model, a paired t-test cannot be used.
+</div>

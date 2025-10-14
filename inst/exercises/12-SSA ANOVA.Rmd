@@ -1,0 +1,140 @@
+---
+title: "SSA 3 ANOVA"
+author: SB, LdW, RdM
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+This example documents the effect of efficiency gain (better P-values) by adding a factor to an ANOVA. Experimental data is analyzed. Blood glucose is measured (`outcome`), the experiment is blocked by sex (`sex`) and there are two randomization groups (`rand`).
+
+# Data
+```{r}
+data(blockedcrt)
+data <- blockedcrt
+```
+
+
+# Question 1 (illustration)
+## a
+Visualize the outcome for the two different randomization groups.
+
+**fillin**: 
+<div class="answer">
+```{r}
+ggplot(data, mapping = aes(x = rand, y = outcome)) + 
+  geom_boxplot()
+```
+</div>
+
+## b
+Visualize the outcome for the two different sex groups.
+
+**fillin**: 
+<div class="answer">
+```{r}
+ggplot(data, mapping = aes(x = sex, y = outcome)) + 
+  geom_boxplot()
+```
+</div>
+
+
+# Question 2 (one-way ANOVA)
+## a
+Conduct a one-way ANOVA for the variable `rand`, use the function `aov`.
+
+**fillin**: 
+<div class="answer">
+```{r}
+summary(aov(outcome ~ rand, data))
+```
+</div>
+
+## b
+Perform a post-hoc analysis for rand. A post-hoc analysis identifies which particular levels of a factor actually differ from each other. This can be done by performing pair-wise t-tests. What is your interpretation?
+
+**fillin**: 
+<div class="answer">
+```{r}
+t.test(outcome ~ rand, data)
+```
+
+It is also possible to analyze the same comparison using a linear regression, which is equivalent.
+```{r}
+summary(lm(outcome ~ rand, data))
+```
+</div>
+
+
+# Question 3
+## a
+
+**fillin**:
+<div class="answer">
+```{r}
+summary(aov(outcome ~ rand + sex, data))
+```
+
+Factor `rand` is now significant. The correspond linear regression show roughly the same regression coefficient as in the previous analysis (2.3). Factor sex is highly significant. An important difference is that this second analysis shows a lower P-value for rand. The explanation is that variable sex explains a large part of the total variation, making the comparison of the randomization groups is now more efficient.
+</div>
+
+
+## b
+Perform a post-hoc analysis for factor rand and sex. What is your interpretation?
+
+**fillin**:
+<div class="answer">
+```{r}
+summary(lm(outcome ~ rand + sex, data))
+```
+</div>
+
+
+# Question 4
+In an experiment a so-called power balance band ([https://youtu.be/6gIMxjr3n5U](https://youtu.be/6gIMxjr3n5U)) was tested with three tests (strength: abduction, balance: balance on a ball, flexibility: stretching). We are only going to look at a few variables, for one of them (LengthTertiles) some changes have to be made, see below.
+
+```{r}
+data(powerband)
+dataset <- powerband
+
+dataset$LengthTertiles = factor(dataset$LengthTertiles)
+dataset$LengthTertiles[which(dataset$LengthTertiles == 1)] = NA
+```
+
+## a
+Analyze the dataset with a two-way ANOVA. Use the variable abductie11 (first abduction strength measurement) as your outcome. Use `LengthTertiles` (body height devided into three categories) and sex (`Sex`) as factors in your ANOVA. Which factors have a significant influence?
+
+**fillin**:
+<div class="answer">
+```{r}
+summary(aov(abductie11 ~ LengthTertiles + Sex, dataset))
+```
+Sex has a significant effect, length (in tertiles, LengthTertiles) has no significant effect.
+</div>
+
+## b
+Add an interaction between `LengthTertiles` and `Sex`, repeat the analysis. What are the degree of freedoms for the interaction? Why do you see this number?
+
+**fillin**:
+<div class="answer">
+```{r}
+summary(aov(abductie11 ~ LengthTertiles * Sex, dataset))
+```
+The factor `LengthTertiles` has three possible values (groups). One of the groups is the reference group with which the other two groups are compared. This number (2) is the degrees of freedom.
+</div>
+
+
+## c
+Is the interaction significant? What is your interpretation?
+
+**fillin**:
+<div class="answer">
+Now `LengthTertiles`, `Sex` and the interaction are all significant. The interaction means that the effect of length on abduction strength is different between men and women. The fact that length is now significant means that before accounting for the interaction a common effect for both sexes had to be estimated, being inaccurate for both sexes as we now know that there is an interaction. Using the interaction now "allows" the model to detect the effect of length (the mean square of LengthTertiles is now much bigger implying that this factor now explains more of the variability in the data).
+</div>
