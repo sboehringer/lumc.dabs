@@ -1,7 +1,7 @@
 Package: lumc.dabs
 Type: Package
 Title: DABS Course Package
-Version: 2025.26.2
+Version: 2025.26.3
 Date: 2025-10-14
 Author: Stefan Böhringer <r-packages@s-boehringer.org>
 Maintainer: Stefan Böhringer <r-packages@s-boehringer.org>

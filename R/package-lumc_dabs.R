@@ -22,8 +22,8 @@ packageDefinition = list(
 		suggests = c(),
 		depends = c('openssl', 'ggplot2', 'lme4', 'car', 'knitr', 'reshape2', 'tibble', 'survival'),
 		license = 'LGPL',
-		news = "2025.26.0	Development of year 2025/26\n2025.26.1	1st github push\n2025.26.2	complete CPs\n",
-		version = '2025.26.2',
+		news = "2025.26.0	Development of year 2025/26\n2025.26.1	1st github push\n2025.26.2	complete CPs\n2025.26.3	vignette and workflow\n",
+		version = '2025.26.3',
 		vignettes = "vignettes/lumc.dabs.Rmd"
 	),
 	git = list(
