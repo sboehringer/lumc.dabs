@@ -172,12 +172,12 @@
 #' @title Birthweight data
 #'
 #' @description
-#' Data with categorical birthweight and sex.
-#''
-#' @format The 'breath' data frame has 1552 rows and 2 columns:
+#' Data with categorical birthweight of babies from Malawi.
+#'
+#' @format The 'birthweight' data frame has 1552 rows and 2 columns:
 #' \describe{
 #'   \item{sex}{Biological sex.}
-#'   \item{lbw}{Categorical birthweight. Levels: low, normal.}
+#'   \item{lbw}{Categorical birthweight. Low birthweight (LBW) is defined as a birth weight below 2500 grams. Levels: low, normal.}
 #' }
 #' @source BDS department at the LUMC, The Netherlands
 #' @docType data

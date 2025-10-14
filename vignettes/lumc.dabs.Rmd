@@ -63,3 +63,9 @@ For example, for linear regression:
 ```
 
 This function will create a subfolder 'solutions' (if not present) and write the file  "2-Linear Regression.html".
+
+# General disclaimer
+
+Data in this package is solely menat for educational purposes. They are partially derived from read data and partially simulated. When real data is used, it is always a modified subset of the original data to preserve data privacy. Under no circumstance should you derive biological or medical conclusions to be put forward for use in a clinical or research setting.
+
+If you want re-use data contained in this package, you have to make proper reference to this package and include this disclaimer in any derived work.

@@ -10,7 +10,6 @@ License: LGPL
 Encoding: UTF-8
 Depends: 
     openssl,
-    crosstable,
     ggplot2,
     lme4,
     car,

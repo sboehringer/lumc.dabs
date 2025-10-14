@@ -5,10 +5,10 @@
 \alias{birthweight}
 \title{Birthweight data}
 \format{
-The 'breath' data frame has 1552 rows and 2 columns:
+The 'birthweight' data frame has 1552 rows and 2 columns:
 \describe{
   \item{sex}{Biological sex.}
-  \item{lbw}{Categorical birthweight. Levels: low, normal.}
+  \item{lbw}{Categorical birthweight. Low birthweight (LBW) is defined as a birth weight below 2500 grams. Levels: low, normal.}
 }
 }
 \source{
@@ -18,7 +18,6 @@ BDS department at the LUMC, The Netherlands
 birthweight
 }
 \description{
-Data with categorical birthweight and sex.
-'
+Data with categorical birthweight of babies from Malawi.
 }
 \keyword{datasets}
