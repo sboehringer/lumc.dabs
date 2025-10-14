@@ -945,8 +945,7 @@ hashStringContent = function(path, type = 'sha256', length = 64,..., logLevel = 
 
 clearWarnings = function()assign('last.warning', NULL, envir = baseenv())
 
-# fix broken install from dir: create tarball -> install_local
-Install_local = function(path, ..., tarDir = tempdir(), buildVignettes = True) {
+Install_local_archive = function(path, ..., tarDir = tempdir(), buildVignettes = True) {
 	sp = splitPath(path);
 	pkgPath = Sprintf('%{tarDir}s/%{base}s.tar.gz', sp);
 	# dir component is containing folder
@@ -957,8 +956,14 @@ Install_local = function(path, ..., tarDir = tempdir(), buildVignettes = True) {
 	#libLocation = if (is.null(lib)) 'default location' else lib;
 	#LogS(4, 'Installing to lib:%{libLocation}s');
 	#print(Sprintf('Installing to lib:%{libLocation}s'));
-	#install_local(pkgPath, ...);
-	devtools::install(pkgPath, build_vignettes = buildVignettes)
+	install_local(pkgPath, ...);
+}
+
+# fix broken install from dir: create tarball -> install_local
+Install_local = function(path, ..., tarDir = tempdir(), buildVignettes = True, useArchive = FALSE) {
+	if (useArchive)
+		Install_local_archive(path, ..., tarDir = tarDir, buildVignettes = buildVignettes) else
+		devtools::install(path, build_vignettes = buildVignettes);
 }
 
 #
