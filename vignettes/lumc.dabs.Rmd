@@ -14,8 +14,14 @@ file: lumc.dabs.Rmd
 This documentation can be accessed after installation with
 ```
 	library('lumc.dabs')
-	vignette('lumc.dabas')
+	vignette('lumc.dabs')
 ```
+
+# General disclaimer and data sharing
+
+Data in this package is solely meant for educational purposes. They are partially derived from real data and partially simulated. When real data is used, it is always a modified subset of the original data to preserve data privacy. Under no circumstance should you derive biological or medical conclusions to be put forward for use in a clinical or research setting.
+
+If you want to re-use data contained in this package, you have to make proper reference to this package and include this disclaimer in any derived work.
 
 # Installation
 
@@ -31,7 +37,7 @@ For installation, run the following in the R command line.
 
 # Purpose of the package
 
-This is the accompanying R package for the course "Design and Analysis of Biomedical Studies" as tought at the Leiden University Medical Center, Leiden, The Netherlands in the program "Biomedische Wetenschappen".
+This is the accompanying R package for the course "Design and Analysis of Biomedical Studies" as taught at the Leiden University Medical Center, Leiden, The Netherlands in the program "Biomedische Wetenschappen".
 This package contains all data sets, exercises, self-study assignments, and solutions used during the course.
 
 # Other prerequisites for using the package
@@ -55,25 +61,20 @@ After selecting the correct CP. You can write an exercise template into your cur
 For example, for the linear regression CP, you would use
 
 ```
-	writeExercise("1-Linear Regression")
+	writeExercise("01-Linear Regression")
 ```
 
-Use `list.files()` to inspect the current folder which now contains the file `1-Linear Regression.Rmd`. Open this file using the file menu of R-studio. The file contains instructions how to perform the practical. Use the `knit` option in R to produce an html file for submission (submit both, your Rmd and your html file).
+Use `list.files()` to inspect the current folder which now contains the file `01-Linear Regression.Rmd`. Open this file using the file menu of R-studio. The file contains instructions how to perform the practical. Use the `knit` option in R to produce an html file for submission (submit both, your Rmd and your html file).
 
 # Getting the solutions
 
-30 min after the end of each CP, solutions will be become available in the form of a key on the course website. This key can be used to get the solutions of the CP using function `writeSolution`. The key is a number provided in quotes (as a character string), for example "198867".
+30 min after the end of each CP, solutions will become available in the form of a key on the course website. This key can be used to get the solutions of the CP using function `writeSolution`. The key is a number provided in quotes (as a character string), for example "198867".
 
 For example, for linear regression:
 
 ```
-	writeSolution("1-Linear Regression", "198867")
+	writeSolution("01-Linear Regression", "198867")
 ```
 
-This function will create a subfolder 'solutions' (if not present) and write the file  "2-Linear Regression.html".
+This function will create a sub-folder 'solution' (if not present) and write the files  "01-Linear Regression.Rmd" and "01-Linear-Regression.html" into it.
 
-# General disclaimer
-
-Data in this package is solely menat for educational purposes. They are partially derived from read data and partially simulated. When real data is used, it is always a modified subset of the original data to preserve data privacy. Under no circumstance should you derive biological or medical conclusions to be put forward for use in a clinical or research setting.
-
-If you want re-use data contained in this package, you have to make proper reference to this package and include this disclaimer in any derived work.
