@@ -945,7 +945,7 @@ hashStringContent = function(path, type = 'sha256', length = 64,..., logLevel = 
 
 clearWarnings = function()assign('last.warning', NULL, envir = baseenv())
 
-Install_local_archive = function(path, ..., tarDir = tempdir(), buildVignettes = True) {
+Install_local_archive = function(path, ..., tarDir = tempdir(), buildVignettes = TRUE) {
 	sp = splitPath(path);
 	pkgPath = Sprintf('%{tarDir}s/%{base}s.tar.gz', sp);
 	# dir component is containing folder
@@ -960,7 +960,7 @@ Install_local_archive = function(path, ..., tarDir = tempdir(), buildVignettes =
 }
 
 # fix broken install from dir: create tarball -> install_local
-Install_local = function(path, ..., tarDir = tempdir(), buildVignettes = True, useArchive = FALSE) {
+Install_local = function(path, ..., tarDir = tempdir(), buildVignettes = TRUE, useArchive = FALSE) {
 	if (useArchive)
 		Install_local_archive(path, ..., tarDir = tarDir, buildVignettes = buildVignettes) else
 		devtools::install(path, build_vignettes = buildVignettes);
