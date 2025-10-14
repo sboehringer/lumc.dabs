@@ -2,7 +2,6 @@
 % Please edit documentation in R/lumc.dabs.R
 \docType{package}
 \name{lumc.dabs-package}
-\alias{lumc.dabs}
 \alias{lumc.dabs-package}
 \title{This is package `lumc.dabs`}
 \description{

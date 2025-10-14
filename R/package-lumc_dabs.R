@@ -70,5 +70,5 @@ Please file issues on [github](https://github.com/sboehringer/lumc.dabs) if you 
 #' @description Vignette explaining the workflow used in the course DABS.
 #'
 #' @docType vignette
-#' @name vignette-lumc.dabs
+#' @name lumc.dabs
 NULL
