@@ -169,3 +169,19 @@
 "breath"
 
 
+#' @title Birthweight data
+#'
+#' @description
+#' Data with categorical birthweight and sex.
+#''
+#' @format The 'breath' data frame has 1552 rows and 2 columns:
+#' \describe{
+#'   \item{sex}{Biological sex.}
+#'   \item{lbw}{Categorical birthweight. Levels: low, normal.}
+#' }
+#' @source BDS department at the LUMC, The Netherlands
+#' @docType data
+#' @name birthweight
+"birthweight"
+
+
