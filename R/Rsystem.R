@@ -116,6 +116,7 @@ pathUnindent = function(p, unindent = 1) {
 		p$file)
 	)
 }
+pathNoWs = function(path, ws = '-')gsub('\\s', ws, path);
 # ws: substitute whitespace by provided string
 pathReplace = function(path, newExt = NULL, newDir = NULL, baseExtend = '', ws = NULL) {
 	sp = splitPath(path);
@@ -123,7 +124,7 @@ pathReplace = function(path, newExt = NULL, newDir = NULL, baseExtend = '', ws =
 		firstDef(newDir, sp$dir),
 		Sprintf('%{base}s%{baseExtend}s.%{myExt}s', sp, myExt = firstDef(newExt, sp$ext))
 	)
-	if (notE(ws)) path = gsub('\\s', ws, path);
+	if (notE(ws)) path = pathNoWs(path, ws);
 	return(path);
 }
 # Map length 0 objects

@@ -253,9 +253,9 @@ firstSystemFile = function(prefix, exts, package, all = FALSE, ws = NULL) {
 	files = sapply(exts, system.file(package = package) %.% (Sprintf('%{prefix}s.%{.}s')));
 	# also look for white-space removed files
 	if (notE(ws)) {
+		Prefix = pathNoWs(prefix, ws);
 		files = c(files, sapply(exts,
-			system.file(package = package) %.% (Sprintf('%{prefix}s.%{.}s'))
-			%.% (pathReplace(ws = ws))
+			system.file(package = package) %.% (Sprintf('%{Prefix}s.%{.}s'))
 		))
 	}
 	return(if (all) filterListNonEmpty(files) else firstNonEmpty(files));
