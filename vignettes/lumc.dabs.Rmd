@@ -11,7 +11,14 @@ packageName: lumc.dabs
 file: lumc.dabs.Rmd
 ---
 
+This documentation can be accessed after installation with
+```
+	library('lumc.dabs')
+	vignette('lumc.dabas')
+```
+
 # Installation
+
 
 For installation, run the following in the R command line.
 
@@ -20,6 +27,7 @@ For installation, run the following in the R command line.
 	library('devtools')
 	install_github('sboehringer/lumc.dabs')
 ```
+
 
 # Purpose of the package
 

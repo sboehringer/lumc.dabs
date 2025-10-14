@@ -4,12 +4,19 @@
 \alias{writeSolution}
 \title{Write exercise solution to disk}
 \usage{
-writeSolution(name, folder = getwd(), key = NULL, overwrite = FALSE)
+writeSolution(
+  name,
+  key = NULL,
+  folder = paste0(getwd(), "/solution"),
+  overwrite = FALSE
+)
 }
 \arguments{
 \item{name}{name of the exercise (see see-also)}
 
-\item{folder}{folder to which the file is to be written. Deafults to the current working directory.}
+\item{key}{Decryption key to be used.}
+
+\item{folder}{folder to which the file is to be written. Deafults to the folder `solution` within the current working directory.}
 
 \item{overwrite}{Should the file be overwritten if already existing?}
 }
