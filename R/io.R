@@ -30,7 +30,6 @@ writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrit
 listExercises = function() {
 	exercises = list.files(system.file('exercises', package = 'lumc.dabs'), pattern = '[.]Rmd$');
 	cat('Available Exercises\n');
-	browser();
 	sapply(sort(exercises), (cat(Sprintf(' • %{.}Q\n'))) %.% (splitPath(.)$base));
 	invisible(sapply(exercises, (splitPath(.)$base) %.% Id))
 }
