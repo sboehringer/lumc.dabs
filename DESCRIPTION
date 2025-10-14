@@ -17,8 +17,7 @@ Depends:
     reshape2,
     tibble,
     survival,
-    psych,
-    nlme
+    psych
 Collate: 
     lumc.dabs.R
     dabs_data.R
