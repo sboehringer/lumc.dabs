@@ -24,7 +24,7 @@ packageDefinition = list(
 		license = 'LGPL',
 		news = "2025.26.0	Development of year 2025/26\n2025.26.1	1st github push\n2025.26.2	complete CPs\n",
 		version = '2025.26.2',
-		vignettes = "vignette-lumc.dabs.Rmd"
+		vignettes = "vignettes/lumc.dabs.Rmd"
 	),
 	git = list(
 		readme = '# Design and Analysis of Biomedical Studies
@@ -64,3 +64,11 @@ Please file issues on [github](https://github.com/sboehringer/lumc.dabs) if you 
 # @seealso {writeExercise()}
 # @seealso {writeSolution()}
 #__PACKAGE_DOC_END__
+
+#' @title lumc.dabs package vignette
+#'
+#' @description Vignette explaining the workflow used in the course DABS.
+#'
+#' @docType vignette
+#' @name vignette-lumc.dabs
+NULL

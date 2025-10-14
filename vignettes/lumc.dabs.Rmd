@@ -1,0 +1,22 @@
+---
+title: lumc.dabs
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{lumc.dabs.Rmd}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+output: rmarkdown::html_vignette
+author: Stefan Böhringer <r-packages@s-boehringer.org>
+packageName: lumc.dabs
+file: lumc.dabs.Rmd
+---
+
+# Installaion
+
+# Purpose of the package
+
+# Prerequisites for the course
+
+You are expected to master the knowledge of the courses "Introduction to R" and "Methoden en Techniquen" from the first year. Please refresh your knowledge prior to starting the course. You are also expected to understand the notion of files and folders on a computer. Use a tutorial such as [https://youtu.be/hUW5MEKDtMM
+](https://youtu.be/hUW5MEKDtMM) to understand about these concepts
+
