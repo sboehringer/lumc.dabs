@@ -1628,24 +1628,6 @@ print(S)</code></pre>
 ## $maximum
 ## [1] 21.1</code></pre>
 <pre class="r"><code>attach(S) # this defines the components of the list as variables</code></pre>
-<pre><code>## The following objects are masked from S (pos = 4):
-## 
-##     maximum, mean, median, minimum, N, Nmissing, SD, SEM</code></pre>
-<pre><code>## The following objects are masked from S (pos = 5):
-## 
-##     maximum, mean, median, minimum, N, Nmissing, SD, SEM</code></pre>
-<pre><code>## The following objects are masked from S (pos = 6):
-## 
-##     maximum, mean, median, minimum, N, Nmissing, SD, SEM</code></pre>
-<pre><code>## The following objects are masked from S (pos = 7):
-## 
-##     maximum, mean, median, minimum, N, Nmissing, SD, SEM</code></pre>
-<pre><code>## The following objects are masked from S (pos = 8):
-## 
-##     maximum, mean, median, minimum, N, Nmissing, SD, SEM</code></pre>
-<pre><code>## The following objects are masked from S (pos = 9):
-## 
-##     maximum, mean, median, minimum, N, Nmissing, SD, SEM</code></pre>
 <p>N is the sample size and Nmissing is the number of indivduals with
 missing data. Explain the difference between SD (standard deviation) and
 SEM (standard error of the mean). Verify the connection between SD and
@@ -1671,25 +1653,25 @@ have a low Hb and therefore anemia. What is this figure called?</p>
 <h1>Birth weight</h1>
 <p>This assignment addresses the concepts of statistical testing,
 p-value, and significance.</p>
-<p>The reasearch objective is to investigate low birth weight (LBW;
+<p>The research objective is to investigate low birth weight (LBW;
 defined as a birth weight below 2500 grams) which is as common in boys
-as in girls in Malawi. For this purpose, the following 2×2 table is
-created:</p>
-<pre class="r"><code>data = rbind.data.frame(matrix(c(1, 1), nrow = 156, ncol = 2, byrow = TRUE),
-                        matrix(c(1, 2), nrow = 622, ncol = 2, byrow = TRUE),
-                        matrix(c(2, 1), nrow = 142, ncol = 2, byrow = TRUE),
-                        matrix(c(2, 2), nrow = 632, ncol = 2, byrow = TRUE))
-colnames(data) = c(&quot;sex&quot;, &quot;lbw&quot;)
-data$sex = factor(data$sex, levels = c(1, 2), labels = c(&quot;Man&quot;, &quot;Vrouw&quot;))
-data$lbw = factor(data$lbw, levels = c(1, 2), labels = c(&quot;Laag&quot;, &quot;Voldoende&quot;))
-
-crosstable(data, sex, by = lbw, total = &quot;both&quot;, margin = &quot;none&quot;)</code></pre>
-<pre><code>## # A tibble: 3 × 6
-##   .id   label variable Laag  Voldoende Total
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;
-## 1 sex   sex   Man      156   622       778  
-## 2 sex   sex   Vrouw    142   632       774  
-## 3 sex   sex   Total    298   1254      1552</code></pre>
+as in girls in Malawi.</p>
+<p>Load the data and inspect the data dictionary using
+<code>?birthweight</code>.</p>
+<pre class="r"><code>  data(birthweight)</code></pre>
+<p>Create a 2x2 table for weight category and sex.</p>
+<pre class="r"><code>  table(birthweight)</code></pre>
+<pre><code>##         lbw
+## sex      low normal
+##   male   156    622
+##   female 142    632</code></pre>
+<p>Add totals to the table using function <code>addmargin</code></p>
+<pre class="r"><code>  addmargins( table(birthweight))</code></pre>
+<pre><code>##         lbw
+## sex       low normal  Sum
+##   male    156    622  778
+##   female  142    632  774
+##   Sum     298   1254 1552</code></pre>
 <div id="a-1" class="section level2">
 <h2>a</h2>
 <p>Calculate the percentage with a low birth weight separately for boys

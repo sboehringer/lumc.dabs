@@ -11,7 +11,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-library(crosstable)
 library(MASS)
 library(ggplot2)
 ```
@@ -116,18 +115,24 @@ Of all newborns in the Malawi study whose Hb was measured, 19 (1.2%) have a low 
 
 This assignment addresses the concepts of statistical testing, p-value, and significance.
 
-The reasearch objective is to investigate low birth weight (LBW; defined as a birth weight below 2500 grams) which is as common in boys as in girls in Malawi. For this purpose, the following 2×2 table is created:
+The research objective is to investigate low birth weight (LBW; defined as a birth weight below 2500 grams) which is as common in boys as in girls in Malawi.
+
+Load the data and inspect the data dictionary using `?birthweight`.
 
 ```{r}
-data = rbind.data.frame(matrix(c(1, 1), nrow = 156, ncol = 2, byrow = TRUE),
-                        matrix(c(1, 2), nrow = 622, ncol = 2, byrow = TRUE),
-                        matrix(c(2, 1), nrow = 142, ncol = 2, byrow = TRUE),
-                        matrix(c(2, 2), nrow = 632, ncol = 2, byrow = TRUE))
-colnames(data) = c("sex", "lbw")
-data$sex = factor(data$sex, levels = c(1, 2), labels = c("Man", "Vrouw"))
-data$lbw = factor(data$lbw, levels = c(1, 2), labels = c("Laag", "Voldoende"))
+  data(birthweight)
+```
 
-crosstable(data, sex, by = lbw, total = "both", margin = "none")
+Create a 2x2 table for weight category and sex.
+
+```{r}
+  table(birthweight)
+```
+
+Add totals to the table using function `addmargin`
+
+```{r}
+  addmargins( table(birthweight))
 ```
 
 ## a
