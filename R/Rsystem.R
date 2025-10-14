@@ -957,7 +957,8 @@ Install_local = function(path, ..., tarDir = tempdir()) {
 	#libLocation = if (is.null(lib)) 'default location' else lib;
 	#LogS(4, 'Installing to lib:%{libLocation}s');
 	#print(Sprintf('Installing to lib:%{libLocation}s'));
-	install_local(pkgPath, ...);
+	#install_local(pkgPath, ...);
+	devtools::install(pkgPath, build_vignettes = TRUE)
 }
 
 #
