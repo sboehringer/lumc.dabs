@@ -23,7 +23,8 @@ packageDefinition = list(
 		depends = c('openssl', 'crosstable', 'ggplot2', 'lme4', 'car', 'knitr', 'reshape2', 'tibble', 'survival'),
 		license = 'LGPL',
 		news = "2025.26.0	Development of year 2025/26\n2025.26.1	1st github push\n2025.26.2	complete CPs\n",
-		version = '2025.26.2'
+		version = '2025.26.2',
+		vignettes = "vignette-lumc.dabs.Rmd"
 	),
 	git = list(
 		readme = '# Design and Analysis of Biomedical Studies
@@ -32,11 +33,10 @@ R package for the course "Design and Analysis of Biomedical Studies" at the LUMC
 
 # Install
 
-Install package `devtools` in R.
-
 ```r
-require(\'devtools\');
-install_github(\'sboehringer/lumc.dabs\');
+install.packages(\'devtools\')
+library(\'devtools\')
+install_github(\'sboehringer/lumc.dabs\')
 ```
 
 # Usage
@@ -52,3 +52,15 @@ Please file issues on [github](https://github.com/sboehringer/lumc.dabs) if you 
 		remote = 'git@github.com:sboehringer/lumc.dabs.git'
 	)
 );
+
+#__PACKAGE_DOC__
+# This is the accompanying R package for the course "Design and Analysis of Biomedical Studies" as tought at the Leiden University Medical Center, Leiden, The Netherlands in the program "Biomedische Wetenschappen".
+# This package contains all data sets, exercises, self-study assignments, and solutions used during the course. The package vignette explains the workflow. Use `vignettte(package = 'lumc.dabs')` to access the vignette.
+# @examples
+# \dontrun{
+#  vignettte(package = 'lumc.dabs')
+# }
+# @seealso {listExercises()}
+# @seealso {writeExercise()}
+# @seealso {writeSolution()}
+#__PACKAGE_DOC_END__

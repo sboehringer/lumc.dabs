@@ -2,7 +2,7 @@ Package: lumc.dabs
 Type: Package
 Title: DABS Course Package
 Version: 2025.26.2
-Date: 2025-10-13
+Date: 2025-10-14
 Author: Stefan Böhringer <r-packages@s-boehringer.org>
 Maintainer: Stefan Böhringer <r-packages@s-boehringer.org>
 Description: R package "Design and Analysis of Biomedical Studies"
@@ -19,6 +19,7 @@ Depends:
     tibble,
     survival
 Collate: 
+    lumc.dabs.R
     dabs_data.R
     io.R
     dabsFunctions.R
@@ -30,7 +31,10 @@ Collate:
     RsystemExt.R
     package-lumc_dabs.R
 Suggests: 
+    knitr,
+    rmarkdown
 Enhances: 
 SystemRequirements: 
 LazyData: true
+VignetteBuilder: knitr
 RoxygenNote: 7.3.1

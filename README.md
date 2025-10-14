@@ -4,11 +4,10 @@ R package for the course "Design and Analysis of Biomedical Studies" at the LUMC
 
 # Install
 
-Install package `devtools` in R.
-
 ```r
-require('devtools');
-install_github('sboehringer/lumc.dabs');
+install.packages('devtools')
+library('devtools')
+install_github('sboehringer/lumc.dabs')
 ```
 
 # Usage
