@@ -1,8 +1,8 @@
 Package: lumc.dabs
 Type: Package
 Title: DABS Course Package
-Version: 2025.26.3
-Date: 2025-10-14
+Version: 2025.26.4
+Date: 2025-10-15
 Author: Stefan Böhringer <r-packages@s-boehringer.org>
 Maintainer: Stefan Böhringer <r-packages@s-boehringer.org>
 Description: R package "Design and Analysis of Biomedical Studies"
@@ -17,7 +17,8 @@ Depends:
     reshape2,
     tibble,
     survival,
-    psych
+    psych,
+    survminer
 Collate: 
     lumc.dabs.R
     dabs_data.R

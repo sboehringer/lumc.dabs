@@ -20,10 +20,10 @@ packageDefinition = list(
 		author = 'Stefan Böhringer <r-packages@s-boehringer.org>',
 		description = 'R package "Design and Analysis of Biomedical Studies"',
 		suggests = c(),
-		depends = c('openssl', 'ggplot2', 'lme4', 'car', 'knitr', 'reshape2', 'tibble', 'survival', 'psych'),
+		depends = c('openssl', 'ggplot2', 'lme4', 'car', 'knitr', 'reshape2', 'tibble', 'survival', 'psych', 'survminer'),
 		license = 'LGPL',
-		news = "2025.26.0	Development of year 2025/26\n2025.26.1	1st github push\n2025.26.2	complete CPs\n2025.26.3	vignette and workflow\n",
-		version = '2025.26.3',
+		news = "2025.26.0	Development of year 2025/26\n2025.26.1	1st github push\n2025.26.2	complete CPs\n2025.26.3	vignette and workflow\n2025.26.4	SSAs\n",
+		version = '2025.26.4',
 		vignettes = "vignettes/lumc.dabs.Rmd"
 	),
 	git = list(
