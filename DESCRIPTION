@@ -1,0 +1,41 @@
+Package: lumc.dabs
+Type: Package
+Title: DABS Course Package
+Version: 2026.0
+Date: 2026-10-28
+Author: Stefan Böhringer <r-packages@s-boehringer.org>
+Maintainer: Stefan Böhringer <r-packages@s-boehringer.org>
+Description: R package "Design and Analysis of Biomedical Studies"
+License: LGPL
+Encoding: UTF-8
+Depends: 
+    openssl,
+    ggplot2,
+    lme4,
+    car,
+    knitr,
+    reshape2,
+    tibble,
+    survival,
+    psych,
+    survminer,
+    R (>= 3.5)
+Collate: 
+    lumc.dabs.R
+    dabs_data.R
+    io.R
+    dabsFunctions.R
+    reexport.R
+    Rmeta.R
+    Rdata.R
+    Rsystem.R
+    Rfunctions.R
+    RsystemExt.R
+    package-lumc_dabs.R
+Suggests: 
+    knitr,
+    rmarkdown
+SystemRequirements: 
+LazyData: true
+VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0

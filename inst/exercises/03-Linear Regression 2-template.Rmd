@@ -1,0 +1,183 @@
+---
+title: Computer Practical - Linear Regression 2
+author: SB, LvdB
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+# Instructions
+
+Fill in parts labeled as **fillin** with your own R-code and your interpretation of code/results. After finishing, created an html version of your CP using `knitr` and submit it to brightspace.
+
+ - Fill in your names
+ - After completion, upload your CP to brightspace. There are two submission lists for each assignment: early and late. For example: "Linear Regression early" and "Linear Regression late". The early list is for getting points for the CP. This list closes 30 min after the end of the CP. You always have to submit to the late list before the exam.
+- Students working together submit a **single** report per pair to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission. Make sure that both students are mentioned in the report.
+ - Deadline for early submission is 30 min after the end of the end of the CP. Only the question "Graded question" will be graded for this submission.
+ - Students working together have to **each** submit the identical report under their own name to the late list in **addition** to nay submission to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission.
+ - Deadline for submission to the late list is the day before the Exam
+ - If there is a "Learning R" section in the exercises, it is voluntary. It is meant for students following the bioinformatics track to improve R skills.
+- Make sure to choose a new working directory to work in for each CP (tutorial: https://www.youtube.com/watch?v=FT3THVQj45Q).
+- You are encouraged to use large language models during the practical to develop R-code. You have to understand the presented code. Follow up any presented code by a prompt "Please explain ..." in case you do not understand the code fully or ask for assistance.
+- During the allotted time frame, you can get assistance while working on the questions. Make sure to use this possibility.
+
+You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the *tidyverse*). You can also use your own functions which then have to be included into the R-markdown/submission.
+
+# Authors
+ 
+ - **fillin** Student1, Student-number
+ - **fillin** Student2, Student-number
+
+ 
+
+# Learning Objectives
+
+## Part 1: Interaction analysis
+
+Learning Objectives (understand/be able to)
+
+ * Conduct an interaction analysis
+ * Interpretation of interactions
+ * Calculate predictions from an interaction model
+
+## Part 2: Clustered data
+
+Learning Objectives (understand/be able to)
+
+ * Long and wide format (defintion, conversion)
+ * Effect of ignoring clustering in the data
+ * Correcting for clusters
+ * Summaries of clusters
+
+# Introducion (Part 1)
+
+Load the data set `cd19` and read the data dictionary `?cd19`.
+```{r}
+  library('lumc.dabs')
+  data(cd19)
+  data <- cd19
+```
+
+You will look at this data in the ANOVA CP again and will spend more time on describing the data. Here, you compare a linear regression with and without interaction terms.
+
+# Q1: Linear regression without interaction
+
+Run a linear regression with outcome `cd19` and covariables `dose` and `source`. Interpret your findings.
+
+**fillin**:  
+
+# Q2: Linear regression with interaction
+
+Now run a linear regression with outcome `cd19` and covariables `dose` and `source`. Include an interaction, so that your model formula reads `cd19 ~ dose * source`.
+
+**fillin**:  
+
+# Q3: Interpretion: Dose variables
+
+Interpret the findings of the variables `dose0.5`, `dose1.0`, and `dose2.0`. For which samples do these effects apply directly, *i.e.* for which samples can you ignore all the other effects?
+
+**fillin**:  
+
+# Q3: Interpretion: Interaction
+
+Interpret the highly significant interaction `dose0.5:sourcemPB`. To which samples does this interaction apply? How to compute a prediction for these samples? How to interpret this interaction biologically?
+
+**fillin**:  
+
+
+# Q4: Predictions
+
+Compute the expected outcomes (predictions) for
+
+ - Source: `UCB`, dose: `0.1`
+ - Source: `PB`, dose: `0.1`
+ - Source: `BM`, dose: `2.0`
+ 
+**fillin**:  
+
+# Introducion (Part 2)
+
+The data used in this CP is the `bloodp` data containing blood pressure measurements from a clinical trial. Familiarize youself with the data by loading the data with `data(bloodp)` and inspecting the data dictionary `?bloodp`.
+
+# Long and wide format
+
+This data set contains all measurements for each patient in a single row (wide format). To analyze the data, these measurements may have to be put into separate rows (long format). Package `reshape2` contains functions to change a data set between long and wide format.
+
+The function `melt` changes from wide into long format.
+
+```{r}
+    library('lumc.dabs')
+    library('reshape2')
+    data(bloodp)
+    d <- bloodp
+    dLong <- melt(bloodp, c('id', 'group', 'SBP_t1', 'age', 'sex'), c('SBP_t2', 'SBP_t3', 'SBP_t4'), variable.name = 'repeat', value.name = 'sbp')
+    # order data set by patient id
+    dLong <- dLong[order(dLong$id), ]
+    head(dLong)
+```
+
+The first argument is the data set in wide format. The second argument are so-called `id.vars`, which identify the units (mice) in the data. Values of these variables are repeated for each measurement in the output data `dLong`. The third argument contains the repeated measurements on the unit (mouse). For each of these columns, a new row is created in the output data per unit. The final arguments determing column names in the output data.
+
+Check `dLong` and make sure you understand how it relates to the original data `d`.
+
+A data set in long format can be converted back to wide format using function `dcast`.
+
+```{r}
+    d1 <- dcast(dLong, id + group + age + sex + SBP_t1 ~ `repeat`)
+```
+
+This function takes two arguments: the data in long format and a formula of the form `id.vars1 + idvars2 + ... ~ measruement`. The variables on the left hand side are again the identifying variables and the right hand variable is the variable identifying the measurement. The remaining variables are put into separate columns.
+
+Check that `d` and `d1` are identical for the shared columns.
+
+# Analysis of the bloodp data
+
+## Q1: Naive analysis
+
+The research question is whether treament (`group`) has an influence on systolic blood pressure (`SBP_t*`). Conduct a naive analysis where only the first measurement is used as outcome (`SBP_t2`). Correct you analysis for `age` and `sex` by adding them as covriables.
+What is your finding?
+
+**fillin**:  
+
+## Q2: Improved analysis
+
+Blood pressure varies substantially between individuals. This variation might obscure the treatment effect. Which variable is a good predictor (influential variable) of blood pressure after treatment? What are the results of your improved analysis?
+
+**fillin**:  
+
+
+## Q3: Long format data analysis
+
+A second idea is to use all measurements and use the long format data to strengthen results. Use outcome `sbp` from `dLong` as outcome, again correct for `age` and `sex` and the addtional variable from the previous question.
+What is your finding? What are your concerns?
+
+**fillin**:  
+
+## Q4: Investigate residuals
+
+You can get residuals from your model by using `resid <- lm(sbp ~ ..., dLong)`. Replace your formula in the following code to get the plot:
+
+```{r, fig.width=6, fig.height=4, fig.align='center'}
+l1 <- lm(sbp ~ group, dLong)
+plot(residuals(l1))
+```
+
+How do you judge the residuals?
+
+**fillin**:  
+
+
+## Q5: Use data summaries (graded)
+
+We switch back to the wide format. A data summary can be directly computed as the outcome of the model: `lm((SBP_t2 + SBP_t3 + SBP_t4)/3 ~ group, bloodp)`. Here, we take the average of the three non-baseline SBP measurements. Add the other covariables from above.
+
+What is your finding about the effect of `group`? Compare with the other models and give reasons for your findings.
+
+**fillin**:  
+
+## Q6: Residuals of data summary model
+
+Use your code from Q4 to produce a residual plot for the data summary model. Interpret.
+
+**fillin**:  

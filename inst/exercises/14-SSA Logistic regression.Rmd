@@ -1,0 +1,81 @@
+---
+title: "SSA 6 Logistic regression"
+author: SB, LdW, RdM
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+set.seed(-2001044395)
+```
+
+The exercise contains generation of random numbers. To make the analysis reproducible, a seed is set for the random number generation. Quickly check the documentation of `set.seed` to get a better understanding.
+
+# Data
+The data set contains the variables `age` (age in years), `sex` (female = 0, male = 1), and `y` as a binary (e.g. disease) outcome.
+```{r}
+  data(logreg)
+  data <- logreg
+```
+
+
+```{r}
+summary(data[, c('sex', 'age', 'y')])
+```
+The mean for `y` is 0.1548, i.e. 15.5% of indidivual have disease status 1. Therefore, we cannot directly equate RR with OR, when interpreting results.
+
+# Exercise 1: Full cohort analysis
+
+What is the sample size of the data?
+
+**fillin**:  
+
+Perform a logistic regression with variable `y` as outcome and predictors (covariates) `age` and `sex`. What is your interpretation?
+
+**fillin**:  
+
+
+# Exercise 2: Sub-sample analyses
+
+In this exercise, sub-samples of the data is analyzed.
+
+
+## Analysis 2 (1:5 sampling)
+
+First, identify the indeces of cases and controls in the data set with the `which` function. Determine the case/control ratio.
+
+```{r}
+Icases = which(data$y == 1);
+Icontrols = which(data$y == 0)
+
+length(Icontrols) / length(Icases)
+```
+
+Next, take a sample of 1000 cases and 5000 controls. Use the `sample` function to perform the sub-sampling.
+
+```{r}
+Ncases = 1000
+Ncontrols = 5000
+dataS = rbind(data[Icases[sample(Ncases)], ], data[Icontrols[sample(Ncontrols)], ])
+```
+
+Analyze the resulting data set as above, interpret.
+
+**fillin**:  
+
+## Analysis 3 (1:2.5 sampling)
+
+Perform the same analysis as above, but this time with a ratio of 1:2.5 for casest to controls.
+
+**fillin**:  
+
+## Analysis 4 (1:1 sampling)
+
+Finally check a 1:1 ratio.
+
+**fillin**:  
+

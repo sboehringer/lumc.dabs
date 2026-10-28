@@ -1,0 +1,237 @@
+---
+title: Computer Practical - Logistic Regression
+author: SB, LvdB
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+# Instructions
+
+Fill in parts labeled as **fillin** with your own R-code and your interpretation of code/results. After finishing, created an html version of your CP using `knitr` and submit it to brightspace.
+
+ - Fill in your names
+ - After completion, upload your CP to brightspace. There are two submission lists for each assignment: early and late. For example: "Linear Regression early" and "Linear Regression late". The early list is for getting points for the CP. This list closes 30 min after the end of the CP. You always have to submit to the late list before the exam.
+- Students working together submit a **single** report per pair to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission. Make sure that both students are mentioned in the report.
+ - Deadline for early submission is 30 min after the end of the end of the CP. Only the question "Graded question" will be graded for this submission.
+ - Students working together have to **each** submit the identical report under their own name to the late list in **addition** to nay submission to the early list. Include the R-markdown and a rendered version (pdf or html) in your submission.
+ - Deadline for submission to the late list is the day before the Exam
+ - If there is a "Learning R" section in the exercises, it is voluntary. It is meant for students following the bioinformatics track to improve R skills.
+- Make sure to choose a new working directory to work in for each CP (tutorial: https://www.youtube.com/watch?v=FT3THVQj45Q).
+- You are encouraged to use large language models during the practical to develop R-code. You have to understand the presented code. Follow up any presented code by a prompt "Please explain ..." in case you do not understand the code fully or ask for assistance.
+- During the allotted time frame, you can get assistance while working on the questions. Make sure to use this possibility.
+
+You can freely use other than the suggested functions if you are already familiar with other functions/frameworks (such as the *tidyverse*). You can also use your own functions which then have to be included into the R-markdown/submission.
+
+# Authors
+ 
+ - **fillin** Student1, Student-number
+ - **fillin** Student2, Student-number
+
+ 
+
+# Learning Objectives
+
+Learning Objectives (understand/be able to)
+
+ * Importance of the event definition in logistic regression
+ * Perform a logistic regression analysis
+ * Interpret the regression table
+ * Compute ORs for comparisons of patients
+ * Check model assumptions
+
+# Part 1: Analysis of ovarian cancer data
+
+Data `ova` contain information on 358 patients with advanced ovarian cancer, all of which are treated with a similar type of chemotherapy. All patients have been followed for at least 4 years since the start of treatment. The outcome variable (surv) indicates whether the patient has died (surv=0) or is still alive (surv=1) after 4 years of follow-up. 
+
+## Data dictionary of data `ova`
+
+```{r}
+	library('lumc.dabs')
+	data(ova)
+	data <- ova
+```
+
+Inspect the data dictionary with `?ova` to understand the columns of the data set. Look at an excerpt of the data using `tibble(data)` to get an overall impression.
+
+## Q1: Descriptive analysis
+
+Create a histogram for follow-up time showing both survivors and non-survivors.
+```{r}
+	library(ggplot2)
+	ggplot(data, aes(x = time/365, fill = as.factor(death))) +
+		geom_histogram(position = position_dodge(), bins = 20) +
+		theme_bw()
+```
+
+Describe and interpret the histogram.
+
+**fillin**:  
+
+## Q2: Create an outcome variable for patient survival
+
+For a logistic regression, the outcome variable needs to be defined as an event (yes/no). For a clear interpretation, the event should have the same interpretation for all patients. `time` indicates follow-up time which differs between patients. We therefore define our event as death in the first four years of follow-up. For, patients who were alive but followed up for less than 4 years, the event is not defined as the event could have occurred in the remaining time until 4 years.
+
+Create a new variable `y` that records whether patients had en event or not according to the above definition. `y` should be set to `NA` when follow-up was insufficient for survivors.
+
+```{r}
+	data$y <- ifelse(data$time/365 >= 4 | data$death == 1, data$death, NA)
+```
+
+How many patients got an `NA`? Use the table function with argument `useNA = 'ifany'`. The `ifelse` function is explained in the section *Learning R*.
+
+**fillin**:  
+
+## Q3: Analyze the influence of `figo` on patient survival
+
+Remove `NA` values for `y` from the data set.
+
+```{r}
+	data <- data[!is.na(data$y), ]
+```
+
+Calculate a Chisquare test for the variables `y` and `figo`. Both `chisq.test` and `fisher.test` can be used. As `fisher.test` also calculates the OR together with a confidence interval, `fisher.test` is preferred in this CP.
+
+**fillin**:  
+
+Use a logistic regression for the same analysis. function `glm(outcome ~ covariate, data, family = binomial()` has to be used (replace `outcome`, `covariate` with the correct terms). Use the `summary` function to get a regression table.
+
+```{r}
+	logRegFigo <- glm(y ~ figo, data, family = binomial())
+	print(summary(logRegFigo))
+```
+
+Calculate the OR of `figo` for the logistic regression and compare with the output of `fisher.test`.
+
+**fillin**:  
+
+Is the interpretation of a 4-fold risk-increase justified?
+
+**fillin**:  
+
+## Q4: Analyze the influence of `karn` on patient survival
+
+Create a histogram, comparing survivors and non-survivors.
+
+```{r}
+	ggplot(data, aes(x = karn, fill = as.factor(death))) +
+		geom_histogram(position = position_dodge(), bins = 5) +
+		theme_bw()
+```
+
+To better show differences, the next plot uses proportions instead of counts.
+```{r}
+	ggplot(data, aes(x = karn, fill = as.factor(death))) + geom_bar(aes(y = ..prop.., group = as.factor(death)), position = position_dodge()) + theme_bw()
+```
+
+Use a logistic regression to analyze the influence of `karn` on `y`. Interpret your result. Is the result expected?
+
+**fillin**:  
+
+What is the OR of a patient with Karnofsky score of 5 compared to a patient with Karnofsky score of 1 according to the above model?
+
+**fillin**:  
+
+
+**fillin**:  
+
+## Q5: Check the assumptions
+
+Which assumptions have you made for the t-test? Can you check these assumption?
+
+**fillin**:  
+
+Which assumptions have you made for the logistic regression? Can you check theses assumption?
+
+**fillin**:  
+
+Create a cross-table for `karn` and `y` using function `table`.
+```{r}
+	# Please ignore; define t0 so the example code below will run without the solution
+	t0 <- matrix(0, 2, 2)
+```
+
+**fillin**:  
+
+Use the following code to analyze the OR in the sub-2x2 table of this cross-tabulation, i.e. start with the first two columns, then with 2nd and 3rd and so on.
+
+```{r}
+	sapply(1:(ncol(t0)-1), function(i)fisher.test(t0[, c(i, i+1)])$estimate)
+```
+
+What can you conclude?
+
+**fillin**:  
+
+# Q6: Analyze the variables `karn`, `figo`, `broders`, `ascites`, `diam`
+
+Perform logistic regrssions for the variables listed above (`karn` and `figo` are included again for easy comparison). Analyzing variables one-by-one is called a marginal analysis.
+
+```{r}
+	summary(glm(y ~ karn, data, family = binomial()))
+	summary(glm(y ~ figo, data, family = binomial()))
+	summary(glm(y ~ broders, data, family = binomial()))
+	summary(glm(y ~ ascites, data, family = binomial()))
+	summary(glm(y ~ diam, data, family = binomial()))
+```
+
+Interpret the result for `ascites`.
+
+**fillin**:  
+
+For which variables are regression coefficients significantly different from zero at an alpha-level of 0.05 (except for the intercept)?
+
+**fillin**:  
+
+Do you believe that some of the variables are correlated? Give examples and support these with arguments.
+
+**fillin**:  
+
+If variables are correlated any effect seen in a regression could be an indirect effect of one of the variables only. An effect in a given variable might only be seen because the variable is correlated with another variable which has a true effect. To separate the effect of such variables all of them have to be included in the regression model. Repeat the logistic regression using all variables identified as significant above (use `y ~ cov1 + cov2 + ...` for the formula). This is called a multivariate analysis.
+
+**fillin**:  
+
+Which differences do you see? What is your interpretation?
+
+**fillin**:  
+
+# Graded question
+
+Use again the model from your last analysis in the previous question. Save the result of `glm`.
+
+```{r}
+  model <- glm(y ~ karn + figo + broders + diam, data, family = binomial())
+```
+
+What is the probability to die after 4 years for a patient with a `karn` score of 6, `figo` status of `III`, Broder's status of `poor` and a diameter score of `2`? Write down the full calculation (the linear prediction as `intercept + coefficient1 * value1 + ...`, the resulting sum and the probability). Round the probability to 3 digits after the decimal point.
+
+**fillin**:  
+
+
+Use predict to confirm your answer. Use `datanew <- data.frame(karn=, figo=, broders=, diam=)` (fill in the appropriate  numbers). `predict(model, datanew, type = 'response')` computes the prediction automatically (compare with the linear regression CP).
+
+**fillin**:  
+
+What is the OR of a patient with a diameter score of 4 and a figo stage of IV compared to a patient with a diameters score of 2 and a figo stage of III, when all other variables are equal?
+
+**fillin**:  
+
+
+
+
+## Learning R
+
+The `ifelse` function can be used to make decisions on whole vectors. `ifelse(a, x, y)` takes three vectors of the same length. The first vector `a` is logical, meaning it contains only values `TRUE` or `FALSE`. `ifelse` iterates the vector `a`. If the values is `TRUE`, `ifelse` returns the value of `x` at the same position, otherwise the value of `y` at that position. As an example, we determine, whether the Karnovsky-index is larger or equal to 8. In the data, the Karnovsky-index is entered as a categorical variable. To convert to an integer, the functions `as.character` and `as.integer` are used.
+
+```{r}
+	data$karnI <- as.integer(as.character(data$karn))
+	data$karn8 <- ifelse(data$karnI >= 8, 'Larger or equal to 8', 'Smaller than 8')
+```
+
+Here is equivalent code that uses `sapply` as introduced in the ANOVA CP.
+
+```{r}
+	karn8.1 <- sapply(data$karnI, function(k) if (k >= 8) 'Larger or equal to 8' else 'Smaller than 8')
+```
+

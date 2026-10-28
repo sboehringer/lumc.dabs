@@ -1,0 +1,135 @@
+---
+title: "SSA Clustered Data"
+author: SB, LdW, RdM
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+
+# Introducion
+
+The data used in this SSA is the `lxw` data containing tumor size measurements in mice. Familiarize youself with the data by loading the data with `data(lxw)` and inspecting the data dictionary `?lxw`.
+
+# Long and wide format
+
+This data set contains all measurements for each mouse in a single row (wide format). To analyze the data, these measurements have to be put into separate rows (long format). Package `reshape2` contains functions to change a data set between long and wide format.
+
+Use function `melt` to change into long format.
+
+```{r}
+    library('lumc.dabs')
+    library('reshape2')
+    data(lxw)
+    d <- lxw
+    dLong <- melt(d, c('mousenr', 'group'), c('lxw0', 'lxw2', 'lxw4', 'lxw6'), variable.name = 'time', value.name = 'tsize')
+    dLong
+```
+
+# Analysis of the LXW data
+
+Create a plot using `ggplot2` which shows all measurements. Connect measurements of each mouse with a line and use a color for the group (the so-called the spaghetti plot of the data): `ggplot(dLong, aes(x = time, y = tsize, color = group, group = mousenr)) + geom_line() + geom_point()`.
+
+**fillin**:  
+
+Create a plot showing the mean and standard deviation per group/time point. This is called the mean profile plot.
+
+Use the `by` and `mnSe` functions as in the linear regression CP to make the calculations per sub-group.
+
+```{r}
+    se <- function(x) sd(x)/sqrt(length(x))
+    mnSe <- function(d) c( d[1, c('group', 'time')], mean=mean(d$tsize), se=se(d$tsize) )
+    meanSe <- by(dLong, dLong[, c('group', 'time')], mnSe)
+```
+
+The function `mnSe` computes mean and standard error (SE) of column `tsize`. It also returns the combination of values for which mean/SE were computed.
+In this case, the second argument to `by` is the reduced data frame with only columns `group` and `time`. The `by` function iterates through all combinations of values found in these to columns and calls `mnSe` with the sub-data frames.
+
+Use the following line to create a data frame from the result. You can use it as a fixed recipe or look up the functions `lapply`, `do.call`, `as.data.frame`, and `unlist` yourself.
+
+```{r}
+    dMnSe <- as.data.frame(lapply(as.data.frame(do.call(rbind, meanSe)), unlist))
+```
+
+Create the mean profile using `ggplot2`. Values per group should be connected by a line and groups should be shown in different colors.
+
+**fillin**:  
+
+Add error bars to the plot with the `geom_errorbar` layer. `geom_errorbar` can be used as follows: `plot + geom_errorbar(aes(ymin=lower_bound, ymax=upper_bound), width=.1)`. `lower_bound` and `upper_bound` can be column names or computations of these (like `mean + 2*se`).
+
+**fillin**:  
+
+# Q1: Interpret the mean profiles
+
+Based on the mean profiles, is there a statistically significant difference between the groups at anay time point? What can you say about differences between the groups in general?
+
+**fillin**:  
+
+# Q2: Analyze the data using data summaries
+
+We summarize the data by computing intercept and slope per mouse. This produces two values per mouse (cluster) which can then be analyzed using linear regression.
+
+First, we convert the time variable, which is a factor to a numeric variable, assuming that each time interval shows the same effect.
+
+```{r}
+    dLongC <- dLong
+    dLongC$time <- as.numeric(dLong$time)
+```
+
+If we run a linear regression, the following code extracts `intercept` and `slope` from the regression model.
+
+```{r}
+    model <- lm(tsize ~ time, dLongC)
+    cfs <- coefficients(summary(model))
+    print(cfs[, 'Estimate'])
+```
+
+Now we run linear regressions per mouse using function `by`. We add the `group` value to the result.
+
+```{r}
+    regrPerMouse <- by(dLongC, dLong$mousenr, function(data) {
+        model <- lm(tsize ~ time, data)
+        cfs <- coefficients(summary(model))
+        return(c(cfs[, 'Estimate'], group = data$group[1]))
+   })
+   # create data frame as above
+   dRegrPerMouse <- as.data.frame(lapply(as.data.frame(do.call(rbind, regrPerMouse)), unlist))
+```
+
+Inspect the data frame `dRegrPerMouse`. In R, column names of data frame must not contain special characters, which is why the column for the intercept is now named `X.Intercept.`.
+
+## Q2a: Perform t-tests
+
+Compare intercept and slope (`time`) between the groups using a t-test.
+
+**fillin**:  
+
+## Q2b: Interpret your results
+
+Can you reconcile statistically signficant P-values with a RCT? What is your interpretation?
+
+**fillin**:  
+
+# Q5: Linear regression with correction for cluster
+
+Run a linear model to analyze the effect of `group`, `time` and the effect of group on time (interaction). The cluster correction corresponds to effects of factor `mousenr`.
+
+**fillin**:  
+<div class="result">
+```{r}
+    lmModel <- lm(tsize ~ group * time + mousenr, dLongC)
+```
+</div>
+
+Extract the coefficients like in Q2.
+
+**fillin**:  
+<div class="result">
+```{r}
+    cfsLm <- coefficients(summary(lmModel))
+    print(cfsLm)
+```
+</div>
+

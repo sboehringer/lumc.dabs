@@ -1,0 +1,96 @@
+---
+title: "SSA 5 Reliability"
+author: LvdB, SB
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(psych)
+```
+
+The aim of this SSA is to practice concepts of reliability, specifically the reliability coefficient and Cohen’s kappa.
+
+We use three data sets, `biopt0`, `biopt1` and `biopt2`, all containing the same data in different formats being useful for the different analyses. 12 tumor tissue biopsies were scored by 33 students (column DeviceId is the student number) and a block-coordinator (deviceId = 34). The score range from 1 to 4 and measure tumor grade. Each tissue sample has been scored twice where sample 1 is the same as sample 13 (2 ~ 14, 3 ~ 15,…) in data set `biopt0`.
+
+# Data
+
+```{r}
+data(biopt0)
+data(biopt1)
+data(biopt2)
+```
+
+
+# Exercise 1
+In `biopt0` all scores from each students are listed in a single row. Make a frequency table for each biopt column. Are there biopsies that have been scored the same by everyone? Are there biopsies with large discrepancies between the raters (students)?
+
+**fillin**:
+
+
+# Exercise 2
+We calculate the kappa for a single student and the two scores determined for each biopsy. Choose one of the DeviceId values for this analysis and use biopt1.
+
+```{r}
+ChosenID = 34   # <-- choose any Id, solutions are presented for 34
+```
+
+## a
+Make a cross-table for `score1` and `score2`.
+
+**fillin**:
+
+## b
+What is the observed agreement? What is the expected agreement? Calculate Cohen's kappa. Perform this calculation as in the lecture.
+
+**fillin**:  
+
+
+## c
+R can also calculate Cohen's kappa. Use the function cohen.kappa from the psych package.
+
+**fillin**:  
+
+
+# Exercise 3
+It is also possible to calculate kappa values between scores of different students or with the block-coordinator.
+
+Choose another student number or that of the block-coordinator. Calculate kappa for the first scores of the biopsies (column score.1 in biopt1.sav). Is is smaller or larger than the previously calculated kappa? What would your expect?
+
+**fillin**:  
+
+# Exercise 4
+As an approximation we can treat the scores as numerical variables. Strictly, the scores are ordinal variables. We here assume that the steps between the grades are comparable.
+
+Test whether the mean score of the first round of scoring (score.1) is the same as in the second round (score.2). Select a test yourself to test this hypothesis. Use dataset biopt1 or biopt2.
+
+**fillin**:  
+
+Why do we perform the analysis per rater (DeviceId) and do not perform a paired t.test for all before and after measurements?
+
+**fillin**:  
+
+# Exercise 5
+We will now calculate the reliability coefficient using a mixed model.
+
+```{r}
+dataMM <- biopt2[biopt2$DeviceID == ChosenID, ]
+mixedmod <- lmer(score ~ herhaling + (1 | uniekbiopt), data = dataMM)
+
+summary(mixedmod)
+ci2P(confint(mixedmod))
+```
+
+## a
+Study the output for fixed effects. Inspect the P-value for “herhaling”. What is the interpretation of this P-value?
+
+**fillin**:  
+
+## b
+Study the output for the `Random effects`. What does it mean and how do you interpret the standard deviations? Calculate the reliability coefficient.
+
+**fillin**:  

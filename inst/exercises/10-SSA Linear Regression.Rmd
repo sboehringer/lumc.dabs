@@ -1,0 +1,134 @@
+---
+title: "SSA Linear regression"
+author: SB, LdW, RdM
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+
+*Extra opgaven statistiek en epidemiologie*
+De antwoorden kan je invullen onder de delen gelebeld **fillin**. Hier kan je of je eigen R-code, je antwoorden of je interpretatie van code/resultaten neerzetten. Uitgebreide antwoorden zijn te vinden op Brightspace.
+
+# *DISCLAIMER*
+This self-study assignment (SSA) is based on a real study. As the data set of the original survey is not available, the data set used in this assignment is simulated, e.g. generated on the computer under certain assumptions. The scenario used, is hypothetical and does not correspond to true biological relationships. It is created in a way to illustrate typical reasoning concerning the choice of statistical models.
+
+# Emoji Study
+
+
+The original study was an online survey asking about the number of emoji used per day on average in online communication and the average number of sexual encounter (SEs) per week. The study found an association and concluded that using more emojis in online communication increases the chance of having a SE.
+
+# Data
+
+```{r}
+data(emoji)
+data <- emoji
+```
+
+The data set contains the variables `age` (age in years), `Nemoji` (average number of emojis send per day on as reported by the participant), Nsex (average number of SEs per week as estimated by the participant), `concOx` (concentration of oxitocin in the blood measured on baseline).
+
+# Opgave 1 (confounding)
+## a
+Investigate the association between `Nsex` and `Nemoji`. What is your conclusion?
+
+**fillin**:  
+<div class="answer">
+```{r}
+summary(lm(Nsex ~ Nemoji, data = data))
+```
+There is a clear association between the number of emojis used and the number of SEs. This is an association (correlation) but no causation. We have to consider possible confounding.
+</div>
+
+## b
+Investigate if there is an association between `Nsex` and `age`. What is your conclusion?
+
+**fillin**:  
+<div class="answer">
+```{r}
+summary(lm(Nsex ~ age, data = data))
+```
+
+There is a clear (negative) association between the age and the number of SEs. This is a plausible association but no causation. We have to consider possible confounding.
+</div>
+
+## c
+We suspect that `age` is a confounder of the the relationship `Nsex` and `Nemoji`. Condition your analysis on age and interpret.
+
+**fillin**:  
+<div class="answer">
+```{r}
+summary(lm(Nsex ~ Nemoji + age, data = data))
+```
+When both the number of emojis and age are included in the analysis the effect of number of emojis is gone and only age is significant. A classical example of confounding of age.
+</div>
+
+## d
+Investigate the relationship between `age` and `Nemoji` using a scatter plot. Interpret your results. 
+
+**fillin**:  
+<div class="answer">
+```{r}
+ggplot(data, mapping = aes(x = age, y = Nemoji)) +
+  geom_point() + 
+  geom_smooth(method = 'lm')
+```
+The variables show a negative correlation. Older people use fewer emojis. If age is causally influencing number of SEs, then number of emojis used will also be associated with number of SEs through the correlation. The corrected (same as conditional) model attributes the correct effect to the variables in the model and according to the corrected model, number of emojis has no effect.
+
+However, if everything else stays the same, the passage of time (age) alone cannot be a causal variable. Age is a proxy for biological and physical processes that develop over time. If available, lab measurements on metabolites, hormones, expression values or other covariates can give insight into the true underlying biology.
+</div>
+
+
+# Opgave 2 (biological explanation)
+## a
+We have an oxytocin measurement in the data set. We investigate whether this variable might allow for a biological explanation of the association `age`, SEs. Condition on `concOx` in your analysis and interpret the results.
+
+**fillin**:  
+<div class="answer">
+```{r}
+sum_mod = summary(lm(Nsex ~ Nemoji + age + concOx, data = data)); sum_mod
+```
+The only significant variable is `concOx` in this analysis, indicating that the concentration of oxytocin decreases with age (this is not true in general, only in this simulated scenario). We would therefore conclude that age influences oxytocin which influences number of SEs (age -> concOx -> Nsex). We also say that the effect of age is _mediated_ through oxytocin concentration. To not call this confounding is purely based on our background knoledge. We know that oxytocin cannot influence age by which oxytocin cannot meet the definition of a confounder (a confounder causally influences both the determinant and the outcome).
+</div>
+
+## b
+The effect size of `concOx` is small, how do you interpret is?
+
+**fillin**:  
+<div class="answer">
+A regression coefficient has to be interpreted together with the scale on which the variable is measured. The mean value of `concOx` is about 423. The average person therefore has a contribution from `concOx` of
+```{r}
+mean(data$concOx) * sum_mod$coefficients["concOx", "Estimate"]
+```
+</div>
+
+## c
+Create and interpret scatter plots between the variables.
+
+**fillin**:  
+<div class="answer">
+```{r}
+ggplot(data, mapping = aes(x = concOx, y = Nsex)) +
+  geom_point() + 
+  geom_smooth(method = 'lm')
+```
+
+The association between `age` and `concOx` is very strong. The next absolutely largest correlation is for `concOx` and `Nsex`. The two largest correlations are therefore the ones representing our causal path age -> concOx -> Nsex, which is what we expect.
+</div>
+
+# Opgave 3
+Can you see that this data was simulated? Use the pairs plot (pair-wise scatter plots, histograms, descriptives) for your arguments. 
+
+**fillin**:  
+<div class="answer">
+- Both `Nsex` and `concWx` have negative values.
+- Relationship between `age` and `concOx` is perfectly linear. This is biologically implausible.
+- No outlying values
+</div>
+

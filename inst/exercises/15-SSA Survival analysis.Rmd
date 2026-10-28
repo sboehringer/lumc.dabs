@@ -1,0 +1,73 @@
+---
+title: "SSA 7 Survival analyse"
+author: SB, LdW, RdM
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+This SSA practices the use of Kaplan-Meier analysis and Cox regression. The analyses deal with an example where the proportional hazards assumption is clearly violated.
+
+# Data set with binary outcome
+
+Data set comes from R-package `suvival`, lung cancer. When we read in the package, we can access the data immediately.
+
+```{r}
+data(lung)
+```
+Using `?lung`, you can access the data dictionary. Survival variabless are `time` (time in days until event or end of follow-up), `status` (value 2 is recurrence, 1 is end of follow-up).
+
+# Exercise 1
+## a
+Make a Kaplan-meier curve for males and females (in the same plot). What do you see?
+
+**fillin**: 
+
+## b
+Perform a log-rank test to see if there is a significant differences between the two curves. What is your conclusion?
+
+**fillin**:  
+
+
+## c
+Patients were treated in different institutes, in institute 11 a new treatment approach is used but it is yet unclear if it works better. Repeat above steps, but now compare institute 11 with institute 1. What is your conclusion?
+
+**fillin**:  
+
+
+## d
+Because of low sample size, the curves after 400 days is not that reliable. Repeat the same analysis but now until 400 days. If an event has taken place after 400 days, censor those observations. What is your conclusion?
+
+**fillin**:  
+
+
+# Exercise 2
+With a kaplan-meier curve we only can see if curves are different, but we have no estimates of effect sizes. To get that, we need to perform a cox proportional hazards model. 
+
+## a
+Run a cox proportional hazards model on the difference between sex. What is your conclusion? Is there overlap with the kaplan-meier curve?
+
+**fillin**:  
+
+
+## b
+How about the difference between the two institues?
+
+**fillin**:  
+
+
+# Take-home message
+
+ * Violation of the proportional hazards assumption result in an average effect to be estimated. It is therefore not sensible to analyze a data set with ``severe'' violations (e.g. crossing).
+ * It is permitted to perform administrative censoring to focus on interesting time periods
+ * If periods are pre-specified, such an analysis is a confirmatory result
+ * What we did today was an explorative analysis which does not allow to draw firm statistical conclusions
+ * If explorative nature is not mentioned, we perform P-hacking

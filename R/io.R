@@ -1,0 +1,80 @@
+#
+#	io.R
+#Tue Sep 30 11:46:15 AM CEST 2025
+
+# Functions for writing templates/solutions to a working folder
+
+
+writePackageFile = function(name, folder, exts = c('Rmd', 'md', 'pdf'), overwrite = FALSE, key = NULL, all = FALSE, createFolder = TRUE) {
+	path = firstSystemFile(name, exts, package = 'lumc.dabs', all = all, ws = '-');
+	if (is.null(path)) stop(Sprintf('[writePackageFile] Error not found: name=%{names}s'));
+	if (createFolder && !file.exists(folder)) dir.create(folder);
+	if (notE(key)) {
+		sapply(path, \(.)decryptFile(., PJoin(folder, splitPath(.)$file), key, reader = ReadChr, writer = WriteChr));
+	} else sapply(path, \(path)file.copy(path, folder, overwrite = overwrite))
+}
+
+
+#' List available exercies
+#'
+#' This function lists all available exercises
+#'
+#' @return Returns a character vector with names of the exercises
+#' @details This function lists all available exercises
+#' @author Stefan Böhringer, \email{r-packages@@s-boehringer.org}
+#' @seealso writeExercise
+#' @keywords exercise template
+#' @examples
+#'
+#' listExercises()
+#' @export listExercises
+listExercises = function() {
+	exercises = list.files(system.file('exercises', package = 'lumc.dabs'), pattern = '[.]Rmd$');
+	cat('Available Exercises\n');
+	sapply(sort(exercises), (cat(Sprintf(' • %{.}Q\n'))) %.% (splitPath(.)$base));
+	invisible(sapply(exercises, (splitPath(.)$base) %.% Id))
+}
+
+#' Write exercise template to disk
+#'
+#' This function writes an exercise by a given name into a folder on disk.
+#'
+#' @param name name of the exercise (see see-also)
+#' @param folder folder to which the file is to be written. Deafults to the current working directory.
+#' @param overwrite Should the file be overwritten if already existing?
+#'
+#' @details This function creates a new file in the specified folder.
+#' @author Stefan Böhringer, \email{r-packages@@s-boehringer.org}
+#' @seealso listExercises
+#' @keywords write exercise template
+#' @examples
+#'
+#' print(tempdir())
+#' writeExercise('Linear Regression', tempdir())
+#' @export writeExercise
+writeExercise = function(name, folder = getwd(), overwrite = FALSE) {
+	writePackageFile(Sprintf('exercises/%{name}s'), folder, overwrite = overwrite);
+}
+
+#' Write exercise solution to disk
+#'
+#' This function writes files with exercise soutions of a  given name into a folder on disk.
+#'
+#' @param name name of the exercise (see see-also)
+#' @param key Decryption key to be used.
+#' @param folder folder to which the file is to be written. Deafults to the folder `solution` within the current working directory.
+#' @param overwrite Should the file be overwritten if already existing?
+#'
+#' @details This function creates a new file in the specified folder.
+#' @author Stefan Böhringer, \email{r-packages@@s-boehringer.org}
+#' @seealso listExercises
+#' @keywords write exercise template
+#' @examples
+#'
+#' print(tempdir())
+#' writeSolution('Linear Regression', tempdir())
+#' @export writeSolution
+writeSolution = function(name, key = NULL, folder = paste0(getwd(), '/solution'), overwrite = FALSE) {
+	writePackageFile(Sprintf('solutions/%{name}s'), folder, exts = c('html', 'Rmd'), overwrite = overwrite, key = key, all = TRUE);
+}
+
