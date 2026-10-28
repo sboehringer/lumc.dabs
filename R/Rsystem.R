@@ -300,7 +300,6 @@ path.copy = function(src, dest, recursive = TRUE, splitOnDot = TRUE) {
 # 		exprInDir(file.copy(srcN$pathAfterDot, dest, recursive = recursive), srcN$pathUntilDot);
 # 	}
 	destF = paste(destN, sapply(src, (.$file) %.% splitPath), sep = .Platform$file.sep);
-browser();
 	r = file.copy(src, destF, recursive = recursive);
 	return(r);
 }
